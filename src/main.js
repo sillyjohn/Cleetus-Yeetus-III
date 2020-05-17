@@ -18,4 +18,4 @@ let config = {
 
 let game = new Phaser.Game(config);
 //key reserve
-let keyUP, keyLEFT,keyRIGHT,keyW,keyA,keyD;
+let keyUP, keyLEFT,keyRIGHT,keyW,keyA,keyD,keyF;
