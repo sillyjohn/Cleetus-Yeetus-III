@@ -4,10 +4,10 @@ class world_1 extends Phaser.Scene {
 
         // variables and settings
         this.ACCELERATION = 500;
-        this.MAX_X_VEL = 200;   // pixels/second
+        this.MAX_X_VEL = 2000;   // pixels/second
         this.MAX_Y_VEL = 2000;
         this.DRAG = 600;    
-        this.JUMP_VELOCITY = -650;
+        this.JUMP_VELOCITY = -1000;
     }
 
 preload(){
@@ -22,12 +22,9 @@ preload(){
 
 create(){
     this.cursors = this.input.keyboard.createCursorKeys();
-
+    keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
     this.player = new Player(this,game.config.width/2,0,'player_playerHolder',0).setOrigin(0.5,0.5);
-
-    this.player.body.setSize(this.player.width/2);
-    this.player.body.setMaxVelocity(this.MAX_X_VEL, this.MAX_Y_VEL);
     this.player.body.setCollideWorldBounds(true);
     this.physics.world.gravity.y = 2000;
    
