@@ -34,7 +34,7 @@ create(){
     this.projectiles = this.add.group();
 
     this.switchWorld = false;
-    this.switchKey = this.input.keyboard.addKey('W');
+    this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     
     game.anims.create({
         key: 'copjet',
@@ -50,12 +50,24 @@ create(){
     this.copTest = new Cop(this, 100, 500, 'copsprite');
     this.copCollider = this.physics.add.collider(this.player, this.copTest);
 
+    
 }
 
 
 update(){
-
-    this.switchKey.on('down', this.switchfunc);
+    if (Phaser.Input.Keyboard.JustDown(this.switchKey)) {
+        console.log("switched");
+        if(this.switchWorld == true) {
+            console.log("Switch false");
+            this.switchWorld = false;
+            this.copCollider.active = true;
+        }
+        else if(this.switchWorld == false) {
+            console.log("Switch true");
+            this.switchWorld = true;
+            this.copCollider.active = false;
+        }
+    }
 
 
     this.player.update();
@@ -66,7 +78,7 @@ update(){
         this.player.setFlip(true, false);
     } else if(this.cursors.right.isDown) {
         this.faceRight = true;
-        this.player.body.setAccelerationX(this.ACCELERATION);
+        this.player.body.setAccelerationX(+this.ACCELERATION);
         this.player.resetFlip();
     } else {
         // set acceleration to 0 so DRAG will take over
@@ -99,6 +111,7 @@ update(){
 }
 
 switchfunc() {
+    console.log("switched");
     if(this.switchWorld == true) {
         console.log("Switch false");
         this.switchWorld = false;
