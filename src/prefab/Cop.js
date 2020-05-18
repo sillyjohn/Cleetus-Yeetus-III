@@ -9,7 +9,6 @@ class Cop extends Phaser.GameObjects.Sprite {
       
       this.scene.physics.world.enable(this);
       this.body.allowGravity = false;
-      this.body.setVelocityX(-200);
       this.body.setSize(this.width, this.height);
       this.body.setImmovable();
       scene.add.existing(this);
