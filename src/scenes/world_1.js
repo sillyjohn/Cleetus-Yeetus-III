@@ -72,7 +72,7 @@ update(){
 
         this.shooting(this.faceRight,this.faceUp);
     }
-   
+    
     
 }
 
