@@ -8,6 +8,7 @@ class world_1 extends Phaser.Scene {
         this.MAX_Y_VEL = 2000;
         this.DRAG = 600;    
         this.JUMP_VELOCITY = -1000;
+        this.faceRight = true;
     }
 
 preload(){
@@ -27,18 +28,26 @@ create(){
     this.player = new Player(this,game.config.width/2,0,'player_playerHolder',0).setOrigin(0.5,0.5);
     this.player.body.setCollideWorldBounds(true);
     this.physics.world.gravity.y = 2000;
-   
+    
 }
 
 
 update(){
 
     this.player.update();
-    // player movement
+    //player movement
     if(this.cursors.left.isDown) {
+
+        this.faceRight = false;
+            // console.log(this.faceRight);
+
         this.player.body.setAccelerationX(-this.ACCELERATION);
         this.player.setFlip(true, false);
     } else if(this.cursors.right.isDown) {
+
+        this.faceRight = true;
+        console.log('facing right'+this.faceRight);
+
         this.player.body.setAccelerationX(this.ACCELERATION);
         this.player.resetFlip();
     } else {
@@ -54,9 +63,21 @@ update(){
     if(this.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
     }
+    if(Phaser.Input.Keyboard.JustDown(keyF)){
 
+        this.shooting(this.faceRight);
+    }
+   
     
 }
+
+shooting(faceing){
+    console.log('this is faceing = '+faceing);
+    this.fireBullet = new bullet(this,faceing);
+    this.fireBullet.update();
+   
+}
+
 
 }
 
