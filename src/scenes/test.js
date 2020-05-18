@@ -17,7 +17,7 @@ preload(){
     this.load.path = "./assets/";
     this.load.image('player_playerHolder','playerPlaceHolder.png');
 
-    this.load.spritesheet('copSprite','copsprite.png',{frameWidth: 170, frameHeight: 166, startFrame: 0, endFrame: 1});
+    this.load.image('pillar','pillar.png');
         
 
 
@@ -25,6 +25,13 @@ preload(){
 
 
 create(){
+    
+    this.switchWorld = false;
+    this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    
+    this.pillarTest = new realPillar(this, 100, 500, 'pillar');
+    this.pillarCollider = this.physics.add.collider(this.player, this.pillarTest);
+
     this.cursors = this.input.keyboard.createCursorKeys();
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
@@ -33,22 +40,6 @@ create(){
     this.physics.world.gravity.y = 2000;
     this.projectiles = this.add.group();
 
-    this.switchWorld = false;
-    this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-    
-    game.anims.create({
-        key: 'copjet',
-        frameRate: 10,
-        repeat: 1,
-        frames: this.game.anims.generateFrameNumbers('copSprite',
-        {
-            start: 0,
-            end: 1
-        }),
-    });
-
-    this.copTest = new Cop(this, 100, 500, 'copsprite');
-    this.copCollider = this.physics.add.collider(this.player, this.copTest);
 
     
 }
@@ -60,12 +51,12 @@ update(){
         if(this.switchWorld == true) {
             console.log("Switch false");
             this.switchWorld = false;
-            this.copCollider.active = true;
+            this.pillarCollider.active = true;
         }
         else if(this.switchWorld == false) {
             console.log("Switch true");
             this.switchWorld = true;
-            this.copCollider.active = false;
+            this.pillarCollider.active = false;
         }
     }
 
@@ -115,12 +106,12 @@ switchfunc() {
     if(this.switchWorld == true) {
         console.log("Switch false");
         this.switchWorld = false;
-        this.copCollider.active = true;
+        this.pillarCollider.active = true;
     }
     else if(this.switchWorld == false) {
         console.log("Switch true");
         this.switchWorld = true;
-        this.copCollider.active = false;
+        this.pillarCollider.active = false;
     }
 }
 

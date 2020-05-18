@@ -1,10 +1,9 @@
 //cop prefab
-class Cop extends Phaser.GameObjects.Sprite {
+class realPillar extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
       super(scene, x, y, texture, frame);
-      this.play('copjet');
       //add object to existing scene
-      this.setScale(0.2);
+      this.setScale(1);
       this.setOrigin(0,0);
       
       this.scene.physics.world.enable(this);
