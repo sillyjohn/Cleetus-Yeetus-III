@@ -34,18 +34,39 @@ create(){
     this.projectiles = this.add.group();
 
     this.switchWorld = false;
-    var switchKey = Phaser.Input.Keyboard.Key;
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     
-    this.copTest = new Cop(this, 0, 0, 'copsprite');
+    game.anims.create({
+        key: 'copjet',
+        frameRate: 10,
+        repeat: 1,
+        frames: this.game.anims.generateFrameNumbers('copSprite',
+        {
+            start: 0,
+            end: 1
+        }),
+    });
+
+    this.copTest = new Cop(this, 100, 500, 'copsprite');
     this.copCollider = this.physics.add.collider(this.player, this.copTest);
+
+    
 }
 
 
 update(){
-
-    if (this.switchKey.downDuration(250)) {
-        this.switchfunc();
+    if (Phaser.Input.Keyboard.JustDown(this.switchKey)) {
+        console.log("switched");
+        if(this.switchWorld == true) {
+            console.log("Switch false");
+            this.switchWorld = false;
+            this.copCollider.active = true;
+        }
+        else if(this.switchWorld == false) {
+            console.log("Switch true");
+            this.switchWorld = true;
+            this.copCollider.active = false;
+        }
     }
 
 
@@ -57,7 +78,7 @@ update(){
         this.player.setFlip(true, false);
     } else if(this.cursors.right.isDown) {
         this.faceRight = true;
-        this.player.body.setAccelerationX(this.ACCELERATION);
+        this.player.body.setAccelerationX(+this.ACCELERATION);
         this.player.resetFlip();
     } else {
         // set acceleration to 0 so DRAG will take over
@@ -90,6 +111,7 @@ update(){
 }
 
 switchfunc() {
+    console.log("switched");
     if(this.switchWorld == true) {
         console.log("Switch false");
         this.switchWorld = false;
