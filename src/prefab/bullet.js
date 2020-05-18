@@ -1,5 +1,5 @@
 class bullet extends Phaser.GameObjects.Sprite{
-    constructor(scene,faceToward){
+    constructor(scene,faceToward,faceTop){
   
       var x = scene.player.x;
       var y = scene.player.y;
@@ -12,36 +12,41 @@ class bullet extends Phaser.GameObjects.Sprite{
       // 3.3
      // this.play("beam_anim");
       scene.physics.world.enableBody(this);
-      this.setVel(faceToward);
+      this.setVel(faceToward,faceTop);
     
  
   
       // 4.2 add the beam to the projectiles group
-    //   scene.projectiles.add(this);
-  
+    
+    scene.projectiles.add(this);
     }
  
   
     update(){
         
       // 3.4 Frustum culling
-      if(this.x < 20  ){
+      if(this.x < 0|| this.x >  900 || this.y < 0){
         this.destroy();
+        console.log('this obj destroyed');
       }
     }
-    setVel(faceToward){
+
+    setVel(faceToward,faceTop){
 
          // this.body.velocity.x = +4000;
-     if(faceToward == true){
+    if(faceTop == true){
+        this.body.velocity.y = -4000;
+    }else if(faceToward == true){
         this.body.velocity.x = +4000;
         console.log('shooting right');
         console.log('this is facetoward'+faceToward);
 
 
-    }else{
+    }else if(faceToward == false){
         this.body.velocity.x = -4000;
         console.log('shooting left');
         console.log('this is facetoward'+faceToward);
     }
+    
     }
   }

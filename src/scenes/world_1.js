@@ -9,6 +9,8 @@ class world_1 extends Phaser.Scene {
         this.DRAG = 600;    
         this.JUMP_VELOCITY = -1000;
         this.faceRight = true;
+        this.faceUp = false;
+        this.faceDown = false;
     }
 
 preload(){
@@ -28,7 +30,7 @@ create(){
     this.player = new Player(this,game.config.width/2,0,'player_playerHolder',0).setOrigin(0.5,0.5);
     this.player.body.setCollideWorldBounds(true);
     this.physics.world.gravity.y = 2000;
-    
+    this.projectiles = this.add.group();
 }
 
 
@@ -37,17 +39,11 @@ update(){
     this.player.update();
     //player movement
     if(this.cursors.left.isDown) {
-
         this.faceRight = false;
-            // console.log(this.faceRight);
-
         this.player.body.setAccelerationX(-this.ACCELERATION);
         this.player.setFlip(true, false);
     } else if(this.cursors.right.isDown) {
-
         this.faceRight = true;
-        console.log('facing right'+this.faceRight);
-
         this.player.body.setAccelerationX(this.ACCELERATION);
         this.player.resetFlip();
     } else {
@@ -60,22 +56,32 @@ update(){
     if(!this.player.body.blocked.down) {
         //this.player.anims.play('jump', true);
     }
+    if(this.player.body.blocked.down){
+        this.faceUp = false;
+    }
     if(this.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
+        this.faceUp = true;
     }
+    for(var i = 0; i < this.projectiles.getChildren().length; i++){
+        this.fireBullet = this.projectiles.getChildren()[i];
+        this.fireBullet.update();
+      }
+  
     if(Phaser.Input.Keyboard.JustDown(keyF)){
 
-        this.shooting(this.faceRight);
+        this.shooting(this.faceRight,this.faceUp);
     }
    
     
 }
 
-shooting(faceing){
-    console.log('this is faceing = '+faceing);
-    this.fireBullet = new bullet(this,faceing);
+shooting(faceing,faceingUp){
+    
+    console.log('this is faceingUp = '+faceingUp);
+    this.fireBullet = new bullet(this,faceing,faceingUp);
     this.fireBullet.update();
-   
+   console.log('this fireBullet = '+this.fireBullet.x);
 }
 
 
