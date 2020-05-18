@@ -2,7 +2,7 @@ let config = {
     type: Phaser.CANVAS,
     width: 900,
     height: 600,
-    scene:[ world_1 ],
+    scene:[test_john],
     physics: {
         default: 'arcade',
         arcade: {
@@ -19,3 +19,4 @@ let config = {
 let game = new Phaser.Game(config);
 //key reserve
 let keyUP, keyLEFT,keyRIGHT,keyW,keyA,keyD,keyF,keyR;
+let cursors = null;
