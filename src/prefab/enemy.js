@@ -5,10 +5,15 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this);
         scene.physics.add.existing(this);
     }
+    create(){
 
-update(){
-    
-}
+    this.body.setSize(width/2);
+    this.body.setMaxVelocity(this.MAX_X_VEL  , this.MAX_Y_VEL);
+
+    }
+    update(){
+        
+    }
 
 
 
