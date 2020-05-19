@@ -6,24 +6,14 @@ class bullet extends Phaser.GameObjects.Sprite{
   
       super(scene, x, y, "bullet");
   
-      // 3.2 add to scene
       scene.add.existing(this);
-  
-      // 3.3
-     // this.play("beam_anim");
       scene.physics.world.enableBody(this);
       this.setVel(faceToward,faceTop);
-    
- 
-  
-      // 4.2 add the beam to the projectiles group
-    
-    scene.projectiles.add(this);
+      scene.projectiles.add(this);
     }
  
   
     update(){
-        
       // 3.4 Frustum culling
       if(this.x < 0|| this.x >  900 || this.y < 0){
         this.destroy();

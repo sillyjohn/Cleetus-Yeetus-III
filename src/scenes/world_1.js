@@ -1,4 +1,4 @@
-class test_john extends Phaser.Scene {
+class world_1 extends Phaser.Scene {
     constructor(){
         super("world_1");
 
@@ -131,7 +131,7 @@ update(){
         projectiles.destroy();
         enemy.destroy();
     });
-    //this.physics.add.overlap(this.player,this.enemy1,this.player.destroy(),null,this);
+    
     //collider list End
     
 }
