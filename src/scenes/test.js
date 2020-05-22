@@ -116,7 +116,7 @@ update(){
     if(this.player.body.blocked.down){
         this.faceUp = false;
     }
-    if(this.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
+    if((this.player.body.blocked.down || this.player.body.touching.down) && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
         this.faceUp = true;
     }
