@@ -4,6 +4,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.goRight = true //true = go right
     }
     create(){
 
@@ -12,9 +13,23 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
 
     }
     update(){
+       if((this.x < 800 &&this.goRight == true) ||(this.x <= 100 &&this.goRight == false)){
+        //go right
+        this.goRight = true;
+        this.x+= 10;
+        console.log(this.x)
+
+
+       }else if(this.x >=800 || this.goRight == false){
+        this.goRight = false;
+        this.x -= 10;
+        console.log(this.goRight)
+       }
         
     }
+    
 
+    
 
 
 
