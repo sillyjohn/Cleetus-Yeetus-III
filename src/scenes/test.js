@@ -83,11 +83,11 @@ update(){
     //player movement
     if(this.cursors.left.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
         this.faceRight = false;
-        this.player.body.setAccelerationX(-this.ACCELERATION);
+        this.player.body.setVelocityX(-this.ACCELERATION);
         this.player.setFlip(true, false);
     } else if(this.cursors.right.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
         this.faceRight = true;
-        this.player.body.setAccelerationX(+this.ACCELERATION);
+        this.player.body.setVelocityX(+this.ACCELERATION);
         this.player.resetFlip();
     }
     if(this.cursors.left.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
