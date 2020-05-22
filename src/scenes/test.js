@@ -16,8 +16,10 @@ class test extends Phaser.Scene {
 preload(){
     this.load.path = "./assets/";
     this.load.image('player_playerHolder','playerPlaceHolder.png');
+    this.load.image('player_playerHolderFlip','playerPlaceHolderFlip.png');
 
     this.load.image('pillar','pillar.png');
+    this.load.image('pillarAlt','pillarAlt.png');
         
 
 
@@ -30,18 +32,18 @@ create(){
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     
     this.pillarTest = new realPillar(this, 100, 500, 'pillar');
-    this.pillarCollider = this.physics.add.collider(this.player, this.pillarTest);
 
     this.cursors = this.input.keyboard.createCursorKeys();
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
-    this.player = new Player(this,game.config.width/2,0,'player_playerHolder',0).setOrigin(0.5,0.5);
+    this.player = new DirectPlayer(this,game.config.width/2,100,'player_playerHolder',0).setOrigin(0.5,0.5);
     this.player.body.setCollideWorldBounds(true);
     this.physics.world.gravity.y = 2000;
     this.projectiles = this.add.group();
-
+    
 
     
+    this.pillarCollider = this.physics.add.collider(this.player, this.pillarTest);
 }
 
 
@@ -51,27 +53,54 @@ update(){
         if(this.switchWorld == true) {
             console.log("Switch false");
             this.switchWorld = false;
-            this.pillarCollider.active = true;
         }
         else if(this.switchWorld == false) {
             console.log("Switch true");
             this.switchWorld = true;
-            this.pillarCollider.active = false;
         }
     }
 
+    if(this.switchWorld == true) {
+        this.pillarCollider.active = false;
+        this.pillarTest.setTexture('pillarAlt');
+    }
+    else if(this.switchWorld == false) {
+        this.pillarCollider.active = true;
+        this.pillarTest.setTexture('pillar');
+    }
+
+    
 
     this.player.update();
+
+    if(this.player.angle > 90 || this.player.angle > 270) {
+        this.player.setTexture('player_playerHolderFlip');
+    }
+    else {
+        this.player.setTexture('player_playerHolderFlip');
+    }
+
     //player movement
-    if(this.cursors.left.isDown) {
+    if(this.cursors.left.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
         this.faceRight = false;
         this.player.body.setAccelerationX(-this.ACCELERATION);
         this.player.setFlip(true, false);
-    } else if(this.cursors.right.isDown) {
+    } else if(this.cursors.right.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
         this.faceRight = true;
         this.player.body.setAccelerationX(+this.ACCELERATION);
         this.player.resetFlip();
-    } else {
+    }
+    if(this.cursors.left.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+        this.faceRight = false;
+        this.player.body.setVelocityX(-this.ACCELERATION);
+        this.player.setFlip(true, false);
+    } 
+    else if(this.cursors.right.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+        this.faceRight = true;
+        this.player.body.setVelocityX(+this.ACCELERATION);
+        this.player.resetFlip();
+    }
+    else {
         // set acceleration to 0 so DRAG will take over
         this.player.body.setAccelerationX(0);
         this.player.body.setDragX(this.DRAG);
@@ -97,30 +126,14 @@ update(){
 
         this.shooting(this.faceRight,this.faceUp);
     }
-   
     
-}
-
-switchfunc() {
-    console.log("switched");
-    if(this.switchWorld == true) {
-        console.log("Switch false");
-        this.switchWorld = false;
-        this.pillarCollider.active = true;
-    }
-    else if(this.switchWorld == false) {
-        console.log("Switch true");
-        this.switchWorld = true;
-        this.pillarCollider.active = false;
-    }
 }
 
 shooting(faceing,faceingUp){
-    
     console.log('this is faceingUp = '+faceingUp);
     this.fireBullet = new bullet(this,faceing,faceingUp);
     this.fireBullet.update();
-   console.log('this fireBullet = '+this.fireBullet.x);
+    console.log('this fireBullet = '+this.fireBullet.x);
 }
 
 
