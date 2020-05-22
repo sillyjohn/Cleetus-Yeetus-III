@@ -100,7 +100,10 @@ update(){
         this.player.body.setVelocityX(+this.ACCELERATION);
         this.player.resetFlip();
     }
-    else {
+    else if (this.player.body.blocked.down || this.player.body.touching.down){
+        this.player.body.setVelocityX(0);
+    }
+    else{
         // set acceleration to 0 so DRAG will take over
         this.player.body.setAccelerationX(0);
         this.player.body.setDragX(this.DRAG);
