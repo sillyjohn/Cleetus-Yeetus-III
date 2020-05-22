@@ -41,7 +41,7 @@ create(){
     this.itemBullet = this.add.rectangle(0,0);
 
     //enemy created
-    this.enemy1 = new Enemy(this,game.config.width/3,550,'player_Idle',11).setOrigin(0.5,0.5).setScale(0.5);
+    this.enemy1 = new Enemy(this,game.config.width/3,550,'player_Idle',11).setOrigin(0.5,0.5).setScale(0.1);
     this.enemy1.body.setCollideWorldBounds(true);
     //world gravity
     this.physics.world.gravity.y = 2000;
@@ -123,7 +123,7 @@ update(){
 
     //update list
     this.player.update();
-    
+    this.enemy1.update();
    
     //player movement
     if(this.cursors.left.isDown) {
