@@ -18,14 +18,15 @@ preload(){
     this.load.path = "./assets/";
     this.load.image('player_playerHolder','playerPlaceHolder.png');
     this.load.image('background_placeHolder','90278.png');
-    this.load.spritesheet('player_Idle','cleetus-frames-sheet.png',{frameWidth: 233, frameHeight: 280});
-
+    this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
+    this.load.audio('shootingSound','shoot.wav');
 
 }
 
 
 create(){
-    console.log('this is  test_john.js');
+    
+   
     //background_placeHolder
     this.backgroundPlaceHolder = this.add.image(0,0,'background_placeHolder');
     //create cursor keys
@@ -33,7 +34,7 @@ create(){
     //create fire key
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     //player created
-    this.player = new Player(this,game.config.width/2,550,'player_Idle',0).setOrigin(0.5,0.5).setScale(0.5);
+    this.player = new Player(this,game.config.width/2,550,'player_Idle',0).setOrigin(0.5,0.5).setScale(0.1);
     this.player.body.setCollideWorldBounds(true);
 
     //item create
@@ -49,7 +50,7 @@ create(){
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 900, 600);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
-    this.cameras.main.setZoom(1.001);
+    this.cameras.main.setZoom(1.5);
     // startFollow(target [, roundPixels] [, lerpX] [, lerpY] [, offsetX] [, offsetY])
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
     //create hp bar
@@ -69,6 +70,40 @@ create(){
     this.healthCount = 0;
     this.hpIcon = this.add.text(590,500,this.healthCount,hpConfig);
     this.hpIcon.setScrollFactor(0);
+      //Animation 
+    game.anims.create({
+        key: 'run',
+        frameRate: 30,
+        frames: this.game.anims.generateFrameNumbers('player_Idle',
+        {
+            start: 0,
+            end: 9
+        }),
+
+    }); 
+    game.anims.create({
+        key: 'idle',
+        frameRate: 60,
+        repeat: 1,
+        frames: this.game.anims.generateFrameNumbers('player_Idle',
+        {
+            start: 11,
+            end: 11
+        }),
+
+    });
+    game.anims.create({
+        key: 'shooting',
+        frameRate: 1,
+        repeat: 1,
+        duration:3000,
+        frames: this.game.anims.generateFrameNumbers('player_Idle',
+        {
+            start: 10,
+            end: 10
+        }),
+
+    });
 
 }
 
@@ -93,14 +128,18 @@ update(){
         this.faceRight = false;
         this.player.body.setAccelerationX(-this.ACCELERATION);
         this.player.setFlip(true, false);
+        this.player.anims.play('run',true);
     } else if(this.cursors.right.isDown) {
         this.faceRight = true;
         this.player.body.setAccelerationX(this.ACCELERATION);
         this.player.resetFlip();
+        this.player.anims.play('run',true);
     } else {
         // set acceleration to 0 so DRAG will take over
         this.player.body.setAccelerationX(0);
         this.player.body.setDragX(this.DRAG);
+       
+        
     }
     // player jump
     // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
@@ -120,7 +159,7 @@ update(){
       }
     //Shooting mechanics
     if(Phaser.Input.Keyboard.JustDown(keyF)){
-
+        this.player.anims.play('shooting',true);
         this.shooting(this.faceRight,this.faceUp);
     }
     
@@ -137,7 +176,8 @@ update(){
 }
 
 shooting(faceing,faceingUp){
-    
+    this.sound.add('shootingSound', {volume: 0.1});
+
     console.log('this is faceingUp = '+faceingUp);
     this.fireBullet = new bullet(this,faceing,faceingUp);
     this.fireBullet.update();
