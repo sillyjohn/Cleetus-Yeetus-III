@@ -13,7 +13,7 @@ class DirectPlayer extends Phaser.Physics.Arcade.Sprite{
     }
     
     update(){
-        this.rotation = Phaser.Math.Angle.Between(this.x, this.y, this.scene.input.mousePointer.worldX, this.scene.input.mousePointer.worldY);
+        this.rotation = Phaser.Math.Angle.Between(this.x, this.y, this.scene.reticle.x, this.scene.reticle.y);
         
             
     }
