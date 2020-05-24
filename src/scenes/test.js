@@ -45,6 +45,7 @@ create(){
 
     this.reticle = this.physics.add.sprite(800, 700, 'crosshair');
     this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(true);
+    this.reticle.body.allowGravity = false;
     
     this.moveKeys = this.input.keyboard.addKeys({
         'up': Phaser.Input.Keyboard.KeyCodes.W,
@@ -55,32 +56,43 @@ create(){
 
     this.input.keyboard.on('keydown_W', function (event) {
         this.player.body.setAccelerationY(-800);
+        this.reticle.body.setAccelerationY(-800);
     });
     this.input.keyboard.on('keydown_S', function (event) {
         this.player.body.setAccelerationY(800);
+        this.reticle.body.setAccelerationY(-800);
     });
     this.input.keyboard.on('keydown_A', function (event) {
         this.player.body.setAccelerationX(-800);
+        this.reticle.body.setAccelerationX(-800);
     });
     this.input.keyboard.on('keydown_D', function (event) {
         this.player.body.setAccelerationX(800);
+        this.reticle.body.setAccelerationX(-800);
     });
 
     this.input.keyboard.on('keyup_W', function (event) {
-        if (moveKeys['down'].isUp)
+        if (moveKeys['down'].isUp){
             this.player.body.setAccelerationY(0);
+            this.reticle.body.setAccelerationY(0);
+        }
     });
     this.input.keyboard.on('keyup_S', function (event) {
-        if (moveKeys['up'].isUp)
+        if (moveKeys['up'].isUp){
             this.player.body.setAccelerationY(0);
+            this.reticle.body.setAccelerationY(0);
+        }
     });
     this.input.keyboard.on('keyup_A', function (event) {
         if (moveKeys['right'].isUp)
             this.player.body.setAccelerationX(0);
+            this.reticle.body.setAccelerationX(0);
     });
     this.input.keyboard.on('keyup_D', function (event) {
-        if (moveKeys['left'].isUp)
+        if (moveKeys['left'].isUp) {
             this.player.body.setAccelerationX(0);
+            this.reticle.body.setAccelerationX(0);
+        }
     });
 
     this.input.on('pointerdown', function (pointer, time, lastFired) {
@@ -108,8 +120,8 @@ create(){
     this.input.on('pointermove', function (pointer) {
         if (this.input.mouse.locked)
         {
-            this.reticle.x = this.input.mousePointer.worldX;
-            this.reticle.y = this.input.mousePointer.worldY;
+            this.reticle.x += this.input.mousePointer.movementX;
+            this.reticle.y += this.input.mousePointer.movementY;
         }
     }, this);
 
@@ -126,15 +138,15 @@ constrainReticle(reticle)
     var distX = this.reticle.x - this.player.x;
     var distY = this.reticle.y - this.player.y;
 
-    if (distX > 800)
-        this.reticle.x = this.player.x + 800;
-    else if (distX < -800)
-        this.reticle.x = this.player.x - 800;
+    if (distX > 300)
+        this.reticle.x = this.player.x + 300;
+    else if (distX < -300)
+        this.reticle.x = this.player.x - 300;
 
-    if (distY > 600)
-        this.reticle.y = this.player.y + 600;
-    else if (distY < -600)
-        this.reticle.y = this.player.y - 600;
+    if (distY > 300)
+        this.reticle.y = this.player.y + 300;
+    else if (distY < -300)
+        this.reticle.y = this.player.y - 300;
 }
 
 update(){
