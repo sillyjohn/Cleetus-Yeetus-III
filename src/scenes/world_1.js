@@ -5,9 +5,9 @@ class world_1 extends Phaser.Scene {
         // variables and settings
         this.ACCELERATION = 500;
         this.MAX_X_VEL = 2000;   // pixels/second
-        this.MAX_Y_VEL = 2000;
+        this.MAX_Y_VEL = 3000;
         this.DRAG = 600;    
-        this.JUMP_VELOCITY = -1250;
+        this.JUMP_VELOCITY = -1350;
         this.faceRight = true;
         this.faceUp = false;
         this.faceDown = false;
@@ -66,7 +66,7 @@ create(){
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 2560 , 2560);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
-    this.cameras.main.setZoom(1.9);
+    this.cameras.main.setZoom(2);
     // startFollow(target [, roundPixels] [, lerpX] [, lerpY] [, offsetX] [, offsetY])
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
     //create hp bar
