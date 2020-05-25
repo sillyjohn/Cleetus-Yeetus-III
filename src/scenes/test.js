@@ -36,7 +36,8 @@ create(){
     this.cursors = this.input.keyboard.createCursorKeys();
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
-    this.player = new DirectPlayer(this,game.config.width/2,100,'player_playerHolder',0).setOrigin(0.5,0.5);
+    this.lookPlayer = new DirectPlayer(this,game.config.width/2,100,'player_playerHolder',0).setOrigin(0.5,0.5);
+    this.player = new ControlPlayer(this,game.config.width/2,100,'player_playerHolder',0).setOrigin(0.5,0.5);
     this.player.body.setCollideWorldBounds(true);
     this.physics.world.gravity.y = 2000;
     this.projectiles = this.add.group();
@@ -103,7 +104,7 @@ create(){
         var bullet = this.playerBullets.get().setActive(true).setVisible(true);
 
         if (bullet) {
-            bullet.fire(this.player, this.reticle);
+            bullet.fire(this.lookPlayer, this.reticle);
             this.physics.add.collider(this.pillarTest, bullet, this.useless);
         }
     }, this);
@@ -127,6 +128,7 @@ create(){
 
     this.flip = 0;
     this.pillarCollider = this.physics.add.collider(this.player, this.pillarTest);
+    this.lookPillarCollider = this.physics.add.collider(this.lookPlayer, this.pillarTest);
 }
 
 useless() {
@@ -201,7 +203,7 @@ update(){
 
     this.player_distX = this.reticle.x - this.player.x;
     
-    this.player.flipY = this.player_distX < 0;
+    this.lookPlayer.flipY = this.player_distX < 0;
 
     // player jump
     // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
@@ -221,6 +223,8 @@ update(){
         this.shooting(this.faceRight,this.faceUp);
     }
     
+    this.lookPlayer.x = this.player.x;
+    this.lookPlayer.y = this.player.y + 10;
 }
 
 shooting(faceing,faceingUp){
