@@ -32,7 +32,7 @@ class bullet_testing extends Phaser.GameObjects.Sprite{
         console.log('no ammo');
       }
       // 3.4 Frustum culling
-      if(this.x < 0|| this.x >  900 || this.y < 0){
+      if(this.x < 0|| this.x > game.config.width || this.y < 0){
         this.destroy();
         console.log('this obj destroyed');
       }

@@ -7,7 +7,7 @@ class test_john extends Phaser.Scene {
         this.MAX_X_VEL = 2000;   // pixels/second
         this.MAX_Y_VEL = 2000;
         this.DRAG = 600;    
-        this.JUMP_VELOCITY = -1000;
+        this.JUMP_VELOCITY = -1500;
         this.faceRight = true;
         this.faceUp = false;
         this.faceDown = false;
@@ -18,9 +18,10 @@ class test_john extends Phaser.Scene {
 preload(){
     this.load.path = "./assets/";
     this.load.image('player_playerHolder','playerPlaceHolder.png');
-    this.load.image('background_placeHolder','90278.png');
+    this.load.image('background_WrapedWood','warpedwoodsdarkbg.png');
+    this.load.image('tileSet_WrapedWood','tileset_v2.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
-
+    this.load.tilemapTiledJSON('testMap','testing_3.json');
 
 }
 
@@ -28,29 +29,43 @@ preload(){
 create(){
     console.log('this is  test_john.js');
     //background_placeHolder
-    this.backgroundPlaceHolder = this.add.image(0,0,'background_placeHolder');
+    this.backgroundPlaceHolder = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
+   
+    const map = this.add.tilemap("testMap");
+    //add tileset
+    const tileset = map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
+   
+    // create tilemap layers
+    const groundLayer = map.createStaticLayer("Tiles", tileset, 0, 0);
+    
+    //set map collision
+    groundLayer.setCollisionByProperty({ collides: true });
+    
     //create cursor keys
     this.cursors = this.input.keyboard.createCursorKeys();
     //create fire key
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     //player created
-    this.player = new Player_testing(this,game.config.width/2,550,'player_Idle',0).setOrigin(0.5,0.5).setScale(0.1);
+    this.player = new Player_testing(this,game.config.width/2,0,'player_Idle',0).setOrigin(0.5,0.5).setScale(0.13);
     this.player.body.setCollideWorldBounds(true);
-
+    this.physics.add.collider(this.player, groundLayer);
     //item create
     this.itemBullet = this.add.rectangle(0,0);
 
     //enemy created
     this.enemy1 = new Enemy(this,game.config.width/3,550,'player_Idle',11).setOrigin(0.5,0.5).setScale(0.1);
+    //setRandomPosition( [x] [, y] [, width] [, height])
     this.enemy1.body.setCollideWorldBounds(true);
     //world gravity
     this.physics.world.gravity.y = 2000;
+    //tile bias
+    this.physics.world.TILE_BIAS= 50;
     //create bullet group 
     this.projectiles = this.add.group();
     // camera setting, world bound
-    this.cameras.main.setBounds(0, 0, 900, 600);
+    this.cameras.main.setBounds(0, 0, 2560 , 2560);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
-    this.cameras.main.setZoom(1.5);
+    this.cameras.main.setZoom(1.2);
     // startFollow(target [, roundPixels] [, lerpX] [, lerpY] [, offsetX] [, offsetY])
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
     //create hp bar
@@ -175,6 +190,10 @@ update(){
     this.physics.add.collider(this.projectiles,this.enemy1,function(projectiles,enemy){
         projectiles.destroy();
         enemy.destroy();
+    });
+    this.physics.add.collider(this.projectiles,this.groundLayer,function(projectiles,ground){
+        projectiles.destroy();
+        
     });
     
     //collider list End
