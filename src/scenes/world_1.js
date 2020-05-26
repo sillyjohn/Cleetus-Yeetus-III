@@ -8,9 +8,6 @@ class world_1 extends Phaser.Scene {
         this.MAX_Y_VEL = 3000;
         this.DRAG = 600;    
         this.JUMP_VELOCITY = -1350;
-        this.faceRight = true;
-        this.faceUp = false;
-        this.faceDown = false;
         this.gameOver = false;
     }
 
@@ -75,16 +72,18 @@ create(){
     })
     this.player = new ControlPlayer(this,game.config.width/2,100,'playerRun',0).setOrigin(0.5,0.5);
 
-    this.player.body.setCollideWorldBounds(true);
-    this.lookPlayer.body.setCollideWorldBounds(true);
+    this.player.body.setCollideWorldBounds(false);
+    this.lookPlayer.body.setCollideWorldBounds(false);
     this.player.depth = 0;
     this.lookPlayer.depth = 1;
 
     this.playerBullets = this.physics.add.group({classType: DirectBullet, runChildUpdate: true});
+    
 
-    this.reticle = this.physics.add.sprite(800, 700, 'crosshair');
-    this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(true);
+    this.reticle = this.physics.add.sprite(game.config.width/2, 100, 'crosshair');
+    this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(false);
     this.reticle.body.allowGravity = false;
+    
 
     //broken wasd
     /*this.moveKeys = this.input.keyboard.addKeys({
@@ -131,17 +130,32 @@ create(){
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.dashKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     //shooting
     this.input.on('pointerdown', function (pointer, time, lastFired) {
         if (this.player.active === false)
             return;
 
         // Get bullet from bullets group
-        var bullet = this.playerBullets.get().setActive(true).setVisible(true);
-        bullet.body.allowGravity = false;
+        var bullet1 = this.playerBullets.get().setActive(true).setVisible(true);
+        bullet1.body.allowGravity = false;
 
-        if (bullet) {
-            bullet.fire(this.lookPlayer, this.reticle);
+        if (bullet1) {
+            bullet1.fire(this.lookPlayer.rotation);
+        }
+
+        var bullet2 = this.playerBullets.get().setActive(true).setVisible(true);
+        bullet2.body.allowGravity = false;
+
+        if (bullet2) {
+            bullet2.fire(this.lookPlayer.rotation + 0.0872665);
+        }
+
+        var bullet3 = this.playerBullets.get().setActive(true).setVisible(true);
+        bullet3.body.allowGravity = false;
+
+        if (bullet3) {
+            bullet3.fire(this.lookPlayer.rotation - 0.0872665);
         }
     }, this);
     
@@ -155,14 +169,7 @@ create(){
             game.input.mouse.releasePointerLock();
     }, 0, this);
 
-    //move crosshair
-    this.input.on('pointermove', function (pointer) {
-        if (this.input.mouse.locked)
-        {
-            this.reticle.x += this.input.mousePointer.movementX;
-            this.reticle.y += this.input.mousePointer.movementY;
-        }
-    }, this);
+    
 
     
     //create cursor keys
@@ -175,20 +182,30 @@ create(){
     this.itemBullet = this.add.rectangle(0,0);
 
     //enemy created
-    this.enemy1 = new Enemy(this,game.config.width/3,550,'player_Idle',0).setOrigin(0.5,0.5).setScale(0.5);
+    this.enemy1 = new Enemy(this,game.config.width/3,550,'player_Idle',0).setOrigin(0.5,0.5).setSize(0.1);
     this.enemy1.body.setCollideWorldBounds(true);
     //world gravity
     this.physics.world.gravity.y = 2000;
     //tile bias
     this.physics.world.TILE_BIAS= 50;
-    //create bullet group 
-    this.projectiles = this.add.group();
+    this.cameras.main.width = 1920;
+    this.cameras.main.height = 1080;
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 2560 , 2560);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
-    this.cameras.main.setZoom(2);
+    this.cameras.main.setZoom(1);
     // startFollow(target [, roundPixels] [, lerpX] [, lerpY] [, offsetX] [, offsetY])
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
+
+    //move crosshair with camera and pointer
+    this.input.on('pointermove', function (pointer) {
+        if (this.input.mouse.locked)
+        {
+            this.reticle.x += this.input.mousePointer.movementX;
+            this.reticle.y += this.input.mousePointer.movementY;
+        }
+    }, this);
+
     //create hp bar
       //score display
       let hpConfig = {
@@ -207,42 +224,10 @@ create(){
     this.hpIcon = this.add.text(590,500,this.healthCount,hpConfig);
     this.hpIcon.setScrollFactor(0);
       //Animation 
-    game.anims.create({
-        key: 'run',
-        frameRate: 30,
-        frames: this.game.anims.generateFrameNumbers('player_Idle',
-        {
-            start: 0,
-            end: 9
-        }),
-
-    }); 
-    game.anims.create({
-        key: 'idle',
-        frameRate: 60,
-        repeat: 1,
-        frames: this.game.anims.generateFrameNumbers('player_Idle',
-        {
-            start: 11,
-            end: 11
-        }),
-
-    });
-    game.anims.create({
-        key: 'shooting',
-        frameRate: 1,
-        repeat: 1,
-        duration:3000,
-        frames: this.game.anims.generateFrameNumbers('player_Idle',
-        {
-            start: 10,
-            end: 10
-        }),
-
-    });
 
     this.physics.add.collider(this.player, groundLayer);
     this.physics.add.collider(this.lookPlayer, groundLayer);
+    this.physics.add.collider(this.playerBullets, groundLayer);
 }
 
 constrainReticle(reticle)
@@ -298,9 +283,8 @@ update(){
     }
 
     //reticle movement
-    this.reticle.body.velocityX = this.player.body.velocityX;
-    this.reticle.body.velocityY = this.player.body.velocityY;
     this.constrainReticle(this.reticle);
+    
 
     //player movement
     if(this.keyA.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
@@ -341,12 +325,14 @@ update(){
 
     // player jump
     // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
-    if(!this.player.body.blocked.down) {
+    if(!this.player.body.blocked.down && !this.player.body.touching.down) {
         //this.player.anims.play('jump', true);
     }
     if((this.player.body.blocked.down || this.player.body.touching.down) && Phaser.Input.Keyboard.JustDown(this.keyW)) {
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
     }
+
+    
     
     //colliders list *create all collider below*
     
