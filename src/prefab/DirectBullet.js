@@ -29,27 +29,11 @@ class DirectBullet extends Phaser.Physics.Arcade.Sprite{
     }
 
     fire() {
-        this.setPosition(this.scene.player.x, this.scene.player.y); // Initial position
+        this.setPosition(this.scene.lookPlayer.x, this.scene.lookPlayer.y); // Initial position
 
-        
-        // Calculate X and y velocity of bullet to moves it from shooter to target
-        /*if (this.scene.reticle.y >= this.body.y) {
-            this.xSpeed = this.speed * Math.sin(this.direction);
-            this.ySpeed = this.speed * Math.cos(this.direction);
-            console.log(this.xSpeed);
-            console.log(this.ySpeed);
-        }
-        else {
-            this.xSpeed = -this.speed * Math.sin(this.direction);
-            this.ySpeed = -this.speed * Math.cos(this.direction);
-            console.log(this.xSpeed);
-            console.log(this.ySpeed);
-        }*/
-
-        this.rotation = this.scene.player.rotation; // angle bullet with player rotation
+        this.rotation = this.scene.lookPlayer.rotation; // angle bullet with player rotation
 
         this.scene.physics.velocityFromRotation(this.rotation, 2000, this.body.velocity);
-        console.log("");
         this.born = 0; // Time since new bullet spawned
     }
 }

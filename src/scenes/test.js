@@ -15,7 +15,10 @@ class test extends Phaser.Scene {
 
 preload(){
     this.load.path = "./assets/";
+    this.load.image('playerHead','playerHead.png');
     this.load.image('player_playerHolder','playerPlaceHolder.png');
+    this.load.spritesheet('playerRun','playerRun.png',{frameWidth: 370, frameHeight: 321});
+    
 
     this.load.image('pillar','pillar.png');
     this.load.image('pillarAlt','pillarAlt.png');
@@ -36,9 +39,28 @@ create(){
     this.cursors = this.input.keyboard.createCursorKeys();
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 
-    this.lookPlayer = new DirectPlayer(this,game.config.width/2,100,'player_playerHolder',0).setOrigin(0.5,0.5);
-    this.player = new ControlPlayer(this,game.config.width/2,100,'player_playerHolder',0).setOrigin(0.5,0.5);
+    this.lookPlayer = new DirectPlayer(this,game.config.width/2,100,'playerHead',0).setOrigin(0.5,0.5);
+
+    this.anims.create({
+        key: 'run',
+        frameRate: 30,
+        repeat: -1,
+        frames: this.game.anims.generateFrameNumbers('playerRun',
+        {
+            start: 0,
+            end: 8
+        }),
+    })
+
+    this.player = new ControlPlayer(this,game.config.width/2,100,'playerRun',0).setOrigin(0.5,0.5);
+
+    this.player.play('run');
+    
+
     this.player.body.setCollideWorldBounds(true);
+    this.lookPlayer.body.setCollideWorldBounds(true);
+    this.player.depth = 0;
+    this.lookPlayer.depth = 1;
     this.physics.world.gravity.y = 2000;
     this.projectiles = this.add.group();
     
@@ -47,7 +69,7 @@ create(){
     this.reticle = this.physics.add.sprite(800, 700, 'crosshair');
     this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(true);
     this.reticle.body.allowGravity = false;
-    
+
     this.moveKeys = this.input.keyboard.addKeys({
         'up': Phaser.Input.Keyboard.KeyCodes.W,
         'down': Phaser.Input.Keyboard.KeyCodes.S,
@@ -176,6 +198,7 @@ update(){
     
 
     this.player.update();
+    this.lookPlayer.update();
     
     this.reticle.body.velocityX = this.player.body.velocityX;
     this.reticle.body.velocityY = this.player.body.velocityY;
@@ -202,7 +225,7 @@ update(){
     }
 
     this.player_distX = this.reticle.x - this.player.x;
-    
+
     this.lookPlayer.flipY = this.player_distX < 0;
 
     // player jump
@@ -223,8 +246,6 @@ update(){
         this.shooting(this.faceRight,this.faceUp);
     }
     
-    this.lookPlayer.x = this.player.x;
-    this.lookPlayer.y = this.player.y + 10;
 }
 
 shooting(faceing,faceingUp){
