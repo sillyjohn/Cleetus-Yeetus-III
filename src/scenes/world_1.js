@@ -130,6 +130,7 @@ create(){
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.dashKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     //shooting
     this.input.on('pointerdown', function (pointer, time, lastFired) {
         if (this.player.active === false)
@@ -310,12 +311,14 @@ update(){
 
     // player jump
     // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
-    if(!this.player.body.blocked.down) {
+    if(!this.player.body.blocked.down && !this.player.body.touching.down) {
         //this.player.anims.play('jump', true);
     }
     if((this.player.body.blocked.down || this.player.body.touching.down) && Phaser.Input.Keyboard.JustDown(this.keyW)) {
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
     }
+
+    
     
     //colliders list *create all collider below*
     

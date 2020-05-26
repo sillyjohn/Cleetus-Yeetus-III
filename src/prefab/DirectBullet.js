@@ -34,6 +34,7 @@ class DirectBullet extends Phaser.Physics.Arcade.Sprite{
         this.rotation = this.scene.lookPlayer.rotation; // angle bullet with player rotation
 
         this.scene.physics.velocityFromRotation(this.rotation, 2000, this.body.velocity);
+        this.scene.player.recoil(this.rotation - 3.14159);
         this.born = 0; // Time since new bullet spawned
     }
 }
