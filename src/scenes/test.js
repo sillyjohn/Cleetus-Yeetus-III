@@ -48,13 +48,23 @@ create(){
         frames: this.game.anims.generateFrameNumbers('playerRun',
         {
             start: 0,
+            end: 7
+        }),
+    })
+
+    this.anims.create({
+        key: 'idle',
+        frameRate: 30,
+        repeat: -1,
+        frames: this.game.anims.generateFrameNumbers('playerRun',
+        {
+            start: 8,
             end: 8
         }),
     })
 
     this.player = new ControlPlayer(this,game.config.width/2,100,'playerRun',0).setOrigin(0.5,0.5);
 
-    this.player.play('run');
     
 
     this.player.body.setCollideWorldBounds(true);
@@ -78,43 +88,35 @@ create(){
     });
 
     this.input.keyboard.on('keydown_W', function (event) {
-        this.player.body.setAccelerationY(-800);
-        this.reticle.body.setAccelerationY(-800);
+        this.player.body.setVelocityX(-800);
     });
     this.input.keyboard.on('keydown_S', function (event) {
         this.player.body.setAccelerationY(800);
-        this.reticle.body.setAccelerationY(-800);
     });
     this.input.keyboard.on('keydown_A', function (event) {
         this.player.body.setAccelerationX(-800);
-        this.reticle.body.setAccelerationX(-800);
     });
     this.input.keyboard.on('keydown_D', function (event) {
         this.player.body.setAccelerationX(800);
-        this.reticle.body.setAccelerationX(-800);
     });
 
     this.input.keyboard.on('keyup_W', function (event) {
         if (moveKeys['down'].isUp){
             this.player.body.setAccelerationY(0);
-            this.reticle.body.setAccelerationY(0);
         }
     });
     this.input.keyboard.on('keyup_S', function (event) {
         if (moveKeys['up'].isUp){
             this.player.body.setAccelerationY(0);
-            this.reticle.body.setAccelerationY(0);
         }
     });
     this.input.keyboard.on('keyup_A', function (event) {
         if (moveKeys['right'].isUp)
             this.player.body.setAccelerationX(0);
-            this.reticle.body.setAccelerationX(0);
     });
     this.input.keyboard.on('keyup_D', function (event) {
         if (moveKeys['left'].isUp) {
             this.player.body.setAccelerationX(0);
-            this.reticle.body.setAccelerationX(0);
         }
     });
 
@@ -195,7 +197,6 @@ update(){
         this.pillarTest.setTexture('pillar');
     }
 
-    
 
     this.player.update();
     this.lookPlayer.update();
@@ -206,22 +207,32 @@ update(){
     //player movement
     if(this.cursors.left.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
         this.player.body.setVelocityX(-this.ACCELERATION);
+        this.player.setFlip(true, false);
+        this.player.play('run', true);
     } 
     else if(this.cursors.right.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
         this.player.body.setVelocityX(+this.ACCELERATION);
+        this.player.resetFlip();
+        this.player.play('run', true);
     }
     if(this.cursors.left.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
         this.player.body.setVelocityX(-this.ACCELERATION);
+        this.player.setFlip(true, false);
+        this.player.play('run', true);
     } 
     else if(this.cursors.right.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
         this.player.body.setVelocityX(+this.ACCELERATION);
+        this.player.resetFlip();
+        this.player.play('run', true);
     }
     else if (this.player.body.blocked.down || this.player.body.touching.down){
         this.player.body.setVelocityX(0);
+        this.player.play('idle', true);
     }
     else{
         // set acceleration to 0 so DRAG will take over
         this.player.body.setAccelerationX(0);
+        this.player.play('idle');
     }
 
     this.player_distX = this.reticle.x - this.player.x;
