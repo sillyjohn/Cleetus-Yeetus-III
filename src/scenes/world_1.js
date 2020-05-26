@@ -26,10 +26,19 @@ preload(){
     this.load.spritesheet('playerRun','playerRun.png',{frameWidth: 370, frameHeight: 321});
     this.load.image('bullet', 'bullet.png');
     this.load.image('crosshair', 'crosshair.png');
+
+    this.load.audio('shoot', 'shoot.wav');
+    this.load.audio('walk', 'walkLoop.wav');
+    this.load.audio('jump', 'jump.wav');
 }
 
 
 create(){
+    this.shoot = this.sound.add('shoot', {volume: 0.1});
+    this.walk = this.sound.add('walk', {volume: 0.4});
+    this.walk.setLoop(true);
+    this.jump = this.sound.add('jump', {volume: 0.1});
+
     //switch
     this.switchWorld = false;
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -133,6 +142,7 @@ create(){
     this.dashKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     //shooting
     this.input.on('pointerdown', function (pointer, time, lastFired) {
+        this.shoot.play();
         if (this.player.active === false)
             return;
 
@@ -148,14 +158,14 @@ create(){
         bullet2.body.allowGravity = false;
 
         if (bullet2) {
-            bullet2.fire(this.lookPlayer.rotation + 0.0872665);
+            bullet2.fire(this.lookPlayer.rotation + (0.0872665/2));
         }
 
         var bullet3 = this.playerBullets.get().setActive(true).setVisible(true);
         bullet3.body.allowGravity = false;
 
         if (bullet3) {
-            bullet3.fire(this.lookPlayer.rotation - 0.0872665);
+            bullet3.fire(this.lookPlayer.rotation - (0.0872665/2));
         }
     }, this);
     
@@ -329,6 +339,7 @@ update(){
         //this.player.anims.play('jump', true);
     }
     if((this.player.body.blocked.down || this.player.body.touching.down) && Phaser.Input.Keyboard.JustDown(this.keyW)) {
+        this.jump.play();
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
     }
 

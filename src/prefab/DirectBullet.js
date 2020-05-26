@@ -4,16 +4,16 @@ class DirectBullet extends Phaser.Physics.Arcade.Sprite{
         Phaser.GameObjects.Image.call(this, scene, 0, 0, 'bullet');
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.setSize(.1,.1);
         this.speed = 1;
         this.born = 0;
         this.direction = 0;
         this.xSpeed = 0;
         this.ySpeed = 0;
-        this.setSize(12, 12, true);
+        
     }
     
     create(){
-        this.body.setSize(width/2);
         this.body.setMaxVelocity(this.MAX_X_VEL  , this.MAX_Y_VEL);
         
     }
@@ -22,6 +22,7 @@ class DirectBullet extends Phaser.Physics.Arcade.Sprite{
         this.x += this.xSpeed;
         this.y += this.ySpeed;
         this.body.bounce = 0.5;
+        
         this.born += 1;
         if (this.born > 120) {
             this.setActive(false);
@@ -31,7 +32,8 @@ class DirectBullet extends Phaser.Physics.Arcade.Sprite{
 
     fire(rotate) {
         this.setPosition(this.scene.lookPlayer.x, this.scene.lookPlayer.y); // Initial position
-
+        this.setScale(.06, .06);
+        
         this.rotation = rotate; // angle bullet with player rotation
 
         this.scene.physics.velocityFromRotation(this.rotation, 2000, this.body.velocity);

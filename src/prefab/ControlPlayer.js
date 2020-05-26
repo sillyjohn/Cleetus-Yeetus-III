@@ -15,6 +15,6 @@ class ControlPlayer extends Phaser.Physics.Arcade.Sprite{
     update(){
     }
     recoil(angle) {
-        this.scene.physics.velocityFromRotation(angle, 600, this.body.velocity);
+        this.scene.physics.velocityFromRotation(angle, 900, this.body.velocity);
     }
 }
