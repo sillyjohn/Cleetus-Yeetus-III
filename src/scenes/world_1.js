@@ -137,11 +137,25 @@ create(){
             return;
 
         // Get bullet from bullets group
-        var bullet = this.playerBullets.get().setActive(true).setVisible(true);
-        bullet.body.allowGravity = false;
+        var bullet1 = this.playerBullets.get().setActive(true).setVisible(true);
+        bullet1.body.allowGravity = false;
 
-        if (bullet) {
-            bullet.fire(this.lookPlayer, this.reticle);
+        if (bullet1) {
+            bullet1.fire(this.lookPlayer.rotation);
+        }
+
+        var bullet2 = this.playerBullets.get().setActive(true).setVisible(true);
+        bullet2.body.allowGravity = false;
+
+        if (bullet2) {
+            bullet2.fire(this.lookPlayer.rotation + 0.0872665);
+        }
+
+        var bullet3 = this.playerBullets.get().setActive(true).setVisible(true);
+        bullet3.body.allowGravity = false;
+
+        if (bullet3) {
+            bullet3.fire(this.lookPlayer.rotation - 0.0872665);
         }
     }, this);
     
