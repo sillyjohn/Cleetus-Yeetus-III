@@ -12,15 +12,19 @@ class testing_john extends Phaser.Scene {
         this.faceUp = false;
         this.faceDown = false;
         this.gameOver = false;
+        this. map;
+        this.tileset;
+        this.groundLayer;
     }
 
 preload(){
     this.load.path = "./assets/";
-    this.load.image('player_playerHolder','playerPlaceHolder.png');
+    //tileset assets
+   
     this.load.image('background_WrapedWood','warpedwoodsdarkbg.png');
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
-    this.load.tilemapTiledJSON('testMap','testing_3.json');
+    this.load.tilemapTiledJSON('testMap','Level_2.json');
     this.load.audio('shootingSound','shoot.wav');
 
     //player assets
@@ -41,15 +45,18 @@ create(){
     //background
     this.backgroundPlaceHolder = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
    
-    const map = this.add.tilemap("testMap");
+    this.map = this.add.tilemap("testMap");
     //add tileset
-    const tileset = map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
+    this.tileset = this.map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
    
     // create tilemap layers
-    const groundLayer = map.createDynamicLayer("Tiles", tileset, 0, 0);
+    this.groundLayer = this.map.createDynamicLayer("Tiles", this.tileset, 0, 0);
+    this.groundLayer_Inverted = this.map.createDynamicLayer("Tiles2",this.tileset,0,0);
     
     //set map collision
-    groundLayer.setCollisionByProperty({ collides: true });
+    
+    
+
    
     //player
     this.lookPlayer = new DirectPlayer(this,game.config.width/2,100,'playerHead',0).setOrigin(0.5,0.5);
@@ -200,8 +207,8 @@ create(){
 
     });
 
-    this.physics.add.collider(this.player, groundLayer);
-    this.physics.add.collider(this.lookPlayer, groundLayer);
+    this.physics.add.collider(this.player, this.groundLayer);
+    this.physics.add.collider(this.lookPlayer, this.groundLayer);
 }
 
 constrainReticle(reticle)
@@ -252,10 +259,16 @@ update(){
    
     if(this.switchWorld == true) {
         //alternate world stuff
-        this.tileset.aphla = 0; 
+        this.groundLayer.setVisible(false); 
+        this.groundLayer_Inverted.setVisible(true);
+        this.groundLayer_Inverted.setCollisionByProperty({ collides: true });
     }
     else if(this.switchWorld == false) {
         //default world stuff
+        this.groundLayer.setVisible(true);
+        this.groundLayer_Inverted.setVisible(false);
+        this.groundLayer.setCollisionByProperty({ collides: true });
+
     }
 
     //reticle movement
