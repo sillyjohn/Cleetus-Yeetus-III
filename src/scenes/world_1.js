@@ -134,6 +134,7 @@ create(){
 
         // Get bullet from bullets group
         var bullet = this.playerBullets.get().setActive(true).setVisible(true);
+        bullet.body.allowGravity = false;
 
         if (bullet) {
             bullet.fire(this.lookPlayer, this.reticle);
