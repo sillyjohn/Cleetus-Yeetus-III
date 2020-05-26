@@ -247,25 +247,7 @@ update(){
     if((this.player.body.blocked.down || this.player.body.touching.down) && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
     }
-    for(var i = 0; i < this.projectiles.getChildren().length; i++){
-        this.fireBullet = this.projectiles.getChildren()[i];
-        this.fireBullet.update();
-      }
-  
-    if(Phaser.Input.Keyboard.JustDown(keyF)){
-
-        this.shooting(this.faceRight,this.faceUp);
-    }
-    
 }
-
-shooting(faceing,faceingUp){
-    console.log('this is faceingUp = '+faceingUp);
-    this.fireBullet = new bullet(this,faceing,faceingUp);
-    this.fireBullet.update();
-    console.log('this fireBullet = '+this.fireBullet.x);
-}
-
 
 }
 
