@@ -128,7 +128,11 @@ create(){
             this.player.body.setAccelerationX(0);
         }
     });*/
-
+    //WASD
+    this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+    this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     //shooting
     this.input.on('pointerdown', function (pointer, time, lastFired) {
         if (this.player.active === false)
@@ -301,22 +305,22 @@ update(){
     
 
     //player movement
-    if(this.cursors.left.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
+    if(this.keyA.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
         this.player.body.setVelocityX(-this.ACCELERATION);
         this.player.setFlip(true, false);
         this.player.play('run', true);
     } 
-    else if(this.cursors.right.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
+    else if(this.keyD.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
         this.player.body.setVelocityX(+this.ACCELERATION);
         this.player.resetFlip();
         this.player.play('run', true);
     }
-    if(this.cursors.left.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+    if(this.keyA.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
         this.player.body.setVelocityX(-this.ACCELERATION);
         this.player.setFlip(true, false);
         this.player.play('run', true);
     } 
-    else if(this.cursors.right.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+    else if(this.keyD.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
         this.player.body.setVelocityX(+this.ACCELERATION);
         this.player.resetFlip();
         this.player.play('run', true);
@@ -342,7 +346,7 @@ update(){
     if(!this.player.body.blocked.down) {
         //this.player.anims.play('jump', true);
     }
-    if((this.player.body.blocked.down || this.player.body.touching.down) && Phaser.Input.Keyboard.JustDown(this.cursors.up)) {
+    if((this.player.body.blocked.down || this.player.body.touching.down) && Phaser.Input.Keyboard.JustDown(this.keyW)) {
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
     }
     
