@@ -81,10 +81,12 @@ create(){
     this.lookPlayer.depth = 1;
 
     this.playerBullets = this.physics.add.group({classType: DirectBullet, runChildUpdate: true});
+    
 
-    this.reticle = this.physics.add.sprite(800, 700, 'crosshair');
+    this.reticle = this.physics.add.sprite(game.config.width/2, 100, 'crosshair');
     this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(true);
     this.reticle.body.allowGravity = false;
+    
 
     //broken wasd
     /*this.moveKeys = this.input.keyboard.addKeys({
@@ -239,6 +241,7 @@ create(){
 
     this.physics.add.collider(this.player, groundLayer);
     this.physics.add.collider(this.lookPlayer, groundLayer);
+    this.physics.add.collider(this.playerBullets, groundLayer);
 }
 
 constrainReticle(reticle)
@@ -294,9 +297,8 @@ update(){
     }
 
     //reticle movement
-    this.reticle.body.velocityX = this.player.body.velocityX;
-    this.reticle.body.velocityY = this.player.body.velocityY;
     this.constrainReticle(this.reticle);
+    
 
     //player movement
     if(this.cursors.left.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {

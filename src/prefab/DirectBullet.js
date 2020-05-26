@@ -20,6 +20,7 @@ class DirectBullet extends Phaser.Physics.Arcade.Sprite{
     update(){
         this.x += this.xSpeed;
         this.y += this.ySpeed;
+        this.body.bounce = 0.5;
         this.born += 1;
         if (this.born > 120) {
             this.setActive(false);
