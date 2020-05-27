@@ -12,8 +12,9 @@ class testing_john extends Phaser.Scene {
         this.faceUp = false;
         this.faceDown = false;
         this.gameOver = false;
-        this. map;
-        this.tileset;
+        this.map;
+        this.tileset_Normal;
+        this.tileset_Inverted;
         this.groundLayer;
     }
 
@@ -23,9 +24,10 @@ preload(){
    
     this.load.image('background_WrapedWood','warpedwoodsdarkbg.png');
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
+    this.load.image('tileSet_NormalWood','tileset_v1.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
-    this.load.tilemapTiledJSON('testMap','Level_2.json');
-    this.load.audio('shootingSound','shoot.wav');
+    this.load.tilemapTiledJSON('level_2','Level_2.json');
+    
 
     //player assets
     this.load.image('playerHead','playerHead.png');
@@ -33,10 +35,14 @@ preload(){
     this.load.spritesheet('playerRun','playerRun.png',{frameWidth: 370, frameHeight: 321});
     this.load.image('bullet', 'bullet.png');
     this.load.image('crosshair', 'crosshair.png');
+    this.load.audio('shootingSound','shoot.wav');
 }
 
 
 create(){
+    //Naming scene
+    console.log("this is level 2 testing js");
+
     //switch
     this.switchWorld = false;
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -45,16 +51,20 @@ create(){
     //background
     this.backgroundPlaceHolder = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
    
-    this.map = this.add.tilemap("testMap");
+    this.map = this.add.tilemap("level_2");
     //add tileset
-    this.tileset = this.map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
+    this.tileset_Normal = this.map.addTilesetImage('tileset_v1','tileSet_NormalWood');
+    this.tileset_Inverted = this.map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
    
     // create tilemap layers
-    this.groundLayer = this.map.createDynamicLayer("Tiles", this.tileset, 0, 0);
-    this.groundLayer_Inverted = this.map.createDynamicLayer("Tiles2",this.tileset,0,0);
+    this.groundLayer = this.map.createDynamicLayer("Tiles", this.tileset_Normal, 0, 0);
+    this.groundLayer_Inverted = this.map.createDynamicLayer("Tiles2",this.tileset_Inverted,0,0);
     
     //set map collision
-    
+    this.groundLayer.setCollisionByProperty({ collides: true });
+    this.groundLayer_Inverted.setCollisionByProperty({ collides_InvertedWorld: true });
+
+
     
 
    
@@ -207,8 +217,10 @@ create(){
 
     });
 
-    this.physics.add.collider(this.player, this.groundLayer);
-    this.physics.add.collider(this.lookPlayer, this.groundLayer);
+    this.collideWithNormalWorld_player = this.physics.add.collider(this.player, this.groundLayer);
+    this.collideWithNormalWorld_lookPlayer = this.physics.add.collider(this.lookPlayer, this.groundLayer);
+    this.collideWithInvertedWorld_player = this.physics.add.collider(this.player, this.groundLayer_Inverted);
+    this.collideWithInvertedWorld_lookPlayer = this.physics.add.collider(this.lookPlayer, this.groundLayer_Inverted);
 }
 
 constrainReticle(reticle)
@@ -261,14 +273,20 @@ update(){
         //alternate world stuff
         this.groundLayer.setVisible(false); 
         this.groundLayer_Inverted.setVisible(true);
-        this.groundLayer_Inverted.setCollisionByProperty({ collides: true });
+        this.collideWithNormalWorld_player.active = false;
+        this.collideWithNormalWorld_lookPlayer.active = false;
+        this.collideWithInvertedWorld_player.active = true;
+        this.collideWithInvertedWorld_lookPlayer.active = true;       
     }
     else if(this.switchWorld == false) {
         //default world stuff
         this.groundLayer.setVisible(true);
         this.groundLayer_Inverted.setVisible(false);
-        this.groundLayer.setCollisionByProperty({ collides: true });
-
+        this.collideWithNormalWorld_player.active = true;
+        this.collideWithNormalWorld_lookPlayer.active = true;        
+        this.collideWithInvertedWorld_player.active = false;
+        this.collideWithInvertedWorld_lookPlayer.active = false;     
+      
     }
 
     //reticle movement

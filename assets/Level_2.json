@@ -11,6 +11,40 @@
  "infinite":false,
  "layers":[
         {
+         "draworder":"topdown",
+         "id":4,
+         "name":"Object Layer 1",
+         "objects":[
+                {
+                 "height":72.7272727272725,
+                 "id":2,
+                 "name":"levelExit",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":1066.66666666667,
+                 "x":315.151515151515,
+                 "y":2445.45454545455
+                }, 
+                {
+                 "height":0,
+                 "id":4,
+                 "name":"levelSpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":342.424242424242,
+                 "y":39.3939393939394
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
          "data":[18, 24, 0, 0, 0, 20, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 24, 0, 0, 0, 30, 29, 29, 29, 29, 29, 18, 18, 29, 29, 29, 29, 18, 18, 18, 18, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 31, 0, 0, 0, 0, 25, 20, 18, 18, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 20, 18, 18, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 18, 18, 21, 17, 17, 17, 17, 17, 28, 0, 0, 0, 0, 0, 22, 17, 23, 0, 0, 20, 18, 18, 18, 18, 18, 18, 18, 18, 31, 0, 0, 0, 0, 0, 0, 25, 0, 0, 0, 20, 18, 18, 24, 0, 0, 25, 0, 0, 27, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 18, 18, 21, 17, 23, 0, 0, 0, 30, 21, 23, 0, 0, 0, 0, 0, 0, 0, 0, 20, 18, 18, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 18, 18, 24, 0, 0, 0, 22, 17, 17, 17, 17, 17, 17, 17, 17, 28, 0, 0, 0, 20, 18, 18, 24, 0, 0, 0, 0, 30, 29, 29, 29, 18, 18, 18, 21, 17, 17, 17, 17, 17, 19, 18, 21, 23, 0, 0, 0, 0, 0, 0, 0, 30, 31, 0, 0, 0, 0, 0, 0, 0, 18, 18, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 18, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 18, 21, 17, 17, 23, 0, 0, 0, 0, 0, 27, 17, 17, 17, 17, 17, 17, 17, 17, 19, 18, 24, 0, 0, 0, 0, 0, 0, 0, 0, 20, 18, 18, 31, 0, 0, 0, 0, 0, 18, 18, 24, 0, 0, 0, 0, 0, 0, 0, 0, 20, 18, 31, 0, 0, 0, 0, 0, 0, 18, 18, 21, 17, 17, 17, 17, 23, 0, 0, 0, 30, 24, 0, 0, 0, 0, 0, 0, 0, 18, 18, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 21, 17, 17, 17, 17, 17, 17, 19],
          "height":20,
          "id":1,
@@ -28,20 +62,14 @@
          "id":3,
          "name":"Tiles2",
          "opacity":1,
-         "properties":[
-                {
-                 "name":"collides",
-                 "type":"bool",
-                 "value":false
-                }],
          "type":"tilelayer",
          "visible":true,
          "width":20,
          "x":0,
          "y":0
         }],
- "nextlayerid":4,
- "nextobjectid":1,
+ "nextlayerid":5,
+ "nextobjectid":5,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.3.4",
@@ -55,6 +83,165 @@
          "imagewidth":512,
          "margin":0,
          "name":"tileset_v2",
+         "spacing":0,
+         "tilecount":16,
+         "tileheight":128,
+         "tiles":[
+                {
+                 "id":0,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":1,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":2,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":3,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":4,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":5,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":6,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":7,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":8,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":9,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":10,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":11,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":12,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":13,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":14,
+                 "properties":[
+                        {
+                         "name":"collides_InvertedWorld",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":15,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":false
+                        }]
+                }],
+         "tilewidth":128,
+         "transparentcolor":"#ff00ff"
+        }, 
+        {
+         "columns":4,
+         "firstgid":17,
+         "image":"tileset_v1.png",
+         "imageheight":512,
+         "imagewidth":512,
+         "margin":0,
+         "name":"tileset_v1",
          "spacing":0,
          "tilecount":16,
          "tileheight":128,
@@ -193,30 +380,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
-                {
-                 "id":15,
-                 "properties":[
-                        {
-                         "name":"collides",
-                         "type":"bool",
-                         "value":false
-                        }]
                 }],
-         "tilewidth":128,
-         "transparentcolor":"#ff00ff"
-        }, 
-        {
-         "columns":4,
-         "firstgid":17,
-         "image":"wwrtileset.png",
-         "imageheight":512,
-         "imagewidth":512,
-         "margin":0,
-         "name":"tileset_v1",
-         "spacing":0,
-         "tilecount":16,
-         "tileheight":128,
          "tilewidth":128,
          "transparentcolor":"#ff00ff"
         }],
