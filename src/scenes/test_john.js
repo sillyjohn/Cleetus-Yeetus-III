@@ -90,8 +90,11 @@ create(){
             end: 8
         }),
     })
-    this.player = new ControlPlayer(this,game.config.width/2,100,'playerRun',0).setOrigin(0.5,0.5);
 
+    this.playerSpawn = this.map.findObject("Object_level_2", obj => obj.name === "levelSpawn");
+    
+    this.player = new ControlPlayer(this,this.playerSpawn.x,this.playerSpawn.y,'playerRun',0).setOrigin(0.5,0.5);
+    
     this.player.body.setCollideWorldBounds(true);
     this.lookPlayer.body.setCollideWorldBounds(true);
     this.player.depth = 0;

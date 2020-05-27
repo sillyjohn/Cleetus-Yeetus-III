@@ -9,16 +9,20 @@ class world_1 extends Phaser.Scene {
         this.DRAG = 600;    
         this.JUMP_VELOCITY = -1350;
         this.gameOver = false;
+        this.map;
+        this.tileset_Normal;
+        this.tileset_Inverted;
+        this.groundLayer;
     }
 
 preload(){
     this.load.path = "./assets/";
-    this.load.image('player_playerHolder','playerPlaceHolder.png');
+    //tileset assets   
     this.load.image('background_WrapedWood','warpedwoodsdarkbg.png');
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
+    this.load.image('tileSet_NormalWood','tileset_v1.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
-    this.load.tilemapTiledJSON('testMap','testing_3.json');
-    this.load.audio('shootingSound','shoot.wav');
+    this.load.tilemapTiledJSON('level_2','Level_2.json');
 
     //player assets
     this.load.image('playerHead','playerHead.png');
@@ -26,7 +30,7 @@ preload(){
     this.load.spritesheet('playerRun','playerRun.png',{frameWidth: 370, frameHeight: 321});
     this.load.image('bullet', 'bullet.png');
     this.load.image('crosshair', 'crosshair.png');
-
+    this.load.audio('shootingSound','shoot.wav');
     this.load.audio('shoot', 'shoot.wav');
     this.load.audio('walk', 'walkLoop.wav');
     this.load.audio('jump', 'jump.wav');
@@ -45,17 +49,20 @@ create(){
 
 
     //background
-    this.backgroundPlaceHolder = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
-   
-    const map = this.add.tilemap("testMap");
+    this.background_InvertedWorld = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
+   // tile map
+    this.map = this.add.tilemap("level_2");
     //add tileset
-    const tileset = map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
+    this.tileset_Normal = this.map.addTilesetImage('tileset_v1','tileSet_NormalWood');
+    this.tileset_Inverted = this.map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
    
     // create tilemap layers
-    const groundLayer = map.createStaticLayer("Tiles", tileset, 0, 0);
+    this.groundLayer = this.map.createDynamicLayer("Tiles", this.tileset_Normal, 0, 0);
+    this.groundLayer_Inverted = this.map.createDynamicLayer("Tiles2",this.tileset_Inverted,0,0);
     
     //set map collision
-    groundLayer.setCollisionByProperty({ collides: true });
+    this.groundLayer.setCollisionByProperty({ collides: true });
+    this.groundLayer_Inverted.setCollisionByProperty({ collides_InvertedWorld: true });
    
     //player
     this.lookPlayer = new DirectPlayer(this,game.config.width/2,100,'playerHead',0).setOrigin(0.5,0.5);
@@ -94,46 +101,6 @@ create(){
     this.reticle.body.allowGravity = false;
     
 
-    //broken wasd
-    /*this.moveKeys = this.input.keyboard.addKeys({
-        'up': Phaser.Input.Keyboard.KeyCodes.W,
-        'down': Phaser.Input.Keyboard.KeyCodes.S,
-        'left': Phaser.Input.Keyboard.KeyCodes.A,
-        'right': Phaser.Input.Keyboard.KeyCodes.D
-    });
-
-    this.input.keyboard.on('keydown_W', function (event) {
-        this.player.body.setVelocityX(-800);
-    });
-    this.input.keyboard.on('keydown_S', function (event) {
-        this.player.body.setAccelerationY(800);
-    });
-    this.input.keyboard.on('keydown_A', function (event) {
-        this.player.body.setAccelerationX(-800);
-    });
-    this.input.keyboard.on('keydown_D', function (event) {
-        this.player.body.setAccelerationX(800);
-    });
-
-    this.input.keyboard.on('keyup_W', function (event) {
-        if (moveKeys['down'].isUp){
-            this.player.body.setAccelerationY(0);
-        }
-    });
-    this.input.keyboard.on('keyup_S', function (event) {
-        if (moveKeys['up'].isUp){
-            this.player.body.setAccelerationY(0);
-        }
-    });
-    this.input.keyboard.on('keyup_A', function (event) {
-        if (moveKeys['right'].isUp)
-            this.player.body.setAccelerationX(0);
-    });
-    this.input.keyboard.on('keyup_D', function (event) {
-        if (moveKeys['left'].isUp) {
-            this.player.body.setAccelerationX(0);
-        }
-    });*/
     //WASD
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -198,12 +165,12 @@ create(){
     this.physics.world.gravity.y = 2000;
     //tile bias
     this.physics.world.TILE_BIAS= 50;
-    this.cameras.main.width = 1920;
-    this.cameras.main.height = 1080;
+    this.cameras.main.width = 2560;
+    this.cameras.main.height = 2560;
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 2560 , 2560);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
-    this.cameras.main.setZoom(1);
+    this.cameras.main.setZoom(3);
     // startFollow(target [, roundPixels] [, lerpX] [, lerpY] [, offsetX] [, offsetY])
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
 
@@ -235,9 +202,14 @@ create(){
     this.hpIcon.setScrollFactor(0);
       //Animation 
 
-    this.physics.add.collider(this.player, groundLayer);
-    this.physics.add.collider(this.lookPlayer, groundLayer);
-    this.physics.add.collider(this.playerBullets, groundLayer);
+    //bullets collisions
+    //this.physics.add.collider(this.playerBullets, this.groundLayer);
+
+    //player collisions with ground layers
+    this.collideWithNormalWorld_player = this.physics.add.collider(this.player, this.groundLayer);
+    this.collideWithNormalWorld_lookPlayer = this.physics.add.collider(this.lookPlayer, this.groundLayer);
+    this.collideWithInvertedWorld_player = this.physics.add.collider(this.player, this.groundLayer_Inverted);
+    this.collideWithInvertedWorld_lookPlayer = this.physics.add.collider(this.lookPlayer, this.groundLayer_Inverted);
 }
 
 constrainReticle(reticle)
@@ -287,10 +259,24 @@ update(){
 
     if(this.switchWorld == true) {
         //alternate world stuff
+        this.groundLayer.setVisible(false); 
+        this.groundLayer_Inverted.setVisible(true);
+        this.collideWithNormalWorld_player.active = false;
+        this.collideWithNormalWorld_lookPlayer.active = false;
+        this.collideWithInvertedWorld_player.active = true;
+        this.collideWithInvertedWorld_lookPlayer.active = true;       
     }
     else if(this.switchWorld == false) {
         //default world stuff
+        this.groundLayer.setVisible(true);
+        this.groundLayer_Inverted.setVisible(false);
+        this.collideWithNormalWorld_player.active = true;
+        this.collideWithNormalWorld_lookPlayer.active = true;        
+        this.collideWithInvertedWorld_player.active = false;
+        this.collideWithInvertedWorld_lookPlayer.active = false;     
+      
     }
+
 
     //reticle movement
     this.constrainReticle(this.reticle);

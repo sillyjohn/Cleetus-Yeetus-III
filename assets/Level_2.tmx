@@ -170,7 +170,7 @@
    <point/>
   </object>
  </objectgroup>
- <layer id="1" name="Tiles" width="20" height="20" locked="1">
+ <layer id="1" name="Tiles" width="20" height="20">
   <data encoding="csv">
 18,24,0,0,0,20,18,18,18,18,18,18,18,18,18,18,18,18,18,18,
 18,24,0,0,0,30,29,29,29,29,29,18,18,29,29,29,29,18,18,18,
@@ -195,9 +195,6 @@
 </data>
  </layer>
  <layer id="3" name="Tiles2" width="20" height="20">
-  <properties>
-   <property name="collides" type="bool" value="false"/>
-  </properties>
   <data encoding="csv">
 10,11,16,0,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 10,11,16,16,0,3,10,10,10,10,10,10,10,10,10,10,10,10,10,1,
