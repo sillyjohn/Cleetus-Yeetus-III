@@ -8,7 +8,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
     }
     create(){
 
-    this.body.setSize(width/2);
+    this.body.setSize(width);
     this.body.setMaxVelocity(this.MAX_X_VEL  , this.MAX_Y_VEL);
 
     }
@@ -26,12 +26,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
     //     console.log(this.goRight)
     //    }
         
-    }
-    destroy(){
-
-        console.log('destroyed')
-
-
     }
 
     

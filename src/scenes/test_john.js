@@ -1,6 +1,6 @@
 class testing_john extends Phaser.Scene {
     constructor(){
-        super("testing_John");
+        super("testing_john");
 
         // variables and settings
         this.ACCELERATION = 500;
@@ -8,26 +8,25 @@ class testing_john extends Phaser.Scene {
         this.MAX_Y_VEL = 3000;
         this.DRAG = 600;    
         this.JUMP_VELOCITY = -1350;
-        this.faceRight = true;
-        this.faceUp = false;
-        this.faceDown = false;
         this.gameOver = false;
         this.map;
         this.tileset_Normal;
         this.tileset_Inverted;
         this.groundLayer;
+        this.levelExit;
+        this.groundLayer_Inverted_dec;
+        this.groundLayer_dec;
     }
 
 preload(){
     this.load.path = "./assets/";
-    //tileset assets
-   
+    //tileset assets   
     this.load.image('background_WrapedWood','warpedwoodsdarkbg.png');
+    this.load.image("tileset_Decoration","misctileset.png");
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
     this.load.image('tileSet_NormalWood','tileset_v1.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
     this.load.tilemapTiledJSON('level_2','Level_2.json');
-    
 
     //player assets
     this.load.image('playerHead','playerHead.png');
@@ -36,12 +35,20 @@ preload(){
     this.load.image('bullet', 'bullet.png');
     this.load.image('crosshair', 'crosshair.png');
     this.load.audio('shootingSound','shoot.wav');
+    this.load.audio('shoot', 'shoot.wav');
+    this.load.audio('walk', 'walkLoop.wav');
+    this.load.audio('jump', 'jump.wav');
 }
 
 
 create(){
-    //Naming scene
-    console.log("this is level 2 testing js");
+    // this is level_1
+    console.log('this is level 1, testing')
+
+    this.shoot = this.sound.add('shoot', {volume: 0.1});
+    this.walk = this.sound.add('walk', {volume: 0.4});
+    this.walk.setLoop(true);
+    this.jump = this.sound.add('jump', {volume: 0.1});
 
     //switch
     this.switchWorld = false;
@@ -49,27 +56,26 @@ create(){
 
 
     //background
-    this.backgroundPlaceHolder = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
-   
+    this.background_InvertedWorld = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
+   // tile map
     this.map = this.add.tilemap("level_2");
     //add tileset
     this.tileset_Normal = this.map.addTilesetImage('tileset_v1','tileSet_NormalWood');
     this.tileset_Inverted = this.map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
+    this.tileset_Decoration = this.map.addTilesetImage('misctileset','tileset_Decoration');
    
     // create tilemap layers
     this.groundLayer = this.map.createDynamicLayer("Tiles", this.tileset_Normal, 0, 0);
+    this.groundLayer_dec = this.map.createDynamicLayer("Tiles4", this.tileset_Decoration, 0, 0);
     this.groundLayer_Inverted = this.map.createDynamicLayer("Tiles2",this.tileset_Inverted,0,0);
+    this.groundLayer_Inverted_dec = this.map.createDynamicLayer("Tiles3",this.tileset_Decoration,0,0);
+
     
     //set map collision
     this.groundLayer.setCollisionByProperty({ collides: true });
     this.groundLayer_Inverted.setCollisionByProperty({ collides_InvertedWorld: true });
-
-
-    
-
    
-    //player
-    this.lookPlayer = new DirectPlayer(this,game.config.width/2,100,'playerHead',0).setOrigin(0.5,0.5);
+   
     this.anims.create({
         key: 'run',
         frameRate: 30,
@@ -90,37 +96,76 @@ create(){
             end: 8
         }),
     })
-
+    //player spawn
     this.playerSpawn = this.map.findObject("Object_level_2", obj => obj.name === "levelSpawn");
-    
+    console.log('spawn x'+this.playerSpawn.x);
+    console.log('spawn y'+this.playerSpawn.y);
+
+   
+ 
+    //create player
     this.player = new ControlPlayer(this,this.playerSpawn.x,this.playerSpawn.y,'playerRun',0).setOrigin(0.5,0.5);
-    
-    this.player.body.setCollideWorldBounds(true);
-    this.lookPlayer.body.setCollideWorldBounds(true);
+    //player
+    this.lookPlayer = new DirectPlayer(this,game.config.width/2,100,'playerHead',0).setOrigin(0.5,0.5);
+   
+    this.player.body.setCollideWorldBounds(false);
+    this.lookPlayer.body.setCollideWorldBounds(false);
     this.player.depth = 0;
     this.lookPlayer.depth = 1;
 
     this.playerBullets = this.physics.add.group({classType: DirectBullet, runChildUpdate: true});
+    
 
-    this.reticle = this.physics.add.sprite(800, 700, 'crosshair');
-    this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(true);
+    this.reticle = this.physics.add.sprite(game.config.width/2, 100, 'crosshair');
+    this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(false);
     this.reticle.body.allowGravity = false;
+    //create exit
+    this.levelExit = this.map.findObject("Object_level_2", exit => exit.name === "levelExit");
+    this.exitArea = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
+
+    this.physics.world.enable(this.exitArea, Phaser.Physics.Arcade.STATIC_BODY);
+
+
+    
+    console.log("exit x"+this.levelExit.x);
+    console.log("exit y"+this.levelExit.y);
+    this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
+    
+        this.scene.start('level_2');
+        console.log('move to level 2');
+    });
     //WASD
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+    this.dashKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     //shooting
     this.input.on('pointerdown', function (pointer, time, lastFired) {
+        this.shoot.play();
         if (this.player.active === false)
             return;
 
         // Get bullet from bullets group
-        var bullet = this.playerBullets.get().setActive(true).setVisible(true);
-        bullet.body.allowGravity = false;
+        var bullet1 = this.playerBullets.get().setActive(true).setVisible(true);
+        bullet1.body.allowGravity = false;
 
-        if (bullet) {
-            bullet.fire(this.lookPlayer, this.reticle);
+        if (bullet1) {
+            bullet1.fire(this.lookPlayer.rotation);
+        }
+
+        var bullet2 = this.playerBullets.get().setActive(true).setVisible(true);
+        bullet2.body.allowGravity = false;
+
+        if (bullet2) {
+            bullet2.fire(this.lookPlayer.rotation + (0.0872665/2));
+        }
+
+        var bullet3 = this.playerBullets.get().setActive(true).setVisible(true);
+        bullet3.body.allowGravity = false;
+
+        if (bullet3) {
+            bullet3.fire(this.lookPlayer.rotation - (0.0872665/2));
         }
     }, this);
     
@@ -134,14 +179,7 @@ create(){
             game.input.mouse.releasePointerLock();
     }, 0, this);
 
-    //move crosshair
-    this.input.on('pointermove', function (pointer) {
-        if (this.input.mouse.locked)
-        {
-            this.reticle.x += this.input.mousePointer.movementX;
-            this.reticle.y += this.input.mousePointer.movementY;
-        }
-    }, this);
+    
 
     
     //create cursor keys
@@ -154,20 +192,30 @@ create(){
     this.itemBullet = this.add.rectangle(0,0);
 
     //enemy created
-    this.enemy1 = new Enemy(this,game.config.width/3,550,'player_Idle',0).setOrigin(0.5,0.5).setScale(0.5);
+    this.enemy1 = new Enemy(this,game.config.width,550,'player_Idle',0).setOrigin(0.5,0.5).setSize(0.01);
     this.enemy1.body.setCollideWorldBounds(true);
     //world gravity
     this.physics.world.gravity.y = 2000;
     //tile bias
     this.physics.world.TILE_BIAS= 50;
-    //create bullet group 
-    this.projectiles = this.add.group();
+    this.cameras.main.width = 2560;
+    this.cameras.main.height = 2560;
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 2560 , 2560);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
     this.cameras.main.setZoom(3);
     // startFollow(target [, roundPixels] [, lerpX] [, lerpY] [, offsetX] [, offsetY])
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
+
+    //move crosshair with camera and pointer
+    this.input.on('pointermove', function (pointer) {
+        if (this.input.mouse.locked)
+        {
+            this.reticle.x += this.input.mousePointer.movementX;
+            this.reticle.y += this.input.mousePointer.movementY;
+        }
+    }, this);
+
     //create hp bar
       //score display
       let hpConfig = {
@@ -186,40 +234,11 @@ create(){
     this.hpIcon = this.add.text(590,500,this.healthCount,hpConfig);
     this.hpIcon.setScrollFactor(0);
       //Animation 
-    game.anims.create({
-        key: 'run',
-        frameRate: 30,
-        frames: this.game.anims.generateFrameNumbers('player_Idle',
-        {
-            start: 0,
-            end: 9
-        }),
 
-    }); 
-    game.anims.create({
-        key: 'idle',
-        frameRate: 60,
-        repeat: 1,
-        frames: this.game.anims.generateFrameNumbers('player_Idle',
-        {
-            start: 11,
-            end: 11
-        }),
+    //bullets collisions
+    //this.physics.add.collider(this.playerBullets, this.groundLayer);
 
-    });
-    game.anims.create({
-        key: 'shooting',
-        frameRate: 1,
-        repeat: 1,
-        duration:3000,
-        frames: this.game.anims.generateFrameNumbers('player_Idle',
-        {
-            start: 10,
-            end: 10
-        }),
-
-    });
-
+    //player collisions with ground layers
     this.collideWithNormalWorld_player = this.physics.add.collider(this.player, this.groundLayer);
     this.collideWithNormalWorld_lookPlayer = this.physics.add.collider(this.lookPlayer, this.groundLayer);
     this.collideWithInvertedWorld_player = this.physics.add.collider(this.player, this.groundLayer_Inverted);
@@ -231,30 +250,22 @@ constrainReticle(reticle)
     var distX = this.reticle.x - this.player.x;
     var distY = this.reticle.y - this.player.y;
 
-    if (distX > 300)
-        this.reticle.x = this.player.x + 300;
-    else if (distX < -300)
-        this.reticle.x = this.player.x - 300;
+    if (distX > 450)
+        this.reticle.x = this.player.x + 450;
+    else if (distX < -450)
+        this.reticle.x = this.player.x - 450;
 
-    if (distY > 300)
-        this.reticle.y = this.player.y + 300;
-    else if (distY < -300)
-        this.reticle.y = this.player.y - 300;
+    if (distY > 450)
+        this.reticle.y = this.player.y + 450;
+    else if (distY < -450)
+        this.reticle.y = this.player.y - 450;
 }
 
 update(){
     //game over loop *move all function and method in later*
-    // if(this.gameOver == false){
+    if(this.gameOver == false){
 
-
-
-    // }else {
-
-    //     this.scene.start("");
-
-    // }
-
-    //update list
+         //update list
     this.player.update();
     this.lookPlayer.update();
     
@@ -264,69 +275,131 @@ update(){
         if(this.switchWorld == true) {
             console.log("Switch false");
             this.switchWorld = false;
-            
         }
         else if(this.switchWorld == false) {
             console.log("Switch true");
             this.switchWorld = true;
         }
     }
-   
+
     if(this.switchWorld == true) {
         //alternate world stuff
         this.groundLayer.setVisible(false); 
         this.groundLayer_Inverted.setVisible(true);
+        this.groundLayer_Inverted_dec.setVisible(true);
+        this.groundLayer_dec.setVisible(false);
+
         this.collideWithNormalWorld_player.active = false;
         this.collideWithNormalWorld_lookPlayer.active = false;
         this.collideWithInvertedWorld_player.active = true;
-        this.collideWithInvertedWorld_lookPlayer.active = true;       
+        this.collideWithInvertedWorld_lookPlayer.active = true;    
+        if(this.keyD.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
+            this.player.body.setVelocityX(-this.ACCELERATION);
+            this.player.setFlip(true, false);
+            this.player.play('run', true);
+        } 
+        else if(this.keyA.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
+            this.player.body.setVelocityX(+this.ACCELERATION);
+            this.player.resetFlip();
+            this.player.play('run', true);
+        }
+        if(this.keyD.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+            this.player.body.setVelocityX(-this.ACCELERATION);
+            this.player.setFlip(true, false);
+            this.player.play('run', true);
+        } 
+        else if(this.keyA.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+            this.player.body.setVelocityX(+this.ACCELERATION);
+            this.player.resetFlip();
+            this.player.play('run', true);
+        }
+        else if (this.player.body.blocked.down || this.player.body.touching.down){
+            this.player.body.setVelocityX(0);
+            this.player.play('idle', true);
+        }
+        else{
+            // set acceleration to 0 so DRAG will take over
+            this.player.body.setAccelerationX(0);
+            this.player.play('idle');
+        }   
     }
     else if(this.switchWorld == false) {
         //default world stuff
         this.groundLayer.setVisible(true);
         this.groundLayer_Inverted.setVisible(false);
+        this.groundLayer_Inverted_dec.setVisible(false);
+        this.groundLayer_dec.setVisible(true);
         this.collideWithNormalWorld_player.active = true;
         this.collideWithNormalWorld_lookPlayer.active = true;        
         this.collideWithInvertedWorld_player.active = false;
-        this.collideWithInvertedWorld_lookPlayer.active = false;     
-      
+        this.collideWithInvertedWorld_lookPlayer.active = false;    
+
+        if(this.keyA.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
+            this.player.body.setVelocityX(-this.ACCELERATION);
+            this.player.setFlip(true, false);
+            this.player.play('run', true);
+        } 
+        else if(this.keyD.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
+            this.player.body.setVelocityX(+this.ACCELERATION);
+            this.player.resetFlip();
+            this.player.play('run', true);
+        }
+        if(this.keyA.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+            this.player.body.setVelocityX(-this.ACCELERATION);
+            this.player.setFlip(true, false);
+            this.player.play('run', true);
+        } 
+        else if(this.keyD.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+            this.player.body.setVelocityX(+this.ACCELERATION);
+            this.player.resetFlip();
+            this.player.play('run', true);
+        }
+        else if (this.player.body.blocked.down || this.player.body.touching.down){
+            this.player.body.setVelocityX(0);
+            this.player.play('idle', true);
+        }
+        else{
+            // set acceleration to 0 so DRAG will take over
+            this.player.body.setAccelerationX(0);
+            this.player.play('idle');
+        }
     }
+
 
     //reticle movement
-    this.reticle.body.velocityX = this.player.body.velocityX;
-    this.reticle.body.velocityY = this.player.body.velocityY;
     this.constrainReticle(this.reticle);
+    
 
     //player movement
-    if(this.keyA.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
-        this.player.body.setVelocityX(-this.ACCELERATION);
-        this.player.setFlip(true, false);
-        this.player.play('run', true);
-    } 
-    else if(this.keyD.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
-        this.player.body.setVelocityX(+this.ACCELERATION);
-        this.player.resetFlip();
-        this.player.play('run', true);
-    }
-    if(this.keyA.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
-        this.player.body.setVelocityX(-this.ACCELERATION);
-        this.player.setFlip(true, false);
-        this.player.play('run', true);
-    } 
-    else if(this.keyD.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
-        this.player.body.setVelocityX(+this.ACCELERATION);
-        this.player.resetFlip();
-        this.player.play('run', true);
-    }
-    else if (this.player.body.blocked.down || this.player.body.touching.down){
-        this.player.body.setVelocityX(0);
-        this.player.play('idle', true);
-    }
-    else{
-        // set acceleration to 0 so DRAG will take over
-        this.player.body.setAccelerationX(0);
-        this.player.play('idle');
-    }
+    // if(this.keyA.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
+    //     this.player.body.setVelocityX(-this.ACCELERATION);
+    //     this.player.setFlip(true, false);
+    //     this.player.play('run', true);
+    // } 
+    // else if(this.keyD.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
+    //     this.player.body.setVelocityX(+this.ACCELERATION);
+    //     this.player.resetFlip();
+    //     this.player.play('run', true);
+    // }
+    // if(this.keyA.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+    //     this.player.body.setVelocityX(-this.ACCELERATION);
+    //     this.player.setFlip(true, false);
+    //     this.player.play('run', true);
+    // } 
+    // else if(this.keyD.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+    //     this.player.body.setVelocityX(+this.ACCELERATION);
+    //     this.player.resetFlip();
+    //     this.player.play('run', true);
+    // }
+    // else if (this.player.body.blocked.down || this.player.body.touching.down){
+    //     this.player.body.setVelocityX(0);
+    //     this.player.play('idle', true);
+    // }
+    // else{
+    //     // set acceleration to 0 so DRAG will take over
+    //     this.player.body.setAccelerationX(0);
+    //     this.player.play('idle');
+    // }
 
     //look flip
     this.player_distX = this.reticle.x - this.player.x;
@@ -336,22 +409,132 @@ update(){
 
     // player jump
     // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
-    if(!this.player.body.blocked.down) {
+    if(!this.player.body.blocked.down && !this.player.body.touching.down) {
         //this.player.anims.play('jump', true);
     }
     if((this.player.body.blocked.down || this.player.body.touching.down) && Phaser.Input.Keyboard.JustDown(this.keyW)) {
+        this.jump.play();
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
     }
+
+    
     
     //colliders list *create all collider below*
     
     // bullet and enemy collider
-    /*this.physics.add.collider(this.playerBullets,this.enemy1,function(playerBullets,enemy){
+    this.physics.add.collider(this.playerBullets,this.enemy1,function(playerBullets,enemy){
         this.playerBullets.destroy();
         enemy.destroy();
-    });*/
+    });
     
     //collider list End
+
+    }else {
+
+        //this.scene.start("level_2");
+
+    }
+
+    // //update list
+    // this.player.update();
+    // this.lookPlayer.update();
+    
+    // //switch world input
+    // if (Phaser.Input.Keyboard.JustDown(this.switchKey)) {
+    //     console.log("switched");
+    //     if(this.switchWorld == true) {
+    //         console.log("Switch false");
+    //         this.switchWorld = false;
+    //     }
+    //     else if(this.switchWorld == false) {
+    //         console.log("Switch true");
+    //         this.switchWorld = true;
+    //     }
+    // }
+
+    // if(this.switchWorld == true) {
+    //     //alternate world stuff
+    //     this.groundLayer.setVisible(false); 
+    //     this.groundLayer_Inverted.setVisible(true);
+    //     this.collideWithNormalWorld_player.active = false;
+    //     this.collideWithNormalWorld_lookPlayer.active = false;
+    //     this.collideWithInvertedWorld_player.active = true;
+    //     this.collideWithInvertedWorld_lookPlayer.active = true;       
+    // }
+    // else if(this.switchWorld == false) {
+    //     //default world stuff
+    //     this.groundLayer.setVisible(true);
+    //     this.groundLayer_Inverted.setVisible(false);
+    //     this.collideWithNormalWorld_player.active = true;
+    //     this.collideWithNormalWorld_lookPlayer.active = true;        
+    //     this.collideWithInvertedWorld_player.active = false;
+    //     this.collideWithInvertedWorld_lookPlayer.active = false;     
+      
+    // }
+
+
+    // //reticle movement
+    // this.constrainReticle(this.reticle);
+    
+
+    // //player movement
+    // if(this.keyA.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
+    //     this.player.body.setVelocityX(-this.ACCELERATION);
+    //     this.player.setFlip(true, false);
+    //     this.player.play('run', true);
+    // } 
+    // else if(this.keyD.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
+    //     this.player.body.setVelocityX(+this.ACCELERATION);
+    //     this.player.resetFlip();
+    //     this.player.play('run', true);
+    // }
+    // if(this.keyA.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+    //     this.player.body.setVelocityX(-this.ACCELERATION);
+    //     this.player.setFlip(true, false);
+    //     this.player.play('run', true);
+    // } 
+    // else if(this.keyD.isDown && (this.player.body.blocked.down || this.player.body.touching.down)) {
+    //     this.player.body.setVelocityX(+this.ACCELERATION);
+    //     this.player.resetFlip();
+    //     this.player.play('run', true);
+    // }
+    // else if (this.player.body.blocked.down || this.player.body.touching.down){
+    //     this.player.body.setVelocityX(0);
+    //     this.player.play('idle', true);
+    // }
+    // else{
+    //     // set acceleration to 0 so DRAG will take over
+    //     this.player.body.setAccelerationX(0);
+    //     this.player.play('idle');
+    // }
+
+    // //look flip
+    // this.player_distX = this.reticle.x - this.player.x;
+    // this.lookPlayer.flipY = this.player_distX < 0;
+
+
+
+    // // player jump
+    // // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
+    // if(!this.player.body.blocked.down && !this.player.body.touching.down) {
+    //     //this.player.anims.play('jump', true);
+    // }
+    // if((this.player.body.blocked.down || this.player.body.touching.down) && Phaser.Input.Keyboard.JustDown(this.keyW)) {
+    //     this.jump.play();
+    //     this.player.body.setVelocityY(this.JUMP_VELOCITY);
+    // }
+
+    
+    
+    // //colliders list *create all collider below*
+    
+    // // bullet and enemy collider
+    // /*this.physics.add.collider(this.playerBullets,this.enemy1,function(playerBullets,enemy){
+    //     this.playerBullets.destroy();
+    //     enemy.destroy();
+    // });*/
+    
+    // //collider list End
     
 }
 

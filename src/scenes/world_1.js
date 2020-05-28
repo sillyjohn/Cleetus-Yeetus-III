@@ -1,6 +1,6 @@
-class world_1 extends Phaser.Scene {
+class level_1 extends Phaser.Scene {
     constructor(){
-        super("world_1");
+        super("level_1");
 
         // variables and settings
         this.ACCELERATION = 500;
@@ -38,6 +38,8 @@ preload(){
 
 
 create(){
+    // this is level_1
+    console.log('this is level 1')
     this.shoot = this.sound.add('shoot', {volume: 0.1});
     this.walk = this.sound.add('walk', {volume: 0.4});
     this.walk.setLoop(true);
@@ -86,7 +88,8 @@ create(){
             end: 8
         }),
     })
-    this.player = new ControlPlayer(this,game.config.width/2,100,'playerRun',0).setOrigin(0.5,0.5);
+    this.playerSpawn = this.map.findObject("Object_level_2", obj => obj.name === "levelSpawn");
+    this.player = new ControlPlayer(this,this.playerSpawn.x,this.playerSpawn.y,'playerRun',0).setOrigin(0.5,0.5);
 
     this.player.body.setCollideWorldBounds(false);
     this.lookPlayer.body.setCollideWorldBounds(false);
@@ -173,7 +176,8 @@ create(){
     this.cameras.main.setZoom(3);
     // startFollow(target [, roundPixels] [, lerpX] [, lerpY] [, offsetX] [, offsetY])
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
-
+    //camera dead zone
+    
     //move crosshair with camera and pointer
     this.input.on('pointermove', function (pointer) {
         if (this.input.mouse.locked)
