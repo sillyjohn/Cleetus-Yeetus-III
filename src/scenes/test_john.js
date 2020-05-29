@@ -178,9 +178,6 @@ create(){
         if (game.input.mouse.locked)
             game.input.mouse.releasePointerLock();
     }, 0, this);
-
-    
-
     
     //create cursor keys
     this.cursors = this.input.keyboard.createCursorKeys();
