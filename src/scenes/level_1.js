@@ -22,11 +22,14 @@ preload(){
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
     this.load.image('tileSet_NormalWood','tileset_v1.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
+    this.load.spritesheet('bugSprite','bugSheet.png',{frameWidth: 835, frameHeight: 310});
+    this.load.spritesheet('mushroomSprite','shroomSheet.png',{frameWidth: 600, frameHeight: 600});
     this.load.tilemapTiledJSON('level_2','Level_2.json');
 
     //player assets
     this.load.image('playerHead','playerHead.png');
     this.load.image('player_playerHolder','playerPlaceHolder.png');
+    this.load.image('shells','shells.png');
     this.load.spritesheet('playerRun','playerRun.png',{frameWidth: 370, frameHeight: 321});
     this.load.image('bullet', 'bullet.png');
     this.load.image('crosshair', 'crosshair.png');
@@ -34,16 +37,26 @@ preload(){
     this.load.audio('shoot', 'shoot.wav');
     this.load.audio('walk', 'walkLoop.wav');
     this.load.audio('jump', 'jump.wav');
+    this.load.audio('click', 'click.wav');
+    this.load.audio('enemyHit', 'hitEnemy.wav');
+    this.load.audio('playerHit', 'getHit.wav');
 }
 
 
 create(){
+    //player attributes
+    this.playerHealth = 5;
+    this.playerAmmo = 25;
+
     // this is level_1
     console.log('this is level 1')
     this.shoot = this.sound.add('shoot', {volume: 0.1});
+    this.click = this.sound.add('click', {volume: 0.1});
     this.walk = this.sound.add('walk', {volume: 0.4});
     this.walk.setLoop(true);
     this.jump = this.sound.add('jump', {volume: 0.1});
+    this.hitEnemy = this.sound.add('enemyHit', {volume: 0.7});
+    this.hitPlayer = this.sound.add('playerHit', {volume: 0.7});
 
     //switch
     this.switchWorld = false;
@@ -88,6 +101,36 @@ create(){
             end: 8
         }),
     })
+    this.anims.create({
+        key: 'jump',
+        frameRate: 30,
+        repeat: -1,
+        frames: this.game.anims.generateFrameNumbers('playerRun',
+        {
+            start: 2,
+            end: 2
+        }),
+    })
+    this.anims.create({
+        key: 'crawl',
+        frameRate: 6,
+        repeat: -1,
+        frames: this.game.anims.generateFrameNumbers('bugSprite',
+        {
+            start: 0,
+            end: 3
+        }),
+    })
+    this.anims.create({
+        key: 'bounce',
+        frameRate: 6,
+        repeat: -1,
+        frames: this.game.anims.generateFrameNumbers('mushroomSprite',
+        {
+            start: 0,
+            end: 3
+        }),
+    })
     this.playerSpawn = this.map.findObject("Object_level_2", obj => obj.name === "levelSpawn");
     this.player = new ControlPlayer(this,this.playerSpawn.x,this.playerSpawn.y,'playerRun',0).setOrigin(0.5,0.5);
 
@@ -97,6 +140,23 @@ create(){
     this.lookPlayer.depth = 1;
 
     this.playerBullets = this.physics.add.group({classType: DirectBullet, runChildUpdate: true});
+
+    //enemies
+    this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
+    var bug1 = this.bugs.get().setActive(true).setVisible(true);
+    bug1.setPos(this.playerSpawn.x,this.playerSpawn.y);
+
+    this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);
+    this.warpBugCollide = this.physics.add.collider(this.bugs, this.groundLayer_Inverted);
+    this.playerBugCollide = this.physics.add.collider(this.bugs, this.player);
+
+    this.mushrooms = this.physics.add.group({classType: Mushroom, runChildUpdate: true});
+    var mush1 = this.mushrooms.get().setActive(true).setVisible(true);
+    mush1.setPos(this.playerSpawn.x,this.playerSpawn.y);
+
+    this.normalMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer);
+    this.warpMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer_Inverted);
+    this.playerMushCollide = this.physics.add.collider(this.mushrooms, this.player);
     
 
     this.reticle = this.physics.add.sprite(game.config.width/2, 100, 'crosshair');
@@ -112,30 +172,43 @@ create(){
     this.dashKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
     //shooting
     this.input.on('pointerdown', function (pointer, time, lastFired) {
-        this.shoot.play();
-        if (this.player.active === false)
-            return;
+        if(this.playerAmmo > 0){
+            this.shoot.play();
+            if (this.player.active === false)
+                return;
 
-        // Get bullet from bullets group
-        var bullet1 = this.playerBullets.get().setActive(true).setVisible(true);
-        bullet1.body.allowGravity = false;
+            // Get bullet from bullets group
+            var bullet1 = this.playerBullets.get().setActive(true).setVisible(true);
+            bullet1.body.allowGravity = false;
 
-        if (bullet1) {
-            bullet1.fire(this.lookPlayer.rotation);
+            if (bullet1) {
+                bullet1.fire(this.lookPlayer.rotation);
+                this.physics.add.collider(this.bugs, bullet1, this.enemyHitCallback);
+                this.physics.add.collider(this.mushrooms, bullet1, this.enemyHitCallback);
+            }
+
+            var bullet2 = this.playerBullets.get().setActive(true).setVisible(true);
+            bullet2.body.allowGravity = false;
+
+            if (bullet2) {
+                bullet2.fire(this.lookPlayer.rotation + (0.0872665/2));
+                this.physics.add.collider(this.bugs, bullet2, this.enemyHitCallback);
+                this.physics.add.collider(this.mushrooms, bullet2, this.enemyHitCallback);
+            }
+
+            var bullet3 = this.playerBullets.get().setActive(true).setVisible(true);
+            bullet3.body.allowGravity = false;
+
+            if (bullet3) {
+                bullet3.fire(this.lookPlayer.rotation - (0.0872665/2));
+                this.physics.add.collider(this.bugs, bullet3, this.enemyHitCallback);
+                this.physics.add.collider(this.mushrooms, bullet3, this.enemyHitCallback);
+            }
+            this.playerAmmo--;
+            console.log(this.playerAmmo);
         }
-
-        var bullet2 = this.playerBullets.get().setActive(true).setVisible(true);
-        bullet2.body.allowGravity = false;
-
-        if (bullet2) {
-            bullet2.fire(this.lookPlayer.rotation + (0.0872665/2));
-        }
-
-        var bullet3 = this.playerBullets.get().setActive(true).setVisible(true);
-        bullet3.body.allowGravity = false;
-
-        if (bullet3) {
-            bullet3.fire(this.lookPlayer.rotation - (0.0872665/2));
+        else {
+            this.click.play();
         }
     }, this);
     
@@ -168,8 +241,8 @@ create(){
     this.physics.world.gravity.y = 2000;
     //tile bias
     this.physics.world.TILE_BIAS= 50;
-    this.cameras.main.width = 2560;
-    this.cameras.main.height = 2560;
+    this.cameras.main.width = 1920;
+    this.cameras.main.height = 1080;
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 2560 , 2560);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
@@ -216,20 +289,68 @@ create(){
     this.collideWithInvertedWorld_lookPlayer = this.physics.add.collider(this.lookPlayer, this.groundLayer_Inverted);
 }
 
+enemyHitCallback(enemyHit, bulletHit)
+{
+    enemyHit.scene.hitEnemy.play();
+    // Reduce health of enemy
+    if (bulletHit.active === true && enemyHit.active === true)
+    {
+        enemyHit.health -= 1;
+        console.log("Enemy hp: ", enemyHit.health);
+
+        // Kill enemy if health <= 0
+        if (enemyHit.health <= 0)
+        {
+           enemyHit.setActive(false).setVisible(false);
+        }
+
+        // Destroy bullet
+        bulletHit.setActive(false).setVisible(false);
+    }
+}
+
+/*playerHitCallback(playerHit, bulletHit)
+{
+    // Reduce health of player
+    if (bulletHit.active === true && playerHit.active === true)
+    {
+        playerHit.health = playerHit.health - 1;
+        console.log("Player hp: ", playerHit.health);
+
+        // Kill hp sprites and kill player if health <= 0
+        if (playerHit.health == 2)
+        {
+            hp3.destroy();
+        }
+        else if (playerHit.health == 1)
+        {
+            hp2.destroy();
+        }
+        else
+        {
+            hp1.destroy();
+            // Game over state should execute here
+        }
+
+        // Destroy bullet
+        bulletHit.setActive(false).setVisible(false);
+    }
+}*/
+
 constrainReticle(reticle)
 {
     var distX = this.reticle.x - this.player.x;
     var distY = this.reticle.y - this.player.y;
 
-    if (distX > 300)
-        this.reticle.x = this.player.x + 300;
-    else if (distX < -300)
-        this.reticle.x = this.player.x - 300;
+    if (distX > 150)
+        this.reticle.x = this.player.x + 150;
+    else if (distX < -150)
+        this.reticle.x = this.player.x - 150;
 
-    if (distY > 300)
-        this.reticle.y = this.player.y + 300;
-    else if (distY < -300)
-        this.reticle.y = this.player.y - 300;
+    if (distY > 150)
+        this.reticle.y = this.player.y + 150;
+    else if (distY < -150)
+        this.reticle.y = this.player.y - 150;
 }
 
 update(){
@@ -278,13 +399,15 @@ update(){
         this.collideWithNormalWorld_lookPlayer.active = true;        
         this.collideWithInvertedWorld_player.active = false;
         this.collideWithInvertedWorld_lookPlayer.active = false;     
-      
     }
 
 
     //reticle movement
     this.constrainReticle(this.reticle);
-    
+    if(!(this.player.body.blocked.left || this.player.body.blocked.right) && !(this.player.body.touching.left || this.player.body.touching.right)) {
+        this.reticle.body.velocity.x = this.player.body.velocity.x;
+        this.reticle.body.velocity.y = this.player.body.velocity.y;
+    }
 
     //player movement
     if(this.keyA.isDown && !(this.player.body.blocked.down || this.player.body.touching.down)) {
@@ -314,7 +437,7 @@ update(){
     else{
         // set acceleration to 0 so DRAG will take over
         this.player.body.setAccelerationX(0);
-        this.player.play('idle');
+        this.player.play('jump');
     }
 
     //look flip
