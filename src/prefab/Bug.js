@@ -47,4 +47,5 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
         this.x = xPos;
         this.y = yPos;
     }
+    
 }

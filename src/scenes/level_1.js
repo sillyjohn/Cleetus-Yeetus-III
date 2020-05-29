@@ -148,7 +148,7 @@ create(){
 
     this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);
     this.warpBugCollide = this.physics.add.collider(this.bugs, this.groundLayer_Inverted);
-    this.playerBugCollide = this.physics.add.collider(this.bugs, this.player);
+    this.playerBugCollide = this.physics.add.collider(this.bugs, this.player, this.playerHitCallback);
 
     this.mushrooms = this.physics.add.group({classType: Mushroom, runChildUpdate: true});
     var mush1 = this.mushrooms.get().setActive(true).setVisible(true);
@@ -156,7 +156,7 @@ create(){
 
     this.normalMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer);
     this.warpMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer_Inverted);
-    this.playerMushCollide = this.physics.add.collider(this.mushrooms, this.player);
+    this.playerMushCollide = this.physics.add.collider(this.mushrooms, this.player, this.playerHitCallback);
     
 
     this.reticle = this.physics.add.sprite(game.config.width/2, 100, 'crosshair');
@@ -246,7 +246,7 @@ create(){
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 2560 , 2560);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
-    this.cameras.main.setZoom(3);
+    this.cameras.main.setZoom(1);
     // startFollow(target [, roundPixels] [, lerpX] [, lerpY] [, offsetX] [, offsetY])
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
     //camera dead zone
@@ -295,8 +295,8 @@ enemyHitCallback(enemyHit, bulletHit)
     // Reduce health of enemy
     if (bulletHit.active === true && enemyHit.active === true)
     {
-        enemyHit.health -= 1;
-        console.log("Enemy hp: ", enemyHit.health);
+        enemyHit.getComponent.gotHit();
+        console.log("Enemy hp: ", enemyHit.getHp());
 
         // Kill enemy if health <= 0
         if (enemyHit.health <= 0)
@@ -309,33 +309,15 @@ enemyHitCallback(enemyHit, bulletHit)
     }
 }
 
-/*playerHitCallback(playerHit, bulletHit)
+playerHitCallback(playerHit, enemyHit)
 {
     // Reduce health of player
-    if (bulletHit.active === true && playerHit.active === true)
+    if (enemyHit.active === true && playerHit.active === true)
     {
-        playerHit.health = playerHit.health - 1;
+        playerHit.health = playerHit.health - 10;
         console.log("Player hp: ", playerHit.health);
-
-        // Kill hp sprites and kill player if health <= 0
-        if (playerHit.health == 2)
-        {
-            hp3.destroy();
-        }
-        else if (playerHit.health == 1)
-        {
-            hp2.destroy();
-        }
-        else
-        {
-            hp1.destroy();
-            // Game over state should execute here
-        }
-
-        // Destroy bullet
-        bulletHit.setActive(false).setVisible(false);
     }
-}*/
+}
 
 constrainReticle(reticle)
 {

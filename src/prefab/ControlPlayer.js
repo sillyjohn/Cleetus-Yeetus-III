@@ -5,6 +5,7 @@ class ControlPlayer extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setScale(.15,.15);
+        this.health = 50;
     }
     
     create(){
