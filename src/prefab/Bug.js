@@ -46,45 +46,31 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
                     }
                 }
         }
+
+        
+
+            var distX = this.x - this.playerX;
+            var distY = this.y - this.playerY;
+            console.log('x '+ distX)
+            console.log('y'+ distY)
+            if (distX > 700||-distX < -700||distY < 700||-distY > -700)
+                {
+                    this.setVisible(true);
+                    this.setActive(true);
+                console.log('player in range');
+            }
+                    
+            else {
+                this.setActive(false);
+                this.setVisible(false)
+            }
+                
+        
+        
     }
     setPos(xPos, yPos) {
         this.x = xPos;
         this.y = yPos;
     }
-    appear(playerx,playery){
-        
-        var distX = this.x -this.playerX;
-        var distY = this.y -this.playerY;
-        if (distX > 500){
-              this.setVisible(true)
-              console.log('show')
-        }
-      
-        else if (distX < -500){
-            this.setVisible(true)
-
-
-        }
-        
-        if (distY > 500){
-                    this.setVisible(true)
-
-        }
-        else if (distY < -500){
-            this.setVisible(true)
-        }
-        else{
-            this.setActive(false);
-        }
-        
-        console.log('dis x in bug js'+distX)
-        console.log('dis y in bug js'+distY)
-
-
-
-        
-
-
-
-    }
+  
 }
