@@ -19,6 +19,9 @@ preload(){
     this.load.path = "./assets/";
     //tileset assets   
     this.load.image('background_WrapedWood','warpedwoodsdarkbg.png');
+    this.load.image('background_NormalWood','warpedwoodsregbg.png');
+
+    this.load.image("tileset_Decoration","misctileset.png");
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
     this.load.image('tileSet_NormalWood','tileset_v1.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
