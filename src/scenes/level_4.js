@@ -66,9 +66,9 @@ create(){
    
     // create tilemap layers
     this.groundLayer = this.map.createDynamicLayer("Tiles_level_4", this.tileset_Normal, 0, 0);
-    //this.groundLayer_dec = this.map.createDynamicLayer("Tiles4", this.tileset_Decoration, 0, 0);
+    this.groundLayer_dec = this.map.createDynamicLayer("Tiles_level_4_3", this.tileset_Decoration, 0, 0);
     this.groundLayer_Inverted = this.map.createDynamicLayer("Tiles_level_4_2",this.tileset_Inverted,0,0);
-    //this.groundLayer_Inverted_dec = this.map.createDynamicLayer("Tiles3",this.tileset_Decoration,0,0);
+    this.groundLayer_Inverted_dec = this.map.createDynamicLayer("Tiles_level_4_4",this.tileset_Decoration,0,0);
 
     
     //set map collision
@@ -287,8 +287,8 @@ update(){
         //alternate world stuff
         this.groundLayer.setVisible(false); 
         this.groundLayer_Inverted.setVisible(true);
-        //this.groundLayer_Inverted_dec.setVisible(true);
-        //this.groundLayer_dec.setVisible(false);
+        this.groundLayer_Inverted_dec.setVisible(true);
+        this.groundLayer_dec.setVisible(false);
 
         this.collideWithNormalWorld_player.active = false;
         this.collideWithNormalWorld_lookPlayer.active = false;
@@ -328,8 +328,8 @@ update(){
         //default world stuff
         this.groundLayer.setVisible(true);
         this.groundLayer_Inverted.setVisible(false);
-        //this.groundLayer_Inverted_dec.setVisible(false);
-        //this.groundLayer_dec.setVisible(true);
+        this.groundLayer_Inverted_dec.setVisible(false);
+        this.groundLayer_dec.setVisible(true);
         this.collideWithNormalWorld_player.active = true;
         this.collideWithNormalWorld_lookPlayer.active = true;        
         this.collideWithInvertedWorld_player.active = false;

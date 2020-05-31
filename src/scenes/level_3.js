@@ -133,7 +133,7 @@ create(){
     console.log("exit y"+this.levelExit.y);
     this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
     
-        //this.scene.start('level_2');
+        this.scene.start('level_4');
          console.log('move to level 2');
     });
     //WASD
