@@ -7,6 +7,8 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
         this.goRight = true //true = go right
         this.health = 6;
         this.body.allowGravity = true;
+        //this.body.setImmovable = true;
+        console.log("construct bug");
     }
     create(){
         this.body.setSize(width);
@@ -47,5 +49,7 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
         this.x = xPos;
         this.y = yPos;
     }
-    
+    printPlease() {
+        console.log("printed");
+    }
 }

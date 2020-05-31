@@ -30,6 +30,7 @@ preload(){
     this.load.image('playerHead','playerHead.png');
     this.load.image('player_playerHolder','playerPlaceHolder.png');
     this.load.image('shells','shells.png');
+    this.load.image('spike','spike.png');
     this.load.spritesheet('playerRun','playerRun.png',{frameWidth: 370, frameHeight: 321});
     this.load.image('bullet', 'bullet.png');
     this.load.image('crosshair', 'crosshair.png');
@@ -141,7 +142,7 @@ create(){
 
     this.playerBullets = this.physics.add.group({classType: DirectBullet, runChildUpdate: true});
 
-    //enemies
+    //enemies/objstacles
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
     var bug1 = this.bugs.get().setActive(true).setVisible(true);
     bug1.setPos(this.playerSpawn.x,this.playerSpawn.y);
@@ -157,12 +158,23 @@ create(){
     this.normalMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer);
     this.warpMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer_Inverted);
     this.playerMushCollide = this.physics.add.collider(this.mushrooms, this.player, this.playerHitCallback);
+
+    this.spikes = this.physics.add.group({classType: Spike, runChildUpdate: true});
+    var spike1 = this.spikes.get().setActive(true).setVisible(true);
+    spike1.setPos(700,800);
+
+    this.normalSpikeCollide = this.physics.add.collider(this.spikes, this.groundLayer);
+    this.warpSpikeCollide = this.physics.add.collider(this.spikes, this.groundLayer_Inverted);
+    this.playerSpikeCollide = this.physics.add.collider(this.spikes, this.player, this.playerHitCallback);
     
 
     this.reticle = this.physics.add.sprite(game.config.width/2, 100, 'crosshair');
     this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(false);
     this.reticle.body.allowGravity = false;
     
+    //pickups
+    this.heals = this.physics.add.group({classType: HealthPickup, runChildUpdate: true});
+    this.ammo = this.physics.add.group({classType: AmmoPickup, runChildUpdate: true});
 
     //WASD
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -234,9 +246,6 @@ create(){
     //item create
     this.itemBullet = this.add.rectangle(0,0);
 
-    //enemy created
-    this.enemy1 = new Enemy(this,game.config.width/3,550,'player_Idle',0).setOrigin(0.5,0.5).setSize(0.1);
-    this.enemy1.body.setCollideWorldBounds(true);
     //world gravity
     this.physics.world.gravity.y = 2000;
     //tile bias
@@ -289,19 +298,33 @@ create(){
     this.collideWithInvertedWorld_lookPlayer = this.physics.add.collider(this.lookPlayer, this.groundLayer_Inverted);
 }
 
-enemyHitCallback(enemyHit, bulletHit)
-{
+enemyHitCallback(enemyHit, bulletHit) {
     enemyHit.scene.hitEnemy.play();
     // Reduce health of enemy
     if (bulletHit.active === true && enemyHit.active === true)
     {
-        enemyHit.getComponent.gotHit();
-        console.log("Enemy hp: ", enemyHit.getHp());
+        //enemyHit.getData.printPlease();
+        enemyHit.setData.health = enemyHit.getData.health - 1;
+        console.log("Enemy hp: ", enemyHit.getData.health);
 
         // Kill enemy if health <= 0
         if (enemyHit.health <= 0)
         {
-           enemyHit.setActive(false).setVisible(false);
+            var randSpawn = Math.random() * 5;
+            if(randSpawn < 2) {
+                var ammoPick = this.ammo.get().setActive(true).setVisible(true);
+                ammoPick.setPos(this.enemyHit.x,this.enemyHit.y);
+                this.physics.add.collider(this.player, ammoPick, this.ammoCallback);
+            }
+            if(randSpawn >= 2 && randSpawn < 3) {
+                var healthPick = this.heals.get().setActive(true).setVisible(true);
+                healthPick.setPos(this.enemyHit.x,this.enemyHit.y);
+                this.physics.add.collider(this.player, healthPick, this.healthCallback);
+            }
+            console.log("rand: ", randSpawn);
+            
+            enemyHit.disableBody(true,true);
+            enemyHit.setActive(false).setVisible(false);
         }
 
         // Destroy bullet
@@ -309,9 +332,19 @@ enemyHitCallback(enemyHit, bulletHit)
     }
 }
 
-playerHitCallback(playerHit, enemyHit)
-{
+ammoCallback(playerReload, ammoObj) {
+    playerReload.gameObject.playerAmmo += 5;
+    ammoObj.gameObject.destroy();
+}
+
+healthCallback(playerHeal, healthObj) {
+    playerHeal.gameObject.health += 20;
+    healthObj.gameObject.destroy();
+}
+
+playerHitCallback(playerHit, enemyHit) {
     // Reduce health of player
+    console.log(playerHit instanceof ControlPlayer);
     if (enemyHit.active === true && playerHit.active === true)
     {
         playerHit.health = playerHit.health - 10;
@@ -324,15 +357,15 @@ constrainReticle(reticle)
     var distX = this.reticle.x - this.player.x;
     var distY = this.reticle.y - this.player.y;
 
-    if (distX > 150)
-        this.reticle.x = this.player.x + 150;
-    else if (distX < -150)
-        this.reticle.x = this.player.x - 150;
+    if (distX > 300)
+        this.reticle.x = this.player.x + 300;
+    else if (distX < -300)
+        this.reticle.x = this.player.x - 300;
 
-    if (distY > 150)
-        this.reticle.y = this.player.y + 150;
-    else if (distY < -150)
-        this.reticle.y = this.player.y - 150;
+    if (distY > 300)
+        this.reticle.y = this.player.y + 300;
+    else if (distY < -300)
+        this.reticle.y = this.player.y - 300;
 }
 
 update(){
@@ -437,18 +470,6 @@ update(){
         this.jump.play();
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
     }
-
-    
-    
-    //colliders list *create all collider below*
-    
-    // bullet and enemy collider
-    /*this.physics.add.collider(this.playerBullets,this.enemy1,function(playerBullets,enemy){
-        this.playerBullets.destroy();
-        enemy.destroy();
-    });*/
-    
-    //collider list End
     
 }
 
