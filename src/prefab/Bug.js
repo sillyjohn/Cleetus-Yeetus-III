@@ -8,7 +8,7 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
         this.health = 6;
         this.body.allowGravity = true;
         this.setVisible(false)
-
+       
     }
    
     update(){
@@ -47,27 +47,30 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
                 }
         }
 
+            
+       
+
+    }
+        
+enemyAppear(eX,eY,pX,pY){
+
+    var distX = eX - pX;
+    var distY = eY - pY;
+  
+    if (distX > 700||-distX < -700||distY < 700||-distY > -700)
+        {
+            this.setVisible(true);
+            this.setActive(true);
+        console.log('player in range');
+    }
+            
+    else {
+        this.setActive(false);
+        this.setVisible(false)
+    }
         
 
-            var distX = this.x - this.playerX;
-            var distY = this.y - this.playerY;
-            console.log('x '+ distX)
-            console.log('y'+ distY)
-            if (distX > 700||-distX < -700||distY < 700||-distY > -700)
-                {
-                    this.setVisible(true);
-                    this.setActive(true);
-                console.log('player in range');
-            }
-                    
-            else {
-                this.setActive(false);
-                this.setVisible(false)
-            }
-                
-        
-        
-    }
+}
     setPos(xPos, yPos) {
         this.x = xPos;
         this.y = yPos;
