@@ -19,12 +19,15 @@ preload(){
     this.load.path = "./assets/";
     //tileset assets   
     this.load.image('background_WrapedWood','warpedwoodsdarkbg.png');
+    this.load.image('background_NormalWood','warpedwoodsregbg.png');
+
+    this.load.image("tileset_Decoration","misctileset.png");
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
     this.load.image('tileSet_NormalWood','tileset_v1.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
     this.load.spritesheet('bugSprite','bugSheet.png',{frameWidth: 835, frameHeight: 310});
     this.load.spritesheet('mushroomSprite','shroomSheet.png',{frameWidth: 600, frameHeight: 600});
-    this.load.tilemapTiledJSON('level_2','Level_2.json');
+    this.load.tilemapTiledJSON('level_1','Level_1.json');
 
     //player assets
     this.load.image('playerHead','playerHead.png');
@@ -66,19 +69,24 @@ create(){
 
     //background
     this.background_InvertedWorld = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
+    this.background_NormalWorld = this.add.image(0,0,'background_NormalWood').setOrigin(0,0);
+
    // tile map
-    this.map = this.add.tilemap("level_2");
+    this.map = this.add.tilemap("level_1");
     //add tileset
     this.tileset_Normal = this.map.addTilesetImage('tileset_v1','tileSet_NormalWood');
     this.tileset_Inverted = this.map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
+    this.tileset_Decoration = this.map.addTilesetImage('misctileset','tileset_Decoration');
    
     // create tilemap layers
-    this.groundLayer = this.map.createDynamicLayer("Tiles", this.tileset_Normal, 0, 0);
-    this.groundLayer_Inverted = this.map.createDynamicLayer("Tiles2",this.tileset_Inverted,0,0);
+     this.groundLayer = this.map.createDynamicLayer("Tile_level_1", this.tileset_Normal, 0, 0);
+     this.groundLayer_dec = this.map.createDynamicLayer("Tile_level_1_3", this.tileset_Decoration, 0, 0);
+     this.groundLayer_Inverted = this.map.createDynamicLayer("Tile_level_1_2",this.tileset_Inverted,0,0);
+     this.groundLayer_Inverted_dec = this.map.createDynamicLayer("Tile_level_1_4",this.tileset_Decoration,0,0);
     
     //set map collision
     this.groundLayer.setCollisionByProperty({ collides: true });
-    this.groundLayer_Inverted.setCollisionByProperty({ collides_InvertedWorld: true });
+    this.groundLayer_Inverted.setCollisionByProperty({ collides: true });
    
     //player
     this.lookPlayer = new DirectPlayer(this,game.config.width/2,100,'playerHead',0).setOrigin(0.5,0.5);
@@ -132,7 +140,7 @@ create(){
             end: 3
         }),
     })
-    this.playerSpawn = this.map.findObject("Object_level_2", obj => obj.name === "levelSpawn");
+    this.playerSpawn = this.map.findObject("Object Layer_level_1", obj => obj.name === "level_1_Spawn");
     this.player = new ControlPlayer(this,this.playerSpawn.x,this.playerSpawn.y,'playerRun',0).setOrigin(0.5,0.5);
 
     this.player.body.setCollideWorldBounds(false);
@@ -142,10 +150,23 @@ create(){
 
     this.playerBullets = this.physics.add.group({classType: DirectBullet, runChildUpdate: true});
 
-    //enemies/objstacles
+    //enemies
+    //enemy spawn
+    
+    this.enemySpawnPoint = this.map.findObject("Object Layer_level_1", obj => obj.name  === "enemySpawn_level_1_Bug");
+    //  this.enemy_Bug = new Bug(this, this.enemySpawnPoint.x,this.enemySpawnPoint.y,'bugSprite',0,this.player.x,this.player.y);
+    //  console.log(this.enemySpawnPoint.x+'enemySpawnPoint x');
+    //  this.enemy_Bug.body.setSize(this.enemy_Bug.width);
+    //  this.enemy_Bug.body.setMaxVelocity(this.MAX_X_VEL  , this.MAX_Y_VEL);
+    //  this.enemy_Bug.play('crawl');
+     
+    //  this.physics.add.collider(this.enemy_Bug,this.groundLayer);
+    //  this.physics.add.collider(this.enemy_Bug,this.groundLayer_Inverted)
+    //  this.enemy_Bug.body.setCollideWorldBounds(true);
+
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
-    var bug1 = this.bugs.get().setActive(true).setVisible(true);
-    bug1.setPos(this.playerSpawn.x,this.playerSpawn.y);
+    var bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width);
+    bug1.setPos(this.enemySpawnPoint.x,this.enemySpawnPoint.y);
 
     this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);
     this.warpBugCollide = this.physics.add.collider(this.bugs, this.groundLayer_Inverted);
@@ -175,6 +196,23 @@ create(){
     //pickups
     this.heals = this.physics.add.group({classType: HealthPickup, runChildUpdate: true});
     this.ammo = this.physics.add.group({classType: AmmoPickup, runChildUpdate: true});
+
+    
+     //create exit
+     this.levelExit = this.map.findObject("Object Layer_level_1", exit => exit.name === "level_1_Exit");
+     this.exitArea = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
+ 
+     this.physics.world.enable(this.exitArea, Phaser.Physics.Arcade.STATIC_BODY);
+ 
+ 
+     
+     console.log("exit x"+this.levelExit.x);
+     console.log("exit y"+this.levelExit.y);
+     this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
+     
+        this.scene.start('level_2');
+          
+     });
 
     //WASD
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -250,8 +288,8 @@ create(){
     this.physics.world.gravity.y = 2000;
     //tile bias
     this.physics.world.TILE_BIAS= 50;
-    this.cameras.main.width = 1920;
-    this.cameras.main.height = 1080;
+    this.cameras.main.width = 2560;
+    this.cameras.main.height = 2560;
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 2560 , 2560);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
@@ -398,18 +436,28 @@ update(){
     }
 
     if(this.switchWorld == true) {
+      
         //alternate world stuff
+        this.background_InvertedWorld.setVisible(true);
+        this.background_NormalWorld.setVisible(false);
         this.groundLayer.setVisible(false); 
         this.groundLayer_Inverted.setVisible(true);
+        this.groundLayer_dec.setVisible(false); 
+        this.groundLayer_Inverted_dec.setVisible(true);
         this.collideWithNormalWorld_player.active = false;
         this.collideWithNormalWorld_lookPlayer.active = false;
         this.collideWithInvertedWorld_player.active = true;
         this.collideWithInvertedWorld_lookPlayer.active = true;       
     }
     else if(this.switchWorld == false) {
+        
         //default world stuff
+        this.background_InvertedWorld.setVisible(false);
+        this.background_NormalWorld.setVisible(true);
         this.groundLayer.setVisible(true);
         this.groundLayer_Inverted.setVisible(false);
+        this.groundLayer_dec.setVisible(true); 
+        this.groundLayer_Inverted_dec.setVisible(false);
         this.collideWithNormalWorld_player.active = true;
         this.collideWithNormalWorld_lookPlayer.active = true;        
         this.collideWithInvertedWorld_player.active = false;

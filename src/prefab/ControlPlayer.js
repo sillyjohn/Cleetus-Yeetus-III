@@ -18,4 +18,31 @@ class ControlPlayer extends Phaser.Physics.Arcade.Sprite{
     recoil(angle) {
         this.scene.physics.velocityFromRotation(angle, 900, this.body.velocity);
     }
+    hpCount(){
+        if(this.body.touching.left){
+
+            this.x +=40;
+            this.y -=30;
+            this.health -= 10;
+            console.log('player hp'+this.health);
+
+
+        }else if(this.body.touching.right ){
+            this.x -=40;
+            this.y -=30;
+            this.health -= 10;
+            console.log('player hp'+this.health);
+
+
+        }else if(this.body.blocked.down){
+            this.y -=20;
+            this.health -= 10;
+            console.log('player hp'+this.health);
+
+
+        }
+           
+
+    }
+   
 }

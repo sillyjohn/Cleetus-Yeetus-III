@@ -1,7 +1,7 @@
 class Bug extends Phaser.Physics.Arcade.Sprite{
-    constructor(scene,x,y,texture,frame){
-        super(scene,x,y,texture,frame);
-        Phaser.GameObjects.Image.call(this, scene, 0, 0, 'bugSprite');
+    constructor(scene,x,y,texture,frame,playerX,playerY){
+        super(scene,x,y,texture,frame,playerX,playerY);
+        //Phaser.GameObjects.Image.call(this, scene, x, y, 'bugSprite');
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.goRight = true //true = go right
@@ -10,41 +10,67 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
         //this.body.setImmovable = true;
         console.log("construct bug");
     }
-    create(){
-        this.body.setSize(width);
-        this.body.setMaxVelocity(this.MAX_X_VEL  , this.MAX_Y_VEL);
-        this.play('crawl');
+   
+    update(){
+       
+        this.setScale(.2,.2);
+            if((this.body.blocked.down)) {
+                this.setActive(true);
+
+            
+                    if(this.goRight == true) {
+                    if(!(this.body.blocked.right || this.body.touching.right)) {
+                        this.body.setVelocityX(400);
+                        this.setFlip(true, false);
+                        this.play('crawl', true);
+                    }else if((this.body.blocked.right || this.body.touching.right)){
+                        this.body.setVelocityX(-400)
+                        this.setFlip(true, false);
+                        this.goRight = false;
+                    }else {
+                        this.velocityX = 0;
+                        this.goRight - false;
+                    }
+                }
+                else {
+                    if(!(this.body.blocked.left || this.body.touching.left)) {
+                        this.body.setVelocityX(-400);
+                        this.resetFlip();
+                        this.play('crawl', true);
+                    }
+                    else if((this.body.blocked.left || this.body.touching.left)){
+                        this.body.setVelocityX(-400);
+                        this.setFlip(true, false);
+                        this.goRight = true;
+                        
+                    }
+                }
+        }
+
+            
+       
 
     }
-    update(){
-        this.setScale(.2,.2);
-        if(!(this.body.touching.up)) {
-            this.setActive(true);
+        
+enemyAppear(eX,eY,pX,pY){
+
+    var distX = eX - pX;
+    var distY = eY - pY;
+  
+    if (distX > 700||-distX < -700||distY < 700||-distY > -700)
+        {
             this.setVisible(true);
-        }
-        if(this.goRight == true) {
-            if(!(this.body.blocked.right || this.body.touching.right)) {
-                this.body.setVelocityX(40);
-                this.setFlip(true, false);
-                this.play('crawl', true);
-            }
-            else {
-                this.velocityX = 0;
-                this.goRight - false;
-            }
-        }
-        else {
-            if(!(this.body.blocked.left || this.body.touching.left)) {
-                this.body.setVelocityY(-40);
-                this.resetFlip();
-                this.play('crawl', true);
-            }
-            else {
-                this.velocityY = 0;
-                this.goRight - true;
-            }
-        }
+            this.setActive(true);
+        console.log('player in range');
     }
+            
+    else {
+        this.setActive(false);
+        this.setVisible(false)
+    }
+        
+
+}
     setPos(xPos, yPos) {
         this.x = xPos;
         this.y = yPos;
