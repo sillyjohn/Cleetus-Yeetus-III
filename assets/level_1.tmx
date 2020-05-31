@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="1">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="128" tileheight="128" infinite="0" nextlayerid="9" nextobjectid="4">
  <editorsettings>
-  <export target="testing_3.json" format="json"/>
+  <export target="level_1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="tileset_v2" tilewidth="128" tileheight="128" tilecount="16" columns="4">
   <image source="tileset_v2.png" trans="ff00ff" width="512" height="512"/>
@@ -84,6 +84,12 @@
  <tileset firstgid="17" name="warpedwoodsdarkbg" tilewidth="2560" tileheight="2560" tilecount="1" columns="1">
   <image source="warpedwoodsdarkbg.png" trans="ff00ff" width="2560" height="2560"/>
  </tileset>
+ <objectgroup id="8" name="Object Layer 1">
+  <object id="1" name="level_1_Spawn" x="47.1469" y="214.304">
+   <point/>
+  </object>
+  <object id="3" name="level_1_Exit" x="2053.03" y="2421.64" width="240.021" height="128.582"/>
+ </objectgroup>
  <layer id="5" name="Tiles" width="20" height="20" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

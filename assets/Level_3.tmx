@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="128" tileheight="128" infinite="0" nextlayerid="6" nextobjectid="3">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="128" tileheight="128" infinite="0" nextlayerid="6" nextobjectid="6">
  <editorsettings>
   <export target="Level_3.json" format="json"/>
  </editorsettings>
@@ -164,13 +164,17 @@
  </tileset>
  <objectgroup id="3" name="Object Layer_level_3">
   <object id="1" name="level_3_Exit" x="744.521" y="2489.62" width="391.242" height="61.5437"/>
-  <object id="2" name="level_3_Spawn" x="205.544" y="104.033">
+  <object id="2" name="level_3_Spawn" x="1057.06" y="713.123">
+   <point/>
+  </object>
+  <object id="3" name="enemySpawn" x="680.242" y="1630.18">
+   <point/>
+  </object>
+  <object id="4" x="2812.12" y="472.727">
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="Object Layer_level_3_Inverted"/>
- <objectgroup id="5" name="Object Layer_level_3_Normal" visible="0"/>
- <layer id="1" name="Tiles_level3" width="20" height="20" visible="0">
+ <layer id="1" name="Tiles_level3" width="20" height="20">
   <data encoding="csv">
 24,0,0,20,18,18,18,29,29,18,18,18,18,29,29,29,29,29,18,18,
 24,0,0,30,29,29,31,0,0,30,18,18,24,0,0,0,0,0,30,18,
@@ -194,7 +198,7 @@
 21,17,17,17,17,28,0,0,0,20,21,17,19,21,17,19,18,21,17,19
 </data>
  </layer>
- <layer id="2" name="Tiles_level3_2" width="20" height="20">
+ <layer id="2" name="Tiles_level3_2" width="20" height="20" visible="0">
   <data encoding="csv">
 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
 10,6,0,3,1,1,6,0,0,3,10,6,0,0,0,0,0,0,10,10,

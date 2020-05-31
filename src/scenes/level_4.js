@@ -14,8 +14,8 @@ class level_4 extends Phaser.Scene {
         this.tileset_Inverted;
         this.groundLayer;
         this.levelExit;
-        this.groundLayer_Inverted_dec;
-        this.groundLayer_dec;
+        //this.groundLayer_Inverted_dec;
+        //this.groundLayer_dec;
     }
 
 preload(){
@@ -26,7 +26,7 @@ preload(){
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
     this.load.image('tileSet_NormalWood','tileset_v1.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
-    this.load.tilemapTiledJSON('level_2','Level_2.json');
+    this.load.tilemapTiledJSON('level_4','Level_4.json');
 
     //player assets
     this.load.image('playerHead','playerHead.png');
@@ -43,7 +43,7 @@ preload(){
 
 create(){
     // this is level_1
-    console.log('this is level 1, testing')
+    console.log('this is level 4')
 
     this.shoot = this.sound.add('shoot', {volume: 0.1});
     this.walk = this.sound.add('walk', {volume: 0.4});
@@ -58,17 +58,17 @@ create(){
     //background
     this.background_InvertedWorld = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
    // tile map
-    this.map = this.add.tilemap("level_2");
+    this.map = this.add.tilemap("level_4");
     //add tileset
     this.tileset_Normal = this.map.addTilesetImage('tileset_v1','tileSet_NormalWood');
     this.tileset_Inverted = this.map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
     this.tileset_Decoration = this.map.addTilesetImage('misctileset','tileset_Decoration');
    
     // create tilemap layers
-    this.groundLayer = this.map.createDynamicLayer("Tiles", this.tileset_Normal, 0, 0);
-    this.groundLayer_dec = this.map.createDynamicLayer("Tiles4", this.tileset_Decoration, 0, 0);
-    this.groundLayer_Inverted = this.map.createDynamicLayer("Tiles2",this.tileset_Inverted,0,0);
-    this.groundLayer_Inverted_dec = this.map.createDynamicLayer("Tiles3",this.tileset_Decoration,0,0);
+    this.groundLayer = this.map.createDynamicLayer("Tiles_level_4", this.tileset_Normal, 0, 0);
+    //this.groundLayer_dec = this.map.createDynamicLayer("Tiles4", this.tileset_Decoration, 0, 0);
+    this.groundLayer_Inverted = this.map.createDynamicLayer("Tiles_level_4_2",this.tileset_Inverted,0,0);
+    //this.groundLayer_Inverted_dec = this.map.createDynamicLayer("Tiles3",this.tileset_Decoration,0,0);
 
     
     //set map collision
@@ -96,10 +96,11 @@ create(){
             end: 8
         }),
     })
+
     //player spawn
-    this.playerSpawn = this.map.findObject("Object_level_2", obj => obj.name === "levelSpawn");
-    console.log('spawn x'+this.playerSpawn.x);
-    console.log('spawn y'+this.playerSpawn.y);
+    this.playerSpawn = this.map.findObject("Object Layer_level_4", obj_lv4 => obj_lv4.name === "Level_4_Spawn_1");
+    // console.log('spawn x'+this.playerSpawn.x);
+    // console.log('spawn y'+this.playerSpawn.y);
 
    
  
@@ -120,16 +121,16 @@ create(){
     this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(false);
     this.reticle.body.allowGravity = false;
     //create exit
-    this.levelExit = this.map.findObject("Object_level_2", exit => exit.name === "levelExit");
-    this.exitArea = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
+    this.levelExit = this.map.findObject("Object Layer_level_4", exit_lv4 => exit_lv4.name === "Level_4_Exit");
+    this.exitArea_lv4 = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
 
-    this.physics.world.enable(this.exitArea, Phaser.Physics.Arcade.STATIC_BODY);
+    this.physics.world.enable(this.exitArea_lv4, Phaser.Physics.Arcade.STATIC_BODY);
 
 
     
-    console.log("exit x"+this.levelExit.x);
-    console.log("exit y"+this.levelExit.y);
-    this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
+    // console.log("exit x"+this.levelExit.x);
+    // console.log("exit y"+this.levelExit.y);
+    this.physics.add.overlap(this.player, this.exitArea_lv4, (obj1, obj2) => {
     
         this.scene.start('level_2');
         console.log('move to level 2');
@@ -286,8 +287,8 @@ update(){
         //alternate world stuff
         this.groundLayer.setVisible(false); 
         this.groundLayer_Inverted.setVisible(true);
-        this.groundLayer_Inverted_dec.setVisible(true);
-        this.groundLayer_dec.setVisible(false);
+        //this.groundLayer_Inverted_dec.setVisible(true);
+        //this.groundLayer_dec.setVisible(false);
 
         this.collideWithNormalWorld_player.active = false;
         this.collideWithNormalWorld_lookPlayer.active = false;
@@ -327,8 +328,8 @@ update(){
         //default world stuff
         this.groundLayer.setVisible(true);
         this.groundLayer_Inverted.setVisible(false);
-        this.groundLayer_Inverted_dec.setVisible(false);
-        this.groundLayer_dec.setVisible(true);
+        //this.groundLayer_Inverted_dec.setVisible(false);
+        //this.groundLayer_dec.setVisible(true);
         this.collideWithNormalWorld_player.active = true;
         this.collideWithNormalWorld_lookPlayer.active = true;        
         this.collideWithInvertedWorld_player.active = false;

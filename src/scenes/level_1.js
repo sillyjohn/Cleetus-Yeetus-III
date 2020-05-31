@@ -24,7 +24,7 @@ preload(){
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
     this.load.spritesheet('bugSprite','bugSheet.png',{frameWidth: 835, frameHeight: 310});
     this.load.spritesheet('mushroomSprite','shroomSheet.png',{frameWidth: 600, frameHeight: 600});
-    this.load.tilemapTiledJSON('level_2','Level_2.json');
+    this.load.tilemapTiledJSON('level_1','Level_1.json');
 
     //player assets
     this.load.image('playerHead','playerHead.png');
@@ -66,7 +66,7 @@ create(){
     //background
     this.background_InvertedWorld = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
    // tile map
-    this.map = this.add.tilemap("level_2");
+    this.map = this.add.tilemap("level_1");
     //add tileset
     this.tileset_Normal = this.map.addTilesetImage('tileset_v1','tileSet_NormalWood');
     this.tileset_Inverted = this.map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
