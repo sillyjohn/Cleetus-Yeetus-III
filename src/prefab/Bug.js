@@ -1,7 +1,7 @@
 class Bug extends Phaser.Physics.Arcade.Sprite{
     constructor(scene,x,y,texture,frame,playerX,playerY){
         super(scene,x,y,texture,frame,playerX,playerY);
-        //Phaser.GameObjects.Image.call(this, scene, x, y, 'bugSprite');
+        Phaser.GameObjects.Image.call(this, scene, x, y, 'bugSprite');
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.goRight = true //true = go right

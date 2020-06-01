@@ -200,7 +200,7 @@ create(){
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 2560 , 2560);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
-    this.cameras.main.setZoom(3);
+    this.cameras.main.setZoom(1.5);
     // startFollow(target [, roundPixels] [, lerpX] [, lerpY] [, offsetX] [, offsetY])
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
 
