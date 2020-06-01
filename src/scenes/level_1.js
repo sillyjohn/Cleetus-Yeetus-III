@@ -20,13 +20,10 @@ preload(){
     //tileset assets   
     this.load.image('background_WrapedWood','warpedwoodsdarkbg.png');
     this.load.image('background_NormalWood','warpedwoodsregbg.png');
-
     this.load.image("tileset_Decoration","misctileset.png");
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
     this.load.image('tileSet_NormalWood','tileset_v1.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
-    this.load.spritesheet('bugSprite','bugSheet.png',{frameWidth: 835, frameHeight: 310});
-    this.load.spritesheet('mushroomSprite','shroomSheet.png',{frameWidth: 600, frameHeight: 600});
     this.load.tilemapTiledJSON('level_1','Level_1.json');
 
     //player assets
@@ -45,6 +42,11 @@ preload(){
     this.load.audio('click', 'click.wav');
     this.load.audio('enemyHit', 'hitEnemy.wav');
     this.load.audio('playerHit', 'getHit.wav');
+
+    //enemy assets
+    this.load.image('dirt','dirtparticle.png');
+    this.load.spritesheet('bugSprite','bugSheet.png',{frameWidth: 835, frameHeight: 310});
+    this.load.spritesheet('mushroomSprite','shroomSheet.png',{frameWidth: 600, frameHeight: 600});
 }
 
 
@@ -424,6 +426,12 @@ constrainReticle(reticle)
     else if (distY < -300)
         this.reticle.y = this.player.y - 300;
 }
+shakeEffect(){
+    this.cameras.main.shake(300,0.05);
+
+
+
+}
 
 update(){
     //game over loop *move all function and method in later*
@@ -443,6 +451,7 @@ update(){
     
     //switch world input
     if (Phaser.Input.Keyboard.JustDown(this.switchKey)) {
+        this.shakeEffect();
         console.log("switched");
         if(this.switchWorld == true) {
             console.log("Switch false");

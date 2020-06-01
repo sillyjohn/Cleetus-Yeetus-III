@@ -16,13 +16,30 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
         
     }
     update(){
+        this.fire();
         this.play('bounce', true);
     }
     setPos(xPos, yPos) {
         this.x = xPos;
         this.y = yPos;
     }
-    printPlease() {
+
+    fire(eX,eY,pX,pY) {
+        var distX = eX - pX;
+        var distY = eY - pY;
+      
+        if (distX > 700||-distX < -700||distY < 700||-distY > -700)
+            {
+                this.shroomBullet = this.scene.add.image(this.x,this.y,'dirt');
+                this.shroomBullet.x -= 40;
+        }
+                
+       
+        
+    
+    }printPlease() {
         console.log("printed");
     }
 }
+
+    
