@@ -447,10 +447,12 @@ update(){
         if(this.switchWorld == true) {
             console.log("Switch false");
             this.switchWorld = false;
+            this.cameras.main.shake(300,0.05);
         }
         else if(this.switchWorld == false) {
             console.log("Switch true");
             this.switchWorld = true;
+            this.cameras.main.shake(300,0.05);
         }
     }
 
