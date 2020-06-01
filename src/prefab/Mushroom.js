@@ -9,7 +9,7 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
         this.goRight = true //true = go right
         this.health = 3;
         this.setScale(.2,.2);
-        this.cooldown = 50;
+        this.cooldown = 150;
         
         this.setImmovable = true;
     }
@@ -24,7 +24,7 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
         this.inRange();
         this.play('bounce', true);
         if(this.cooldown == 0) {
-            this.cooldown = 50;
+            this.cooldown = 150;
         }
     }
     setPos(xPos, yPos) {
@@ -36,7 +36,7 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
         var distX = this.x - this.scene.player.x;
         var distY = this.y - this.scene.player.y;
 
-        if (this.cooldown == 0 && ((distX > -300 && distX < 300) && (distY > -300 && distY < 300))) {
+        if (this.cooldown == 0 && ((distX > -500 && distX < 500) && (distY > -500 && distY < 500))) {
             var sporeShot = this.scene.spores.get().setActive(true).setVisible(true);
             sporeShot.body.allowGravity = false;
 
@@ -44,7 +44,7 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
                 sporeShot.fire(Phaser.Math.Angle.Between(this.x, this.y, this.scene.player.x, this.scene.player.y), this);
                 this.scene.physics.add.collider(this.scene.player, sporeShot, this.scene.playerHitCallback);
             }
-            this.cooldown = 50;
+            this.cooldown = 150;
         }
     }
     printPlease() {
