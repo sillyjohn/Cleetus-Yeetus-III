@@ -30,6 +30,7 @@ preload(){
     this.load.image('playerHead','playerHead.png');
     this.load.image('player_playerHolder','playerPlaceHolder.png');
     this.load.image('shells','shells.png');
+    this.load.image('health','healthSprite.png');
     this.load.image('spike','spike.png');
     this.load.image('Spore','spore.png');
     this.load.image('flesh','fleshParticle.png');
@@ -403,7 +404,7 @@ ammoCallback(playerReload, ammoObj) {
 }
 
 healthCallback(playerHeal, healthObj) {
-    playerReload.scene.player.health += 50;
+    playerHeal.scene.player.health += 50;
     healthObj.destroy();
 }
 
