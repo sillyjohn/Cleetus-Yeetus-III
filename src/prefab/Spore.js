@@ -30,13 +30,13 @@ class Spore extends Phaser.Physics.Arcade.Sprite{
         }
     }
 
-    fire(rotate) {
-        this.setPosition(this.scene.lookPlayer.x, this.scene.lookPlayer.y); // Initial position
+    fire(rotate, mush) {
+        this.setPosition(mush.x, mush.y); // Initial position
         this.setScale(.06, .06);
         
         this.rotation = rotate; // angle bullet with player rotation
 
-        this.scene.physics.velocityFromRotation(this.rotation, 2000, this.body.velocity);
+        this.scene.physics.velocityFromRotation(this.rotation, 500, this.body.velocity);
         this.scene.player.recoil(this.rotation - 3.14159);
         this.born = 0; // Time since new bullet spawned
     }
