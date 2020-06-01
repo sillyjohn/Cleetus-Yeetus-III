@@ -9,11 +9,12 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
         this.body.allowGravity = true;
         //this.body.setImmovable = true;
         console.log("construct bug");
+        this.setVisible(false);
     }
    
     update(){
        
-        this.setScale(.2,.2);
+        this.setScale(.5,.5);
             if((this.body.blocked.down)) {
                 this.setActive(true);
 

@@ -34,6 +34,7 @@ preload(){
     this.load.image('player_playerHolder','playerPlaceHolder.png');
     this.load.image('shells','shells.png');
     this.load.image('spike','spike.png');
+    this.load.image('flesh','fleshParticle.png');
     this.load.spritesheet('playerRun','playerRun.png',{frameWidth: 370, frameHeight: 321});
     this.load.image('bullet', 'bullet.png');
     this.load.image('crosshair', 'crosshair.png');
@@ -214,6 +215,8 @@ create(){
           
      });
 
+     this.emitSplash
+
     //WASD
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -288,8 +291,8 @@ create(){
     this.physics.world.gravity.y = 2000;
     //tile bias
     this.physics.world.TILE_BIAS= 50;
-    this.cameras.main.width = 2560;
-    this.cameras.main.height = 2560;
+    this.cameras.main.width = 1920;
+    this.cameras.main.height = 1080;
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 2560 , 2560);
     // camera seting, zoom level, < 1 is zoom out, >1 is zoom in
@@ -346,7 +349,7 @@ enemyHitCallback(enemyHit, bulletHit) {
         console.log("Enemy hp: ", enemyHit.getData.health);
 
         // Kill enemy if health <= 0
-        if (enemyHit.health <= 0)
+        /*if (enemyHit.health <= 0)
         {
             var randSpawn = Math.random() * 5;
             if(randSpawn < 2) {
@@ -363,8 +366,24 @@ enemyHitCallback(enemyHit, bulletHit) {
             
             enemyHit.disableBody(true,true);
             enemyHit.setActive(false).setVisible(false);
+        }*/
+        var randSpawn = Math.random() * 5;
+        if(randSpawn < 2) {
+            var ammoPick = this.ammo.get().setActive(true).setVisible(true);
+            ammoPick.setPos(this.enemyHit.x,this.enemyHit.y);
+            this.physics.add.collider(this.player, ammoPick, this.ammoCallback);
         }
+        if(randSpawn >= 2 && randSpawn < 3) {
+            var healthPick = this.heals.get().setActive(true).setVisible(true);
+            healthPick.setPos(this.enemyHit.x,this.enemyHit.y);
+            this.physics.add.collider(this.player, healthPick, this.healthCallback);
+        }
+        console.log("rand: ", randSpawn);
+        
+        enemyHit.disableBody(true,true);
+        enemyHit.setActive(false).setVisible(false);
 
+        
         // Destroy bullet
         bulletHit.setActive(false).setVisible(false);
     }
