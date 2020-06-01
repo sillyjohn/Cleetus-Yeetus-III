@@ -16,7 +16,7 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
         
     }
     update(){
-        this.fire();
+        this.inRange();
         this.play('bounce', true);
     }
     setPos(xPos, yPos) {
@@ -24,20 +24,21 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
         this.y = yPos;
     }
 
-    fire(eX,eY,pX,pY) {
-        var distX = eX - pX;
-        var distY = eY - pY;
-      
-        if (distX > 700||-distX < -700||distY < 700||-distY > -700)
-            {
-                this.shroomBullet = this.scene.add.image(this.x,this.y,'dirt');
-                this.shroomBullet.x -= 40;
+    inRange() {
+        var distX = this.x - this.scene.player.x;
+        var distY = this.y - this.scene.player.y;
+
+        if ((distX > -300 && distX < 300) && (distY > -300 && distY < 300)) {
+            var sporeShot = this.scene.spores.get().setActive(true).setVisible(true);
+            sporeShot.body.allowGravity = false;
+
+            if (sporeShot) {
+                sporeShot.fire(Phaser.Math.Angle.Between(this.x, this.y, this.scene.player.x, this.scene.player.y));
+                this.scene.physics.add.collider(this.scene.player, sporeShot, this.scene.playerHitCallback);
+            }
         }
-                
-       
-        
-    
-    }printPlease() {
+    }
+    printPlease() {
         console.log("printed");
     }
 }

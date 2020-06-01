@@ -31,6 +31,7 @@ preload(){
     this.load.image('player_playerHolder','playerPlaceHolder.png');
     this.load.image('shells','shells.png');
     this.load.image('spike','spike.png');
+    this.load.image('Spore','spore.png');
     this.load.image('flesh','fleshParticle.png');
     this.load.spritesheet('playerRun','playerRun.png',{frameWidth: 370, frameHeight: 321});
     this.load.image('bullet', 'bullet.png');
@@ -153,6 +154,7 @@ create(){
 
     this.playerBullets = this.physics.add.group({classType: DirectBullet, runChildUpdate: true});
 
+    this.spores = this.physics.add.group({classType: Spore, runChildUpdate: true});
     //enemies
     //enemy spawn
     
@@ -177,7 +179,7 @@ create(){
 
     this.mushrooms = this.physics.add.group({classType: Mushroom, runChildUpdate: true});
     var mush1 = this.mushrooms.get().setActive(true).setVisible(true);
-    mush1.setPos(this.playerSpawn.x,this.playerSpawn.y);
+    mush1.setPos(this.playerSpawn.x + 500,this.playerSpawn.y);
 
     this.normalMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer);
     this.warpMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer_Inverted);
@@ -466,7 +468,7 @@ update(){
     }
 
     if(this.switchWorld == true) {
-      
+        //this.spikes.setActive(true);
         //alternate world stuff
         this.background_InvertedWorld.setVisible(true);
         this.background_NormalWorld.setVisible(false);
@@ -480,7 +482,7 @@ update(){
         this.collideWithInvertedWorld_lookPlayer.active = true;       
     }
     else if(this.switchWorld == false) {
-        
+        //this.spikes.setActive(false);
         //default world stuff
         this.background_InvertedWorld.setVisible(false);
         this.background_NormalWorld.setVisible(true);
