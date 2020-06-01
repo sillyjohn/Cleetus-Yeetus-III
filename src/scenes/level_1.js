@@ -373,14 +373,14 @@ enemyHitCallback(enemyHit, bulletHit) {
         }*/
         var randSpawn = Math.random() * 5;
         if(randSpawn < 2) {
-            var ammoPick = this.ammo.get().setActive(true).setVisible(true);
-            ammoPick.setPos(this.enemyHit.x,this.enemyHit.y);
-            this.physics.add.collider(this.player, ammoPick, this.ammoCallback);
+            var ammoPick = enemyHit.scene.ammo.get().setActive(true).setVisible(true);
+            ammoPick.setPos(enemyHit.x,enemyHit.y);
+            enemyHit.scene.physics.add.collider(enemyHit.scene.player, ammoPick, enemyHit.scene.ammoCallback);
         }
         if(randSpawn >= 2 && randSpawn < 3) {
-            var healthPick = this.heals.get().setActive(true).setVisible(true);
-            healthPick.setPos(this.enemyHit.x,this.enemyHit.y);
-            this.physics.add.collider(this.player, healthPick, this.healthCallback);
+            var healthPick = enemyHit.scene.heals.get().setActive(true).setVisible(true);
+            healthPick.setPos(enemyHit.x,enemyHit.y);
+            enemyHit.scene.physics.add.collider(enemyHit.scene.player, healthPick, enemyHit.scene.healthCallback);
         }
         console.log("rand: ", randSpawn);
         
