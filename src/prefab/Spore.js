@@ -8,8 +8,6 @@ class Spore extends Phaser.Physics.Arcade.Sprite{
         this.speed = 1;
         this.born = 0;
         this.direction = 0;
-        this.xSpeed = 0;
-        this.ySpeed = 0;
         
     }
     
@@ -19,8 +17,6 @@ class Spore extends Phaser.Physics.Arcade.Sprite{
     }
     
     update(){
-        this.x += this.xSpeed;
-        this.y += this.ySpeed;
         this.body.bounce = 0.5;
         
         this.born += 1;
@@ -36,7 +32,7 @@ class Spore extends Phaser.Physics.Arcade.Sprite{
         
         this.rotation = rotate; // angle bullet with player rotation
 
-        this.scene.physics.velocityFromRotation(this.rotation, 100, this.body.velocity);
+        this.scene.physics.velocityFromRotation(this.rotation, 200, this.body.velocity);
         this.born = 0; // Time since new bullet spawned
     }
 }

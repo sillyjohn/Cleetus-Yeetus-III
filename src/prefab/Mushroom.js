@@ -26,6 +26,7 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
         if(this.cooldown == 0) {
             this.cooldown = 150;
         }
+        this.setMaxVelocity(0,0);
     }
     setPos(xPos, yPos) {
         this.x = xPos;
