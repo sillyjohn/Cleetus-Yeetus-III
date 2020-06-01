@@ -12,5 +12,9 @@ class AmmoPickup extends Phaser.GameObjects.Sprite {
       scene.add.existing(this);
       scene.physics.add.existing(this);
     }
+    setPos(xPos, yPos) {
+      this.x = xPos;
+      this.y = yPos;
+  }
 }
 

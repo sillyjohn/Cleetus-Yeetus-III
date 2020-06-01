@@ -376,11 +376,15 @@ enemyHitCallback(enemyHit, bulletHit) {
             var ammoPick = enemyHit.scene.ammo.get().setActive(true).setVisible(true);
             ammoPick.setPos(enemyHit.x,enemyHit.y);
             enemyHit.scene.physics.add.collider(enemyHit.scene.player, ammoPick, enemyHit.scene.ammoCallback);
+            enemyHit.scene.normalAmmoCollide = enemyHit.scene.physics.add.collider(ammoPick, enemyHit.scene.groundLayer);
+            enemyHit.scene.warpAmmoCollide = enemyHit.scene.physics.add.collider(ammoPick, enemyHit.scene.groundLayer_Inverted);
         }
         if(randSpawn >= 2 && randSpawn < 3) {
             var healthPick = enemyHit.scene.heals.get().setActive(true).setVisible(true);
             healthPick.setPos(enemyHit.x,enemyHit.y);
             enemyHit.scene.physics.add.collider(enemyHit.scene.player, healthPick, enemyHit.scene.healthCallback);
+            enemyHit.scene.normalHealthCollide = enemyHit.scene.physics.add.collider(healthPick, enemyHit.scene.groundLayer);
+            enemyHit.scene.warpHealthCollide = enemyHit.scene.physics.add.collider(healthPick, enemyHit.scene.groundLayer_Inverted);
         }
         console.log("rand: ", randSpawn);
         
@@ -394,13 +398,13 @@ enemyHitCallback(enemyHit, bulletHit) {
 }
 
 ammoCallback(playerReload, ammoObj) {
-    playerReload.gameObject.playerAmmo += 5;
-    ammoObj.gameObject.destroy();
+    playerReload.scene.playerAmmo += 5;
+    ammoObj.destroy();
 }
 
 healthCallback(playerHeal, healthObj) {
-    playerHeal.gameObject.health += 20;
-    healthObj.gameObject.destroy();
+    playerReload.scene.player.health += 50;
+    healthObj.destroy();
 }
 
 playerHitCallback(playerHit, enemyHit) {
