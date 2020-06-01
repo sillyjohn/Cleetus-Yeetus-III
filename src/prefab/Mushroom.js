@@ -4,6 +4,8 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
         Phaser.GameObjects.Image.call(this, scene, 0, 0, 'mushroomSprite');
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        
+        //this.body.setImmovable = true;
         this.goRight = true //true = go right
         this.health = 3;
         this.setScale(.2,.2);
@@ -34,5 +36,10 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
                 
        
         
+    
+    }printPlease() {
+        console.log("printed");
     }
 }
+
+    

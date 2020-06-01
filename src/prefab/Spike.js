@@ -1,7 +1,8 @@
 //cop prefab
-class realPillar extends Phaser.GameObjects.Sprite {
+class Spike extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
       super(scene, x, y, texture, frame);
+      Phaser.GameObjects.Image.call(this, scene, 0, 0, 'spike');
       //add object to existing scene
       this.setScale(1);
       this.setOrigin(0,0);
@@ -13,5 +14,10 @@ class realPillar extends Phaser.GameObjects.Sprite {
       scene.add.existing(this);
       scene.physics.add.existing(this);
     }
+    
+  setPos(xPos, yPos) {
+    this.x = xPos;
+    this.y = yPos;
+  }
 }
 

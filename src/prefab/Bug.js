@@ -7,13 +7,14 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
         this.goRight = true //true = go right
         this.health = 6;
         this.body.allowGravity = true;
-        this.setVisible(false)
-       
+        //this.body.setImmovable = true;
+        console.log("construct bug");
+        this.setVisible(false);
     }
    
     update(){
        
-        this.setScale(.2,.2);
+        this.setScale(.5,.5);
             if((this.body.blocked.down)) {
                 this.setActive(true);
 
@@ -75,5 +76,7 @@ enemyAppear(eX,eY,pX,pY){
         this.x = xPos;
         this.y = yPos;
     }
-  
+    printPlease() {
+        console.log("printed");
+    }
 }
