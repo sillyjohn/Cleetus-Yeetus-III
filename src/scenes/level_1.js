@@ -27,7 +27,7 @@ preload(){
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
     this.load.tilemapTiledJSON('level_1','Level_1.json');
 
-    //player assets
+    //assets
     this.load.image('playerHead','playerHead.png');
     this.load.image('player_playerHolder','playerPlaceHolder.png');
     this.load.image('shells','shells.png');
@@ -46,7 +46,7 @@ preload(){
     this.load.audio('enemyHit', 'hitEnemy.wav');
     this.load.audio('playerHit', 'getHit.wav');
 
-    //enemy assets
+    //assets
     this.load.image('dirt','dirtparticle.png');
     this.load.spritesheet('bugSprite','bugSheet.png',{frameWidth: 835, frameHeight: 310});
     this.load.spritesheet('mushroomSprite','shroomSheet.png',{frameWidth: 600, frameHeight: 600});
@@ -161,15 +161,6 @@ create(){
     //enemy spawn
     
     this.enemySpawnPoint = this.map.findObject("Object Layer_level_1", obj => obj.name  === "enemySpawn_level_1_Bug");
-    //  this.enemy_Bug = new Bug(this, this.enemySpawnPoint.x,this.enemySpawnPoint.y,'bugSprite',0,this.player.x,this.player.y);
-    //  console.log(this.enemySpawnPoint.x+'enemySpawnPoint x');
-    //  this.enemy_Bug.body.setSize(this.enemy_Bug.width);
-    //  this.enemy_Bug.body.setMaxVelocity(this.MAX_X_VEL  , this.MAX_Y_VEL);
-    //  this.enemy_Bug.play('crawl');
-     
-    //  this.physics.add.collider(this.enemy_Bug,this.groundLayer);
-    //  this.physics.add.collider(this.enemy_Bug,this.groundLayer_Inverted)
-    //  this.enemy_Bug.body.setCollideWorldBounds(true);
 
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
     var bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width).setOrigin(0.5,0.5).setScale(0.5);
@@ -350,29 +341,6 @@ enemyHitCallback(enemyHit, bulletHit) {
     // Reduce health of enemy
     if (bulletHit.active === true && enemyHit.active === true)
     {
-        //enemyHit.getData.printPlease();
-        enemyHit.setData.health = enemyHit.getData.health - 1;
-        console.log("Enemy hp: ", enemyHit.getData.health);
-
-        // Kill enemy if health <= 0
-        /*if (enemyHit.health <= 0)
-        {
-            var randSpawn = Math.random() * 5;
-            if(randSpawn < 2) {
-                var ammoPick = this.ammo.get().setActive(true).setVisible(true);
-                ammoPick.setPos(this.enemyHit.x,this.enemyHit.y);
-                this.physics.add.collider(this.player, ammoPick, this.ammoCallback);
-            }
-            if(randSpawn >= 2 && randSpawn < 3) {
-                var healthPick = this.heals.get().setActive(true).setVisible(true);
-                healthPick.setPos(this.enemyHit.x,this.enemyHit.y);
-                this.physics.add.collider(this.player, healthPick, this.healthCallback);
-            }
-            console.log("rand: ", randSpawn);
-            
-            enemyHit.disableBody(true,true);
-            enemyHit.setActive(false).setVisible(false);
-        }*/
         var randSpawn = Math.random() * 5;
         if(randSpawn < 2) {
             var ammoPick = enemyHit.scene.ammo.get().setActive(true).setVisible(true);
@@ -465,11 +433,13 @@ update(){
             console.log("Switch false");
             this.switchWorld = false;
             this.cameras.main.shake(300,0.05);
+            this.cameras.main.flash();
         }
         else if(this.switchWorld == false) {
             console.log("Switch true");
             this.switchWorld = true;
             this.cameras.main.shake(300,0.05);
+            this.cameras.main.flash();
         }
     }
 
@@ -549,9 +519,6 @@ update(){
 
     // player jump
     // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
-    if(!this.player.body.blocked.down && !this.player.body.touching.down) {
-        //this.player.anims.play('jump', true);
-    }
     if((this.player.body.blocked.down || this.player.body.touching.down) && Phaser.Input.Keyboard.JustDown(this.keyW)) {
         this.jump.play();
         this.player.body.setVelocityY(this.JUMP_VELOCITY);
