@@ -191,8 +191,8 @@ create(){
     this.itemBullet = this.add.rectangle(0,0);
 
     //enemy created
-    this.enemy1 = new Enemy(this,game.config.width,550,'player_Idle',0).setOrigin(0.5,0.5).setSize(0.01);
-    this.enemy1.body.setCollideWorldBounds(true);
+    // this.enemy1 = new Enemy(this,game.config.width,550,'player_Idle',0).setOrigin(0.5,0.5).setSize(0.01);
+    // this.enemy1.body.setCollideWorldBounds(true);
     //world gravity
     this.physics.world.gravity.y = 2000;
     //tile bias

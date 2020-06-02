@@ -13,6 +13,7 @@ class level_1 extends Phaser.Scene {
         this.tileset_Normal;
         this.tileset_Inverted;
         this.groundLayer;
+
     }
 
 preload(){
@@ -171,7 +172,7 @@ create(){
     //  this.enemy_Bug.body.setCollideWorldBounds(true);
 
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
-    var bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width);
+    var bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width).setOrigin(0.5,0.5).setScale(0.5);
     bug1.setPos(this.enemySpawnPoint.x,this.enemySpawnPoint.y);
 
     this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);

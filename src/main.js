@@ -2,11 +2,11 @@ let config = {
     type: Phaser.CANVAS,
     width:  2560,
     height: 2560,
-    scene:[ level_2],
+    scene:[ level_1,level_2,level_3,level_4],
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
             gravity: {
                 x: 0,
                 y: 0
