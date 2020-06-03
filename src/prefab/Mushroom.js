@@ -20,7 +20,6 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
     }
     update(){
         this.cooldown--;
-        console.log(this.cooldown);
         this.inRange();
         this.play('bounce', true);
         if(this.cooldown == 0) {

@@ -57,6 +57,8 @@ create(){
     //player attributes
     this.playerHealth = 5;
     this.playerAmmo = 25;
+    this.invincible = false;
+    this.invincibleTimer = 120;
 
     // this is level_1
     console.log('this is level 1')
@@ -378,11 +380,18 @@ healthCallback(playerHeal, healthObj) {
 }
 
 playerHitCallback(playerHit, enemyHit) {
-    // Reduce health of player
-    console.log(playerHit instanceof ControlPlayer);
+    playerHit.scene.hitPlayer.play();
     if (enemyHit.active === true && playerHit.active === true)
     {
+        if(playerHit.scene.invincible == true) {
+            console.log(playerHit.scene.playerBugCollide);
+            playerHit.scene.playerBugCollide.active = false;
+            playerHit.scene.playerMushCollide.active = false;
+            playerHit.scene.playerSpikeCollide.active = false;
+        }
+
         playerHit.health = playerHit.health - 10;
+        playerHit.scene.invincible = true;
         console.log("Player hp: ", playerHit.health);
     }
 }
@@ -440,6 +449,26 @@ update(){
             this.switchWorld = true;
             this.cameras.main.shake(300,0.05);
             this.cameras.main.flash();
+        }
+    }
+
+    //invincibility
+    if(this.invincible == true) {
+        console.log(this.invincible, " ", this.invincibleTimer);
+        this.player.tint = Math.random() * 0xffffff;
+        this.lookPlayer.tint = Math.random() * 0xffffff;
+        if(this.invincibleTimer > 0) {
+            this.invincibleTimer--;
+        }
+        else {
+            this.invincible = false;
+            this.invincibleTimer = 120;
+            this.player.body.setActive = true;
+            this.playerBugCollide.active = true;
+            this.playerMushCollide.active = true;
+            this.playerSpikeCollide.active = true;
+            this.player.clearTint();
+            this.lookPlayer.clearTint();
         }
     }
 
