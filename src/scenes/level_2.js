@@ -47,6 +47,9 @@ preload(){
     this.load.audio('click', 'click.wav');
     this.load.audio('enemyHit', 'hitEnemy.wav');
     this.load.audio('playerHit', 'getHit.wav');
+    this.load.audio('healthUp', 'healthUp.wav');
+    this.load.audio('ammoUp', 'ammoUp.wav');
+    this.load.audio('changeWorld', 'changeWorld.wav');
 
     //enemy assets
     this.load.image('dirt','dirtparticle.png');
@@ -67,8 +70,11 @@ create(){
     this.walk = this.sound.add('walk', {volume: 0.4});
     this.walk.setLoop(true);
     this.jump = this.sound.add('jump', {volume: 0.1});
-    this.hitEnemy = this.sound.add('enemyHit', {volume: 0.7});
-    this.hitPlayer = this.sound.add('playerHit', {volume: 0.7});
+    this.hitEnemy = this.sound.add('enemyHit', {volume: 0.4});
+    this.hitPlayer = this.sound.add('playerHit', {volume: 0.4});
+    this.ammoUp = this.sound.add('ammoUp', {volume: 0.4});
+    this.healthUp = this.sound.add('healthUp', {volume: 0.4});
+    this.changeWorld = this.sound.add('changeWorld', {volume: 0.4});
 
     //switch
     this.switchWorld = false;
@@ -384,11 +390,13 @@ enemyHitCallback(enemyHit, bulletHit) {
 }
 
 ammoCallback(playerReload, ammoObj) {
+    playerReload.scene.ammoUp.play();
     playerReload.scene.playerAmmo += 5;
     ammoObj.destroy();
 }
 
 healthCallback(playerHeal, healthObj) {
+    playerHeal.scene.healthUp.play();
     playerHeal.scene.player.health += 50;
     healthObj.destroy();
 }
@@ -419,7 +427,7 @@ update(){
     
     //switch world input
     if (Phaser.Input.Keyboard.JustDown(this.switchKey)) {
-        this.shakeEffect();
+        this.changeWorld.play();
         console.log("switched");
         if(this.switchWorld == true) {
             console.log("Switch false");
