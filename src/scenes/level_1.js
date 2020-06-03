@@ -32,7 +32,7 @@ preload(){
     this.load.image('player_playerHolder','playerPlaceHolder.png');
     this.load.image('shells','shells.png');
     this.load.image('health','healthSprite.png');
-    this.load.image('spike','spike.png');
+    this.load.image('spike','thorns.png');
     this.load.image('Spore','spore.png');
     this.load.image('flesh','fleshParticle.png');
     this.load.spritesheet('playerRun','playerRun.png',{frameWidth: 370, frameHeight: 321});

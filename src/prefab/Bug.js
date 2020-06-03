@@ -10,7 +10,7 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
         //this.body.setImmovable = true;
         console.log("construct bug");
         this.setVisible(false);
-        this.setScale(.5,.5);
+        this.setScale(.2,.2);
     }
    
     update(){
