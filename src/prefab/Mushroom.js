@@ -8,7 +8,7 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
         //this.body.setImmovable = true;
         this.goRight = true //true = go right
         this.health = 3;
-        this.setScale(.2,.2);
+        this.setScale(.1,.1);
         this.cooldown = 150;
         
         this.setImmovable = true;

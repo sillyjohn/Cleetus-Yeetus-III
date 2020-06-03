@@ -35,7 +35,7 @@ preload(){
     this.load.image('player_playerHolder','playerPlaceHolder.png');
     this.load.image('shells','shells.png');
     this.load.image('health','healthSprite.png');
-    this.load.image('spike','spike.png');
+    this.load.image('spike','thorns.png');
     this.load.image('Spore','spore.png');
     this.load.image('flesh','fleshParticle.png');
     this.load.spritesheet('playerRun','playerRun.png',{frameWidth: 370, frameHeight: 321});
@@ -48,6 +48,9 @@ preload(){
     this.load.audio('click', 'click.wav');
     this.load.audio('enemyHit', 'hitEnemy.wav');
     this.load.audio('playerHit', 'getHit.wav');
+    this.load.audio('healthUp', 'healthUp.wav');
+    this.load.audio('ammoUp', 'ammoUp.wav');
+    this.load.audio('changeWorld', 'changeWorld.wav');
 
     //enemy assets
     this.load.image('dirt','dirtparticle.png');
@@ -68,9 +71,11 @@ create(){
     this.walk = this.sound.add('walk', {volume: 0.4});
     this.walk.setLoop(true);
     this.jump = this.sound.add('jump', {volume: 0.1});
-    this.hitEnemy = this.sound.add('enemyHit', {volume: 0.7});
-    this.hitPlayer = this.sound.add('playerHit', {volume: 0.7});
-
+    this.hitEnemy = this.sound.add('enemyHit', {volume: 0.4});
+    this.hitPlayer = this.sound.add('playerHit', {volume: 0.4});
+    this.ammoUp = this.sound.add('ammoUp', {volume: 0.4});
+    this.healthUp = this.sound.add('healthUp', {volume: 0.4});
+    this.changeWorld = this.sound.add('changeWorld', {volume: 0.4});
     //switch
     this.switchWorld = false;
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -390,21 +395,30 @@ enemyHitCallback(enemyHit, bulletHit) {
 }
 
 ammoCallback(playerReload, ammoObj) {
+    playerReload.scene.ammoUp.play();
     playerReload.scene.playerAmmo += 5;
     ammoObj.destroy();
 }
 
 healthCallback(playerHeal, healthObj) {
+    playerHeal.scene.healthUp.play();
     playerHeal.scene.player.health += 50;
     healthObj.destroy();
 }
 
 playerHitCallback(playerHit, enemyHit) {
-    // Reduce health of player
-    console.log(playerHit instanceof ControlPlayer);
+    playerHit.scene.hitPlayer.play();
     if (enemyHit.active === true && playerHit.active === true)
     {
+        if(playerHit.scene.invincible == true) {
+            console.log(playerHit.scene.playerBugCollide);
+            playerHit.scene.playerBugCollide.active = false;
+            playerHit.scene.playerMushCollide.active = false;
+            playerHit.scene.playerSpikeCollide.active = false;
+        }
+
         playerHit.health = playerHit.health - 10;
+        playerHit.scene.invincible = true;
         console.log("Player hp: ", playerHit.health);
     }
 }
@@ -433,7 +447,7 @@ update(){
     
     //switch world input
     if (Phaser.Input.Keyboard.JustDown(this.switchKey)) {
-        this.shakeEffect();
+        this.changeWorld.play();
         console.log("switched");
         if(this.switchWorld == true) {
             console.log("Switch false");
@@ -446,6 +460,26 @@ update(){
             this.switchWorld = true;
             this.cameras.main.shake(300,0.05);
             this.cameras.main.flash();
+        }
+    }
+
+    //invincibility
+    if(this.invincible == true) {
+        console.log(this.invincible, " ", this.invincibleTimer);
+        this.player.tint = Math.random() * 0xffffff;
+        this.lookPlayer.tint = Math.random() * 0xffffff;
+        if(this.invincibleTimer > 0) {
+            this.invincibleTimer--;
+        }
+        else {
+            this.invincible = false;
+            this.invincibleTimer = 120;
+            this.player.body.setActive = true;
+            this.playerBugCollide.active = true;
+            this.playerMushCollide.active = true;
+            this.playerSpikeCollide.active = true;
+            this.player.clearTint();
+            this.lookPlayer.clearTint();
         }
     }
 
