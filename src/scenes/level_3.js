@@ -324,9 +324,12 @@ create(){
         },
         fixedWidth:100
     }
-    this.healthCount = 0;
-    this.hpIcon = this.add.text(590,500,this.healthCount,hpConfig);
+    //health 
+    this.hpIcon = this.add.text(this.cameras.main.width-200,this.cameras.main.height-100,this.player.health,this.hpConfig);
+    console.log('player hp'+this.player.health);
     this.hpIcon.setScrollFactor(0);
+    this.bulletCount = this.add.text(200,this.cameras.main.height-100,this.playerAmmo,this.hpConfig);
+    this.bulletCount.setScrollFactor(0);
       //Animation 
 
     //bullets collisions
@@ -407,8 +410,23 @@ playerHitCallback(playerHit, enemyHit) {
 }
 
 update(){
-    //game over loop *move all function and method in later*
+   
+     //update hp counter
+     this.hpIcon.text = this.player.health;
+     this.bulletCount.text = this.playerAmmo;
 
+     if(this.player.health <= 0){
+ 
+         this.gameOver = true
+ 
+     }
+     //game over 
+     if(this.gameOver == false){
+ 
+         //this.scene.start("endScene");
+ 
+     }
+ 
          //update list
     this.player.update();
     this.lookPlayer.update();

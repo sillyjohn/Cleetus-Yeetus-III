@@ -178,7 +178,7 @@ create(){
     //enemies
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
     var bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width).setOrigin(0.5,0.5).setScale(0.5);
-    bug1.setPos(this.enemySpawnPoint.x,this.enemySpawnPoint.y);
+    bug1.setPos(this.game.config.width,0);
 
     this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);
     this.warpBugCollide = this.physics.add.collider(this.bugs, this.groundLayer_Inverted);
@@ -321,9 +321,15 @@ create(){
         },
         fixedWidth:100
     }
-    this.healthCount = 0;
-    this.hpIcon = this.add.text(590,500,this.healthCount,hpConfig);
+
+
+    //health 
+    this.hpIcon = this.add.text(this.cameras.main.width-200,this.cameras.main.height-100,this.player.health,this.hpConfig);
+    console.log('player hp'+this.player.health);
     this.hpIcon.setScrollFactor(0);
+    this.bulletCount = this.add.text(200,this.cameras.main.height-100,this.playerAmmo,this.hpConfig);
+    this.bulletCount.setScrollFactor(0);
+      //Animation 
       //Animation 
 
     //bullets collisions
@@ -405,11 +411,29 @@ playerHitCallback(playerHit, enemyHit) {
 
 update(){
     //game over loop *move all function and method in later*
+    
 
     //update list
     this.player.update();
     this.lookPlayer.update();
     
+
+      //update hp counter
+    this.hpIcon.text = this.player.health;
+    this.bulletCount.text = this.playerAmmo;
+    if(this.player.health <= 0){
+
+        this.gameOver = true
+
+    }
+    //game over 
+    if(this.gameOver == false){
+
+        //this.scene.start("endScene");
+
+    }
+
+
     //switch world input
     if (Phaser.Input.Keyboard.JustDown(this.switchKey)) {
         this.shakeEffect();

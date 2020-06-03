@@ -13,12 +13,10 @@ class Bug extends Phaser.Physics.Arcade.Sprite{
     }
    
     update(){
-       
         this.setScale(.5,.5);
             if((this.body.blocked.down)) {
                 this.setActive(true);
-
-            
+                
                     if(this.goRight == true) {
                     if(!(this.body.blocked.right || this.body.touching.right)) {
                         this.body.setVelocityX(400);

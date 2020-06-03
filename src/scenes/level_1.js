@@ -280,15 +280,11 @@ create(){
     //player created
     this.player.body.setCollideWorldBounds(true);
     
-
-    //item create
-    this.itemBullet = this.add.rectangle(0,0);
-
     //world gravity
     this.physics.world.gravity.y = 2000;
     //tile bias
     this.physics.world.TILE_BIAS= 50;
-    this.cameras.main.width = 1920;
+    this.cameras.main.width = 1980;
     this.cameras.main.height = 1080;
     // camera setting, world bound
     this.cameras.main.setBounds(0, 0, 2560 , 2560);
@@ -309,9 +305,9 @@ create(){
 
     //create hp bar
       //score display
-      let hpConfig = {
+      this. hpConfig = {
         fontFamily: 'Courier',
-        fontSize: '28px',
+        fontSize: '100px',
        
         color:'#ffffff',
         align:'right',
@@ -319,11 +315,14 @@ create(){
             top: 5,
             bottom:5,
         },
-        fixedWidth:100
+        fixedWidth:200
     }
     this.healthCount = 0;
-    this.hpIcon = this.add.text(590,500,this.healthCount,hpConfig);
+    this.hpIcon = this.add.text(this.cameras.main.width-200,this.cameras.main.height-100,this.player.health,this.hpConfig);
+    console.log('bullet counter'+this.playerAmmo);
     this.hpIcon.setScrollFactor(0);
+    this.bulletCount = this.add.text(200,this.cameras.main.height-100,this.playerAmmo,this.hpConfig);
+    this.bulletCount.setScrollFactor(0);
       //Animation 
 
     //bullets collisions
@@ -410,16 +409,21 @@ shakeEffect(){
 }
 
 update(){
-    //game over loop *move all function and method in later*
-    // if(this.gameOver == false){
+    //update hp counter
+    this.hpIcon.text = this.player.health;
+    this.bulletCount.text = this.playerAmmo;
 
+    if(this.player.health <= 0){
 
+        this.gameOver = true
 
-    // }else {
+    }
+    //game over 
+    if(this.gameOver == false){
 
-    //     this.scene.start("");
+        //this.scene.start("endScene");
 
-    // }
+    }
 
     //update list
     this.player.update();
