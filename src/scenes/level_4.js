@@ -169,12 +169,29 @@ create(){
     this.reticle = this.physics.add.sprite(game.config.width/2, 100, 'crosshair');
     this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(false);
     this.reticle.body.allowGravity = false;
+    //enemy spawn location
+    this.enemySpawnPoint_bug = this.map.findObject("Object Layer_level_4", obj => obj.name  === "enemy_spawn_level_4_bug");
+    this.enemySpawnPoint_mushshroom = this.map.findObject("Object Layer_level_4", obj => obj.name  === "enemy_spawn_level_4_Shroom");
+    // death zone
+    this.deathArea = this.map.findObject("Object Layer_level_4", obj => obj.name  === "Death Zone");
+    //secret exit and spawn
+    this.secretExit = this.map.findObject("Object Layer_level_4", obj => obj.name  === "Level_4_secretExit");
+    this.secretExitArea_lv4 = this.add.rectangle(this.secretExit.x,this.secretExit.y,this.secretExit.width,this.secretExit.height).setOrigin(0,1);
+    this.physics.world.enable(this.secretExitArea_lv4, Phaser.Physics.Arcade.STATIC_BODY);
+    console.log(this.secretExit.x+' secret exit x');
+    console.log(this.secretExit.y+' secret exit y');
+    console.log(this.secretExit.width+' secret exit w');
+    console.log(this.secretExit.height+' secret exit h');
+    
 
-    this.enemySpawnPoint = this.map.findObject("Object Layer_level_1", obj => obj.name  === "enemySpawn_level_1_Bug");
+    this.physics.add.overlap(this.player, this.secretExitArea_lv4, (obj1, obj2) => {
+       this.player.setPosition(this.secretSpawn.x,this.secretSpawn.y);
+    });
+    this.secretSpawn = this.map.findObject("Object Layer_level_4", obj => obj.name  === "Level_4_SecretSpawn2");
 
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
     var bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width).setOrigin(0.5,0.5).setScale(0.5);
-    bug1.setPos(this.enemySpawnPoint.x,this.enemySpawnPoint.y);
+    bug1.setPos(this.enemySpawnPoint_bug.x,this.enemySpawnPoint_bug.y);
 
     this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);
     this.warpBugCollide = this.physics.add.collider(this.bugs, this.groundLayer_Inverted);
@@ -182,7 +199,7 @@ create(){
 
     this.mushrooms = this.physics.add.group({classType: Mushroom, runChildUpdate: true});
     var mush1 = this.mushrooms.get().setActive(true).setVisible(true);
-    mush1.setPos(this.playerSpawn.x + 500,this.playerSpawn.y);
+    mush1.setPos(this.enemySpawnPoint_mushshroom.x,this.enemySpawnPoint_mushshroom.y);
 
     this.normalMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer);
     this.warpMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer_Inverted);
@@ -205,15 +222,10 @@ create(){
     this.exitArea_lv4 = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
 
     this.physics.world.enable(this.exitArea_lv4, Phaser.Physics.Arcade.STATIC_BODY);
-
-
-    
-    // console.log("exit x"+this.levelExit.x);
-    // console.log("exit y"+this.levelExit.y);
     this.physics.add.overlap(this.player, this.exitArea_lv4, (obj1, obj2) => {
     
         this.scene.start('level_5');
-        console.log('move to level 2');
+        console.log('move to level 5');
     });
     //WASD
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);

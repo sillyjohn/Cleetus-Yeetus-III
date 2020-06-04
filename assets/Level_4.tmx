@@ -7,77 +7,77 @@
   <image source="tileset_v2.png" trans="ff00ff" width="512" height="512"/>
   <tile id="0">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="2">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="3">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="4">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="5">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="6">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="7">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="8">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="9">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="10">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="11">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="12">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="13">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="14">
    <properties>
-    <property name="collides_InvertedWorld" type="bool" value="true"/>
+    <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
  </tileset>
@@ -182,9 +182,6 @@
   <object id="15" name="enemy_spawn_level_4_Shroom" x="2236.36" y="975.758">
    <point/>
   </object>
-  <object id="16" x="-312.121" y="460.606">
-   <point/>
-  </object>
   <object id="17" name="enemy_spawn_level_4_Shroom" x="1487.88" y="2424.24">
    <point/>
   </object>
@@ -226,8 +223,8 @@
 4,4,4,4,4,12,0,0,0,0,0,0,0,2,0,0,0,13,7,0,
 10,10,6,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,11,0,
 3,6,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,11,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,9,7,11,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,11,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,9,7,11,0,
 15,0,14,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,11,0,
 11,0,11,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,11,0,
 11,0,11,0,0,0,0,0,0,0,0,0,0,2,8,4,4,4,12,0,
