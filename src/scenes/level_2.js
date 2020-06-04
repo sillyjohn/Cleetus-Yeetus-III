@@ -363,7 +363,12 @@ constrainReticle(reticle)
     else if (distY < -450)
         this.reticle.y = this.player.y - 450;
 }
+shakeEffect(){
+    this.cameras.main.shake(300,0.05);
 
+
+
+}
 enemyHitCallback(enemyHit, bulletHit) {
     enemyHit.scene.hitEnemy.play();
     // Reduce health of enemy

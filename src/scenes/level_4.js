@@ -397,7 +397,12 @@ playerHitCallback(playerHit, enemyHit) {
         console.log("Player hp: ", playerHit.health);
     }
 }
+shakeEffect(){
+    this.cameras.main.shake(300,0.05);
 
+
+
+}
 constrainReticle(reticle)
 {
     var distX = this.reticle.x - this.player.x;

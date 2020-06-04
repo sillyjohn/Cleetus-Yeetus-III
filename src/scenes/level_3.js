@@ -422,7 +422,12 @@ playerHitCallback(playerHit, enemyHit) {
         console.log("Player hp: ", playerHit.health);
     }
 }
+shakeEffect(){
+    this.cameras.main.shake(300,0.05);
 
+
+
+}
 update(){
    
      //update hp counter
