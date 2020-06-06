@@ -204,23 +204,23 @@ create(){
     this.ammo = this.physics.add.group({classType: AmmoPickup, runChildUpdate: true});
 
     
-     //create exit
-     this.levelExit = this.map.findObject("Object Layer_level_1", exit => exit.name === "level_1_Exit");
-     this.exitArea = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
- 
-     this.physics.world.enable(this.exitArea, Phaser.Physics.Arcade.STATIC_BODY);
- 
- 
-     
-     console.log("exit x"+this.levelExit.x);
-     console.log("exit y"+this.levelExit.y);
-     this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
-     
-        this.scene.start('level_2');
-          
-     });
+    //create exit
+    this.levelExit = this.map.findObject("Object Layer_level_1", exit => exit.name === "level_1_Exit");
+    this.exitArea = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
 
-     this.emitSplash
+    this.physics.world.enable(this.exitArea, Phaser.Physics.Arcade.STATIC_BODY);
+ 
+ 
+     
+    console.log("exit x"+this.levelExit.x);
+    console.log("exit y"+this.levelExit.y);
+    this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
+    
+    this.scene.start('level_2');
+        
+    });
+
+    this.emitSplash
 
     //WASD
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
