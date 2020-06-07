@@ -38,12 +38,6 @@ class level_1 extends Phaser.Scene {
         this.dialogText = null;			// the actual dialog text
         this.nextText = null;			// player prompt text to continue typing
 
-        // character variables
-        this.yeetus = null;
-        this.minerva = null;
-        this.neptune = null;
-        this.jove = null;
-        this.tweenDuration = 500;
 
         this.OFFSCREEN_X = -500;        // x,y values to place characters offscreen
         this.OFFSCREEN_Y = 1000;
@@ -88,6 +82,15 @@ preload(){
     this.load.image('dirt','dirtparticle.png');
     this.load.spritesheet('bugSprite','bugSheet.png',{frameWidth: 835, frameHeight: 310});
     this.load.spritesheet('mushroomSprite','shroomSheet.png',{frameWidth: 600, frameHeight: 600});
+
+                // load JSON (dialog)
+                this.load.json('dialog', 'dialog.json');
+        
+                // load images
+                this.load.image('dialogbox', 'textbox.png');
+        
+                // load bitmap font
+                this.load.bitmapFont('gem_font', 'gem.png', 'gem.xml');
 }
 
 

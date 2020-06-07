@@ -13,7 +13,7 @@
         {
          "draworder":"topdown",
          "id":4,
-         "name":"Object_level_2",
+         "name":"Object Layer_level_2",
          "objects":[
                 {
                  "height":93.73,
@@ -110,7 +110,7 @@
          "name":"Tiles2",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":20,
          "x":0,
          "y":0
@@ -122,7 +122,7 @@
          "name":"Tiles3",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":20,
          "x":0,
          "y":0

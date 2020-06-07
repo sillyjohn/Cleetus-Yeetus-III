@@ -167,7 +167,7 @@
  <tileset firstgid="33" name="misctileset" tilewidth="128" tileheight="128" tilecount="12" columns="4">
   <image source="misctileset.png" trans="ff00ff" width="512" height="384"/>
  </tileset>
- <objectgroup id="4" name="Object_level_2">
+ <objectgroup id="4" name="Object Layer_level_2">
   <object id="2" name="levelExit" x="290.909" y="2444.85" width="1066.67" height="93.73"/>
   <object id="4" name="levelSpawn" x="333.333" y="575.758">
    <point/>
@@ -207,7 +207,7 @@
 18,24,0,0,0,0,0,0,0,0,0,20,21,17,17,17,17,17,17,19
 </data>
  </layer>
- <layer id="3" name="Tiles2" width="20" height="20" visible="0" locked="1">
+ <layer id="3" name="Tiles2" width="20" height="20" locked="1">
   <data encoding="csv">
 10,11,16,0,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 10,11,16,16,0,3,10,10,10,10,10,10,10,10,10,10,10,10,10,1,
@@ -231,7 +231,7 @@
 10,10,1,1,1,1,1,1,1,1,1,1,8,4,4,4,4,4,4,7
 </data>
  </layer>
- <layer id="5" name="Tiles3" width="20" height="20" visible="0">
+ <layer id="5" name="Tiles3" width="20" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
