@@ -81,6 +81,7 @@ preload(){
     this.load.audio('healthUp', 'healthUp.wav');
     this.load.audio('ammoUp', 'ammoUp.wav');
     this.load.audio('changeWorld', 'changeWorld.wav');
+    this.load.audio('bgMusic', 'bgmusic.wav');
 
     //enemy assets
     this.load.image('dirt','dirtparticle.png');
@@ -108,6 +109,9 @@ create(){
 
     // this is level_1
     console.log('this is level 3')
+    this.music = this.sound.add('bgMusic', {volume: 0.4});
+    this.music.setLoop(true);
+    this.music.play();
     this.shoot = this.sound.add('shoot', {volume: 0.1});
     this.click = this.sound.add('click', {volume: 0.1});
     this.walk = this.sound.add('walk', {volume: 0.4});
