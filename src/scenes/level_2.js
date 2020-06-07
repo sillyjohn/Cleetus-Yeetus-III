@@ -116,9 +116,6 @@ create(){
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
     this.restartKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
-    this.input.keyboard.on('keydown_N', function (event) {
-        this.scene.start('menuScene');
-    }, 0, this);
 
 
     //background
