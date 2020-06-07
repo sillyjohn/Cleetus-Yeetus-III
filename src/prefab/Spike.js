@@ -10,7 +10,7 @@ class Spike extends Phaser.GameObjects.Sprite {
       this.scene.physics.world.enable(this);
       this.body.allowGravity = false;
       //this.body.setSize(this.width, this.height);
-      this.body.setImmovable();
+      this.setImmovable = true;
       scene.add.existing(this);
       scene.physics.add.existing(this);
       this.setScale(.2,.2);

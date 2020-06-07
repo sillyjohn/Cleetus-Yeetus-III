@@ -240,7 +240,7 @@ create(){
     this.secretSpawn = this.map.findObject("Object Layer_level_4", obj => obj.name  === "Level_4_SecretSpawn2");
 
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
-    this.bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width).setOrigin(0.5,0.5).setScale(0.5);
+    this.bug1 = this.bugs.get().setActive(true).setVisible(true);
     this.bug1.setPos(this.enemySpawnPoint_bug.x,this.enemySpawnPoint_bug.y);
 
     this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);

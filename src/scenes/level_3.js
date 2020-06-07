@@ -233,9 +233,9 @@ create(){
     this.enemySpawnPoint_Spike_2 = this.map.findObject("Object Layer_level_3", obj => obj.name  === "spike_2");
 
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
-    this. bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width).setScale(0.5);
+    this. bug1 = this.bugs.get().setActive(true).setVisible(true);
     this.bug1.setPos(this.enemySpawnPoint_Bug.x,this.enemySpawnPoint_Bug.y);
-    var bug2 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width).setOrigin(0.5,0.5).setScale(0.5);
+    var bug2 = this.bugs.get().setActive(true).setVisible(true);
     bug2.setPos(this.enemySpawnPoint_Bug_2.x,this.enemySpawnPoint_Bug_2.y);
 
     this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);

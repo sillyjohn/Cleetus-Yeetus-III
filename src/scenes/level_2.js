@@ -228,7 +228,7 @@ create(){
 
     //enemies
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
-    var bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width).setOrigin(0.5,0.5).setScale(0.5);
+    var bug1 = this.bugs.get().setActive(true).setVisible(true);
     bug1.setPos(this.game.config.width,0);
 
     this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);
@@ -524,10 +524,9 @@ enemyHitCallback(enemyHit, bulletHit) {
         }
         console.log("rand: ", randSpawn);
         
-        enemyHit.disableBody(true,true);
+        //enemyHit.disableBody(true,true);
         enemyHit.setActive(false).setVisible(false);
 
-        
         // Destroy bullet
         bulletHit.setActive(false).setVisible(false);
     }
