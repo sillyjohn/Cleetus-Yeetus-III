@@ -59,8 +59,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":898.950226410234,
-                 "y":252.384057954838
+                 "x":927.524108096505,
+                 "y":307.333830428436
                 }, 
                 {
                  "height":0,
@@ -71,8 +71,20 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":257.16493517644,
-                 "y":1404.51618442517
+                 "x":641.813342491629,
+                 "y":980.303940928995
+                }, 
+                {
+                 "height":0,
+                 "id":10,
+                 "name":"spike",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":951.730059242724,
+                 "y":1349.56641195158
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -129,7 +141,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":7,
+ "nextobjectid":11,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.3.4",

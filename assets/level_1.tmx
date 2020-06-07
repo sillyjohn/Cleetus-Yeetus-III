@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="128" tileheight="128" infinite="0" nextlayerid="12" nextobjectid="7">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="128" tileheight="128" infinite="0" nextlayerid="12" nextobjectid="11">
  <editorsettings>
   <export target="level_1.json" format="json"/>
  </editorsettings>
@@ -173,10 +173,13 @@
   <object id="4" name="enemySpawn_level_1_Bug" x="1024.24" y="2163.64">
    <point/>
   </object>
-  <object id="5" name="Lore_level_1" x="898.95" y="252.384">
+  <object id="5" name="Lore_level_1" x="927.524" y="307.334">
    <point/>
   </object>
-  <object id="6" name="enemySpawn_level_Shroom" x="257.165" y="1404.52">
+  <object id="6" name="enemySpawn_level_Shroom" x="641.813" y="980.304">
+   <point/>
+  </object>
+  <object id="10" name="spike" x="951.73" y="1349.57">
    <point/>
   </object>
  </objectgroup>

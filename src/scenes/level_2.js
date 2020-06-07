@@ -16,6 +16,41 @@ class level_2 extends Phaser.Scene {
         this.levelExit;
         this.groundLayer_Inverted_dec;
         this.groundLayer_dec;
+
+         // dialog constants
+         this.DBOX_X = 0;			    // dialog box x-position
+         this.DBOX_Y = 300;			    // dialog box y-position
+         this.DBOX_FONT = 'gem_font';	// dialog box font key
+ 
+         this.TEXT_X = 150;			// text w/in dialog box x-position
+         this.TEXT_Y = 2000;			// text w/in dialog box y-position
+         this.TEXT_SIZE = 40;		// text font size (in pixels)
+         this.TEXT_MAX_WIDTH = 1200;	// max width of text within box
+ 
+         this.NEXT_TEXT = '[SPACE]';	// text to display for next prompt
+         this.NEXT_X = this.DBOX_X+1700;			// next text prompt x-position
+         this.NEXT_Y = this.DBOX_Y+300;			// next text prompt y-position
+ 
+         this.LETTER_TIMER = 10;		// # ms each letter takes to "type" onscreen
+ 
+         // dialog variables
+         this.dialogConvo = 0;			// current "conversation"
+         this.dialogLine = 0;			// current line of conversation
+         this.dialogSpeaker = null;		// current speaker
+         this.dialogLastSpeaker = null;	// last speaker
+         this.dialogTyping = false;		// flag to lock player input while text is "typing"
+         this.dialogText = null;			// the actual dialog text
+         this.nextText = null;			// player prompt text to continue typing
+ 
+         // character variables
+         this.yeetus = null;
+         this.minerva = null;
+         this.neptune = null;
+         this.jove = null;
+         this.tweenDuration = 500;
+ 
+         this.OFFSCREEN_X = -500;        // x,y values to place characters offscreen
+         this.OFFSCREEN_Y = 1000;
     }
 
 preload(){
@@ -346,6 +381,31 @@ create(){
     this.collideWithNormalWorld_lookPlayer = this.physics.add.collider(this.lookPlayer, this.groundLayer);
     this.collideWithInvertedWorld_player = this.physics.add.collider(this.player, this.groundLayer_Inverted);
     this.collideWithInvertedWorld_lookPlayer = this.physics.add.collider(this.lookPlayer, this.groundLayer_Inverted);
+
+       //lore
+       this.dialog = this.cache.json.get('dialog');
+       //console.log(this.dialog);
+       
+       // add dialog box sprite
+       this.dialogbox = this.add.sprite(this.DBOX_X, this.DBOX_Y, 'dialogbox').setOrigin(0);
+       this.dialogbox.visible = false;
+       this.dialogbox.setScrollFactor(0);
+   
+       // initialize dialog text objects (with no text)
+       this.dialogText = this.add.bitmapText(this.DBOX_X+150, this.DBOX_Y+120, this.DBOX_FONT, '', this.TEXT_SIZE);
+       this.nextText = this.add.bitmapText(this.NEXT_X, this.NEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE);
+       this.dialogText.setScrollFactor(0);
+       this.nextText.setScrollFactor(0);
+       // ready the character dialog images offscreen
+       //this.yeetus = this.add.sprite(this.OFFSCREEN_X+400, this.DBOX_Y+8, 'player_Idle').setOrigin(0, 1).setScale(4);
+   
+       //spawn lore item
+       this.lore_lv1 = this.map.createFromObjects('Object Layer_level_1','Lore_level_1',{key: 'lore'},this);
+       this.physics.world.enable(this.lore_lv1, Phaser.Physics.Arcade.STATIC_BODY);
+       this.physics.add.collider(this.lore_lv1,this.player, (lore, player) => {
+           this.typeText(2);
+           lore.destroy();       
+       });
 }
 
 constrainReticle(reticle)

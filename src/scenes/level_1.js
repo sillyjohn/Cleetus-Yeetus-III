@@ -204,6 +204,8 @@ create(){
     //enemy spawn
     
     this.enemySpawnPoint = this.map.findObject("Object Layer_level_1", obj => obj.name  === "enemySpawn_level_1_Bug");
+    this.enemySpawnPoint_shroom = this.map.findObject("Object Layer_level_1", obj => obj.name  === "enemySpawn_level_Shroom");
+    this.enemySpawnPoint_spike = this.map.findObject("Object Layer_level_1", obj => obj.name  === "spike");
 
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
     var bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width);
@@ -215,7 +217,7 @@ create(){
 
     this.mushrooms = this.physics.add.group({classType: Mushroom, runChildUpdate: true});
     var mush1 = this.mushrooms.get().setActive(true).setVisible(true);
-    mush1.setPos(this.playerSpawn.x + 500,this.playerSpawn.y);
+    mush1.setPos(this.enemySpawnPoint_shroom.x ,this.enemySpawnPoint_shroom.y);
 
     this.normalMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer);
     this.warpMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer_Inverted);
@@ -223,7 +225,7 @@ create(){
 
     this.spikes = this.physics.add.group({classType: Spike, runChildUpdate: true});
     var spike1 = this.spikes.get().setActive(true).setVisible(true);
-    spike1.setPos(700,800);
+    spike1.setPos(this.enemySpawnPoint_spike.x,this.enemySpawnPoint_spike.y);
 
     this.normalSpikeCollide = this.physics.add.collider(this.spikes, this.groundLayer);
     this.warpSpikeCollide = this.physics.add.collider(this.spikes, this.groundLayer_Inverted);
@@ -401,7 +403,7 @@ create(){
         this.typeText(1);
         lore.destroy();       
     });
-    
+ 
     
 }
 
@@ -488,6 +490,7 @@ shakeEffect(){
 }
 
 typeText(num) {
+    this.dialogTyping = true;
     // lock input while typing
     this.dialogTyping = true;
     this.dialogConvo = num;
@@ -508,6 +511,9 @@ typeText(num) {
     }
     else {
         this.dialogbox.visible = true;
+        this.dialogText.visible = true;
+        this.nextText.visible = true;
+
         // build dialog (concatenate speaker + line of text)
         this.dialogLines = this.dialog[this.dialogConvo][this.dialogLine]['speaker'].toUpperCase() + ': ' + this.dialog[this.dialogConvo][this.dialogLine]['dialog'];
 
@@ -548,7 +554,7 @@ typeText(num) {
 
 update(){
     // check for spacebar press
-    if(Phaser.Input.Keyboard.JustDown(this.cursors.space) ) {
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.space) && !this.dialogTyping) {
         // trigger dialog
         this.dialogbox.visible = false;
         this.dialogText.visible = false;

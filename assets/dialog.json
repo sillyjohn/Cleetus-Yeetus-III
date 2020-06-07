@@ -29,7 +29,7 @@
 	[
 		{ 
 			"speaker" : "Yeetus",
-			"dialog" : "I need to find a way to get in. Maybe this device can help. ",
+			"dialog" : "I need to find a way to get in. Maybe this device can help. What is this place?",
 			"newSpeaker" : "true"
 		}
 		
@@ -37,11 +37,53 @@
 	[
 
 		{ 
-			"speaker" : "Yeetus",
-			"dialog" : "Looks like ",
+			"speaker" : "??? ",
+			"dialog" : "Help me brother!! Please, StOp#$%^( hurting ME! ",
 			"newSpeaker" : "true"
 		}
 	
 
+	],
+	[
+
+
+		{
+
+			"speaker" : "Testing Report No.3 ",
+			"dialog" : "This wrapping device was design to help traversing terrain effortlessly, however, with increased usage, the user's mental state will become unstable and hallucination will occur, user start to develope violence characteristic.",
+			"newSpeaker" : "true"
+
+		}
+
+	],
+	[
+
+
+		{
+
+			"speaker" : "Testing Report No.90 ",
+			"dialog" : "Majority of patients have reported that they experienced hallucination, and 90% are similar to others. They reported that they are getting attacked by insects and expericening anger toward them.",
+			"newSpeaker" : "true"
+
+		}
+
+	],
+	[
+		
+		{
+
+			"speaker" : "Testing Report No.90 ",
+			"dialog" : "Majority of patients have reported that they experienced hallucination, and 90% are similar to others. They reported that they are getting attacked by insects and expericening anger toward them.",
+			"newSpeaker" : "true"
+
+		}
+	],
+	[
+
+		
+
+
 	]
+
+
 ]
