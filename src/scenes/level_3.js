@@ -103,6 +103,8 @@ create(){
     //player attributes
     this.playerHealth = 5;
     this.playerAmmo = 25;
+    this.invincible = false;
+    this.invincibleTimer = 120;
 
     // this is level_1
     console.log('this is level 3')
