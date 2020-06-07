@@ -1,6 +1,6 @@
 class Talking extends Phaser.Scene {
     constructor() {
-        super("talkingScene");
+        super("introScene");
 
         // dialog constants
         this.DBOX_X = 0;			    // dialog box x-position

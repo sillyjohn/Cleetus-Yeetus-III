@@ -3,68 +3,57 @@ class Menu extends Phaser.Scene {
         super("menuScene");
     }
     preload(){
-      
+       
+        this.load.path = "./assets/";
+    //tileset assets   
+    this.load.image('menu','menu.png');
+    this.load.image('playButton','play button.png')
 
 
     }
 
     create() {
-            let centerX = game.config.width/2;
-            let centerY = game.config.height/2;
+            let centerX = 1080/2;
+            let centerY = 1920/2;
             
-            this.menuM = this.sound.add('bgm_1', {volume: 0.1});
-           
-            this.menuM.play();
-          
+            
             //background
-            this.menuBack = this.add.tileSprite(0,0,900,600,'menuBackground').setOrigin(0,0);
+            this.menuBack = this.add.tileSprite(0,0,1920,1080,'menu').setOrigin(0,0);
           
             
-            //place holder title
-            let menuConfig= {
-                frontFamily: 'Courier',
-                fontSize: '28px',
-                backgroundColor:'#1F46EB',
-                colo:'#FFFFFF',
-                align:'right',
-                padding:{
-                    top:5,
-                    bottom:5,
-                },
-                fixedWidth:0
-            }
+        
     
             //creating a menu button to move to the play scene
-            this.pButton = this.add.image(centerX+215,centerY-50,'playButton').setOrigin(0.5,0.5);
+            this.pButton = this.add.image(centerX+410,centerY-430,'playButton').setOrigin(0.5,0.5).setScale(0.55);
             this.pButton.setInteractive({
                 useHandCursor: true,
             });
-            this.htpButton = this.add.image(centerX+215,centerY+50,'howButton').setOrigin(0.5,0.5);
-            this.htpButton.setInteractive({
-                useHandCursor: true,
-            });
-            this.cButton = this.add.image(centerX+215,centerY+150,'creditButton').setOrigin(0.5,0.5);
-            this.cButton.setInteractive({
-                useHandCursor: true,
-            });
+            // this.htpButton = this.add.image(centerX+215,centerY+50,'howButton').setOrigin(0.5,0.5);
+            // this.htpButton.setInteractive({
+            //     useHandCursor: true,
+            // });
+            // this.cButton = this.add.image(centerX+215,centerY+150,'creditButton').setOrigin(0.5,0.5);
+            // this.cButton.setInteractive({
+            //     useHandCursor: true,
+            // });
             
             // start play scene when menu button is being pressed/clicked
              this.pButton.on('pointerdown', (pointer, gameObject, event) => {
-                this.menuM.destroy();           
-                this.scene.start("world_1");
+                // this.menuM.destroy();           
+                this.scene.start("introScene");
                //this.scene.start("endScene");
             });
-            this.cButton.on('pointerdown', (pointer, gameObject, event) => {
-                this.menuM.destroy();
-                this.scene.start("creditScene");
+            // this.cButton.on('pointerdown', (pointer, gameObject, event) => {
+            //     this.menuM.destroy();
+            //     this.scene.start("creditScene");
                 
-              // this.scene.start("playScene");
-            });
-            this.htpButton.on('pointerdown', (pointer, gameObject, event) => {
-                this.menuM.destroy();
-                this.scene.start("howScene");
-              // this.scene.start("playScene");
-            });
+            //   // this.scene.start("playScene");
+            // });
+            // this.htpButton.on('pointerdown', (pointer, gameObject, event) => {
+            //     this.menuM.destroy();
+            //     this.scene.start("howScene");
+            //   // this.scene.start("playScene");
+            // });
            
        
       }

@@ -210,8 +210,11 @@ create(){
     //enemy spawn location
     this.enemySpawnPoint_bug = this.map.findObject("Object Layer_level_4", obj => obj.name  === "enemy_spawn_level_4_bug");
     this.enemySpawnPoint_mushshroom = this.map.findObject("Object Layer_level_4", obj => obj.name  === "enemy_spawn_level_4_Shroom");
-    // death zone
-    this.deathArea = this.map.findObject("Object Layer_level_4", obj => obj.name  === "Death Zone");
+    this.enemySpawnPoint_mushshroom_2 = this.map.findObject("Object Layer_level_4", obj => obj.name  === "enemy_spawn_level_4_Shroom_2");
+    this.enemySpawnPoint_spike = this.map.findObject("Object Layer_level_4", obj => obj.name  === "spike");
+    this.enemySpawnPoint_spike_2 = this.map.findObject("Object Layer_level_4", obj => obj.name  === "spike_2");
+    this.enemySpawnPoint_spike_3= this.map.findObject("Object Layer_level_4", obj => obj.name  === "spike_3");
+
     //secret exit and spawn
     this.secretExit = this.map.findObject("Object Layer_level_4", obj => obj.name  === "Level_4_secretExit");
     this.secretExitArea_lv4 = this.add.rectangle(this.secretExit.x,this.secretExit.y,this.secretExit.width,this.secretExit.height).setOrigin(0,1);
@@ -225,27 +228,34 @@ create(){
     this.physics.add.overlap(this.player, this.secretExitArea_lv4, (obj1, obj2) => {
        this.player.setPosition(this.secretSpawn.x,this.secretSpawn.y);
     });
+
     this.secretSpawn = this.map.findObject("Object Layer_level_4", obj => obj.name  === "Level_4_SecretSpawn2");
 
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
-    var bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width).setOrigin(0.5,0.5).setScale(0.5);
-    bug1.setPos(this.enemySpawnPoint_bug.x,this.enemySpawnPoint_bug.y);
+    this.bug1 = this.bugs.get().setActive(true).setVisible(true).setSize(this.bugs.width).setOrigin(0.5,0.5).setScale(0.5);
+    this.bug1.setPos(this.enemySpawnPoint_bug.x,this.enemySpawnPoint_bug.y);
 
     this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);
     this.warpBugCollide = this.physics.add.collider(this.bugs, this.groundLayer_Inverted);
     this.playerBugCollide = this.physics.add.collider(this.bugs, this.player, this.playerHitCallback);
 
     this.mushrooms = this.physics.add.group({classType: Mushroom, runChildUpdate: true});
-    var mush1 = this.mushrooms.get().setActive(true).setVisible(true);
-    mush1.setPos(this.enemySpawnPoint_mushshroom.x,this.enemySpawnPoint_mushshroom.y);
+    this. mush1 = this.mushrooms.get().setActive(true).setVisible(true);
+    this.mush1.setPos(this.enemySpawnPoint_mushshroom.x,this.enemySpawnPoint_mushshroom.y);
+    this. mush2 = this.mushrooms.get().setActive(true).setVisible(true);
+    this.mush2.setPos(this.enemySpawnPoint_mushshroom_2.x,this.enemySpawnPoint_mushshroom_2.y);
 
     this.normalMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer);
     this.warpMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer_Inverted);
     this.playerMushCollide = this.physics.add.collider(this.mushrooms, this.player, this.playerHitCallback);
 
     this.spikes = this.physics.add.group({classType: Spike, runChildUpdate: true});
-    var spike1 = this.spikes.get().setActive(true).setVisible(true);
-    spike1.setPos(700,800);
+    this.spike1 = this.spikes.get().setActive(true).setVisible(true);
+    this.spike1.setPos(this.enemySpawnPoint_spike.x,this.enemySpawnPoint_spike.y);
+    this.spike2 = this.spikes.get().setActive(true).setVisible(true);
+    this.spike2.setPos(this.enemySpawnPoint_spike_2.x,this.enemySpawnPoint_spike_2.y);
+    this.spike3 = this.spikes.get().setActive(true).setVisible(true);
+    this.spike3.setPos(this.enemySpawnPoint_spike_3.x,this.enemySpawnPoint_spike_3.y);
 
     this.normalSpikeCollide = this.physics.add.collider(this.spikes, this.groundLayer);
     this.warpSpikeCollide = this.physics.add.collider(this.spikes, this.groundLayer_Inverted);
@@ -256,15 +266,27 @@ create(){
     this.ammo = this.physics.add.group({classType: AmmoPickup, runChildUpdate: true});
 
     //create exit
-    this.levelExit = this.map.findObject("Object Layer_level_4", exit_lv4 => exit_lv4.name === "Level_4_Exit");
-    this.exitArea_lv4 = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
+    this.levelExit = this.map.findObject("Object Layer_level_4", exit => exit.name === "Level_4_Exit");
+    this.exitArea = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
 
-    this.physics.world.enable(this.exitArea_lv4, Phaser.Physics.Arcade.STATIC_BODY);
-    this.physics.add.overlap(this.player, this.exitArea_lv4, (obj1, obj2) => {
+    this.physics.world.enable(this.exitArea, Phaser.Physics.Arcade.STATIC_BODY);
+
+    
+    console.log("exit x"+this.levelExit.x);
+    console.log("exit y"+this.levelExit.y);
+    this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
     
         this.scene.start('level_5');
-        console.log('move to level 5');
+         console.log('move to level 2');
     });
+    // death zone
+    this.deathArea = this.map.findObject("Object Layer_level_4", obj => obj.name  === "Death Zone");
+    this.deathZone = this.add.rectangle(this.deathArea.x,this.deathArea.y+50,this.deathArea.width,this.deathArea.height).setOrigin(0,1);
+    this.physics.world.enable(this.deathZone, Phaser.Physics.Arcade.STATIC_BODY);
+    this.physics.add.overlap(this.player, this.deathZone, (obj1, obj2) => {
+        this.gameOver = true;
+     });
+ 
     //WASD
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -557,6 +579,13 @@ constrainReticle(reticle)
 }
 
 update(){
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.space) && !this.dialogTyping) {
+        // trigger dialog
+        this.dialogbox.visible = false;
+        this.dialogText.visible = false;
+        this.nextText.visible = false;
+        console.log('close dialog box')
+    }
       //update hp counter
      this.hpIcon.text = this.player.health;
      this.bulletCount.text = this.playerAmmo;
@@ -564,13 +593,14 @@ update(){
      if(this.player.health <= 0){
  
          this.gameOver = true
+         console.log('set player hp < 0')
  
      }
      //game over 
-     if(this.gameOver == false){
+     if(this.gameOver == true){
  
-         //this.scene.start("endScene");
- 
+        this.scene.start("endScene");
+        console.log('dead')
      }
          //update list
     this.player.update();

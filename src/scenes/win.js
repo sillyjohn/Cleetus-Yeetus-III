@@ -1,12 +1,12 @@
-class end extends Phaser.Scene {
+class win extends Phaser.Scene {
     constructor(){
-        super("endScene");
+        super("winScene");
     }
     preload(){
       
         this.load.path = "./assets/";
     //tileset assets   
-    this.load.image('endBG','game over.png');
+    this.load.image('winBG','win.png');
     this.load.image('menuButton','menuButton.png')
 
     }
@@ -20,7 +20,7 @@ class end extends Phaser.Scene {
             // this.menuM.play();
           
             //background
-            this.endBack = this.add.tileSprite(0,0,1920,1080,'endBG').setOrigin(0,0);
+            this.winBack = this.add.tileSprite(0,0,1920,1080,'winBG').setOrigin(0,0);
           
             
             //place holder title

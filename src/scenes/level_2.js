@@ -491,7 +491,13 @@ playerHitCallback(playerHit, enemyHit) {
 
 update(){
     //game over loop *move all function and method in later*
-    
+    if(Phaser.Input.Keyboard.JustDown(this.cursors.space) && !this.dialogTyping) {
+        // trigger dialog
+        this.dialogbox.visible = false;
+        this.dialogText.visible = false;
+        this.nextText.visible = false;
+        console.log('close dialog box')
+    }
 
     //update list
     this.player.update();
