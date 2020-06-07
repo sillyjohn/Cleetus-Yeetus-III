@@ -80,6 +80,7 @@ preload(){
     this.load.audio('healthUp', 'healthUp.wav');
     this.load.audio('ammoUp', 'ammoUp.wav');
     this.load.audio('changeWorld', 'changeWorld.wav');
+    this.load.audio('bgMusic', 'bgmusic.wav');
 
     this.load.image('dirt','dirtparticle.png');
     this.load.spritesheet('bugSprite','bugSheet.png',{frameWidth: 835, frameHeight: 310});
@@ -96,9 +97,15 @@ preload(){
 
 
 create(){
+    this.playerHealth = 5;
+    this.playerAmmo = 25;
+    this.invincible = false;
+    this.invincibleTimer = 120;
     // this is level_1
     console.log('this is level 4')
-
+    this.music = this.sound.add('bgMusic', {volume: 0.4});
+    this.music.setLoop(true);
+    this.music.play();
     this.shoot = this.sound.add('shoot', {volume: 0.1});
     this.click = this.sound.add('click', {volume: 0.1});
     this.walk = this.sound.add('walk', {volume: 0.4});
@@ -113,6 +120,7 @@ create(){
     this.switchWorld = false;
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
+    this.restartKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
 
     //background
     this.background_InvertedWorld = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
@@ -715,6 +723,9 @@ update(){
         this.player.play('jump');
     }
 
+    if(Phaser.Input.Keyboard.JustDown(this.restartKey)) {
+        this.scene.start('menuScene');
+    }
 
     // player jump
     // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
