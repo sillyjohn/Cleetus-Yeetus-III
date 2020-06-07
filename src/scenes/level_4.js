@@ -284,6 +284,7 @@ create(){
     console.log("exit y"+this.levelExit.y);
     this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
     
+        this.music.stop();
         this.scene.start('level_5');
          console.log('move to level 2');
     });
@@ -606,7 +607,7 @@ update(){
      }
      //game over 
      if(this.gameOver == true){
- 
+        this.music.stop();
         this.scene.start("endScene");
         console.log('dead')
      }
@@ -724,6 +725,7 @@ update(){
     }
 
     if(Phaser.Input.Keyboard.JustDown(this.restartKey)) {
+        this.music.stop();
         this.scene.start('menuScene');
     }
 

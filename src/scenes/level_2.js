@@ -79,6 +79,7 @@ preload(){
     this.load.audio('healthUp', 'healthUp.wav');
     this.load.audio('ammoUp', 'ammoUp.wav');
     this.load.audio('changeWorld', 'changeWorld.wav');
+    this.load.audio('bgMusic', 'bgmusic.wav');
         // load JSON (dialog)
     this.load.json('dialog', 'dialog.json');
         
@@ -264,6 +265,7 @@ create(){
     console.log("exit y"+this.levelExit.y);
     this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
     
+        this.music.stop();
         this.scene.start('level_3');
         console.log('move to level 3');
     });
@@ -584,9 +586,9 @@ update(){
 
     }
     //game over 
-    if(this.gameOver == false){
-
-        //this.scene.start("endScene");
+    if(this.gameOver == true){
+        this.music.stop();
+        this.scene.start("endScene");
 
     }
 
@@ -700,6 +702,7 @@ update(){
     this.lookPlayer.flipY = this.player_distX < 0;
 
     if(Phaser.Input.Keyboard.JustDown(this.restartKey)) {
+        this.music.stop();
         this.scene.start('menuScene');
     }
 

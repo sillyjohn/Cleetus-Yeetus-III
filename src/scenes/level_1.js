@@ -262,6 +262,7 @@ create(){
      console.log("exit y"+this.levelExit.y);
      this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
         this.cameras.main.fadeIn(3000)
+        this.music.stop();
         this.scene.start('level_2');
           
      });
@@ -581,6 +582,7 @@ update(){
     }
     //game over 
     if(this.gameOver == true){
+        this.music.stop();
         this.scene.start("endScene");
     }
 
@@ -699,6 +701,7 @@ update(){
     this.lookPlayer.flipY = this.player_distX < 0;
 
     if(Phaser.Input.Keyboard.JustDown(this.restartKey)) {
+        this.music.stop();
         this.scene.start('menuScene');
     }
 
