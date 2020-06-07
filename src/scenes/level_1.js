@@ -114,6 +114,12 @@ create(){
     //switch
     this.switchWorld = false;
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    
+    this.restartKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
+    this.input.keyboard.on('keydown_N', function (event) {
+        this.start('menuScene');
+        console.log('scene change fail');
+    }, 0, this);
 
 
     //background
@@ -571,10 +577,8 @@ update(){
 
     }
     //game over 
-    if(this.gameOver == false){
-
-        //this.scene.start("endScene");
-
+    if(this.gameOver == true){
+        this.scene.start("endScene");
     }
 
     //update list
@@ -691,7 +695,9 @@ update(){
     this.player_distX = this.reticle.x - this.player.x;
     this.lookPlayer.flipY = this.player_distX < 0;
 
-
+    if(Phaser.Input.Keyboard.JustDown(this.restartKey)) {
+        this.scene.start('menuScene');
+    }
 
     // player jump
     // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"

@@ -115,6 +115,11 @@ create(){
     this.switchWorld = false;
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
+    this.restartKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
+    this.input.keyboard.on('keydown_N', function (event) {
+        this.scene.start('menuScene');
+    }, 0, this);
+
 
     //background
     this.background_InvertedWorld = this.add.image(0,0,'background_WrapedWood').setOrigin(0,0);
@@ -628,7 +633,9 @@ update(){
     this.player_distX = this.reticle.x - this.player.x;
     this.lookPlayer.flipY = this.player_distX < 0;
 
-
+    if(Phaser.Input.Keyboard.JustDown(this.restartKey)) {
+        this.scene.start('menuScene');
+    }
 
     // player jump
     // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
