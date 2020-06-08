@@ -14,11 +14,13 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
+        this.musicStop = false;
             let centerX = 1080/2;
             let centerY = 1920/2;
             
              
-            this.menuM = this.sound.add('winM', {volume: 0.1}).setLoop(true);
+            this.menuM = this.sound.add('winM', {volume: 0.01});
+            this.menuM.loop = true;
            
             this.menuM.play();
             
@@ -44,8 +46,11 @@ class Menu extends Phaser.Scene {
             
             // start play scene when menu button is being pressed/clicked
              this.pButton.on('pointerdown', (pointer, gameObject, event) => {
-                // this.menuM.destroy();           
+                // this.menuM.destroy();
+                this.menuM.stop();   
+               this.musicStop = true;         
                 this.scene.start("introScene");
+                
                //this.scene.start("endScene");
             });
             // this.cButton.on('pointerdown', (pointer, gameObject, event) => {
@@ -64,6 +69,9 @@ class Menu extends Phaser.Scene {
       }
       
     update() {
+        if(this.musicStop == true){
+            this.menuM.stop();        
+        }
        
       }
       
