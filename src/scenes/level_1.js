@@ -96,6 +96,7 @@ preload(){
 
 
 create(){
+    this.gameOver = false;
     //player attributes
     this.playerHealth = 5;
     this.playerAmmo = 25;
@@ -252,7 +253,7 @@ create(){
     
     //create exit
     this.levelExit = this.map.findObject("Object Layer_level_1", exit => exit.name === "level_1_Exit");
-    this.exitArea = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
+    this.exitArea = this.add.rectangle(this.levelExit.x,this.levelExit.y+100,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
 
     this.physics.world.enable(this.exitArea, Phaser.Physics.Arcade.STATIC_BODY);
  

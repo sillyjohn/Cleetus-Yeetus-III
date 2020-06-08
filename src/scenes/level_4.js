@@ -97,6 +97,7 @@ preload(){
 
 
 create(){
+    this.gameOver = false;
     this.playerHealth = 5;
     this.playerAmmo = 25;
     this.invincible = false;

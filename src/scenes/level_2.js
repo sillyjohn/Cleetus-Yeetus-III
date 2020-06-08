@@ -98,6 +98,7 @@ preload(){
 
 
 create(){
+    this.gameOver = false;
     //player attributes
     this.playerHealth = 5;
     this.playerAmmo = 25;
