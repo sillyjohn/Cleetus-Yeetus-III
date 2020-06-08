@@ -29,7 +29,7 @@
 	[
 		{ 
 			"speaker" : "Yeetus",
-			"dialog" : "I need to find a way to get in. Maybe this device can help. What is this place?",
+			"dialog" : "W to Jump, A/D move, Space bar to close dialog, R to wrap world, N to restart.Mouse 1 to shoot and Mouse to aim",
 			"newSpeaker" : "true"
 		}
 		
