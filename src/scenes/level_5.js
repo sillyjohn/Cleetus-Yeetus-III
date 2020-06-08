@@ -56,7 +56,8 @@ preload(){
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
     this.load.tilemapTiledJSON('level_5','Level_5.json');
     
-    //assets
+
+    //player assets
     this.load.image('playerHead','playerHead.png');
     this.load.image('player_playerHolder','playerPlaceHolder.png');
     this.load.image('shells','shells.png');
@@ -78,20 +79,22 @@ preload(){
     this.load.audio('ammoUp', 'ammoUp.wav');
     this.load.audio('changeWorld', 'changeWorld.wav');
     this.load.audio('bgMusic', 'bgmusic.wav');
+    this.load.audio('mushShot', 'mushShoot.wav');
 
-    //assets
+    //enemy assets
     this.load.image('dirt','dirtparticle.png');
     this.load.spritesheet('bugSprite','bugSheet.png',{frameWidth: 835, frameHeight: 310});
     this.load.spritesheet('mushroomSprite','shroomSheet.png',{frameWidth: 600, frameHeight: 600});
 
-                // load JSON (dialog)
-                this.load.json('dialog', 'dialog.json');
+
+      // load JSON (dialog)
+      this.load.json('dialog', 'dialog.json');
         
-                // load images
-                this.load.image('dialogbox', 'textbox.png');
-        
-                // load bitmap font
-                this.load.bitmapFont('gem_font', 'gem.png', 'gem.xml');
+      // load images
+      this.load.image('dialogbox', 'textbox.png');
+
+      // load bitmap font
+      this.load.bitmapFont('gem_font', 'gem.png', 'gem.xml');
 }
 
 
