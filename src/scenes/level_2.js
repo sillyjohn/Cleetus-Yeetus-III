@@ -525,8 +525,9 @@ enemyHitCallback(enemyHit, bulletHit) {
         }
         console.log("rand: ", randSpawn);
         
-        enemyHit.disableBody(true,true);
-        enemyHit.setActive(false).setVisible(false);
+        enemyHit.destroy();
+        /*enemyHit.disableBody(true,true);
+        enemyHit.setActive(false).setVisible(false);*/
 
         // Destroy bullet
         bulletHit.setActive(false).setVisible(false);
