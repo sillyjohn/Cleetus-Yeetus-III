@@ -120,6 +120,7 @@ create(){
     this.ammoUp = this.sound.add('ammoUp', {volume: 0.4});
     this.healthUp = this.sound.add('healthUp', {volume: 0.4});
     this.changeWorld = this.sound.add('changeWorld', {volume: 0.4});
+    this.mushShot = this.sound.add('mushShot', {volume: 0.4});
 
     //switch
     this.switchWorld = false;
