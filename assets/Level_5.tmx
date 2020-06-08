@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="128" tileheight="128" infinite="0" nextlayerid="6" nextobjectid="7">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="128" tileheight="128" infinite="0" nextlayerid="6" nextobjectid="11">
  <editorsettings>
   <export target="Level_5.json" format="json"/>
  </editorsettings>
@@ -234,7 +234,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="5" name="Tile_Level_5_4" width="20" height="20" visible="0">
+ <layer id="5" name="Tile_Level_5_4" width="20" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -268,7 +268,16 @@
   <object id="4" name="key" x="309.091" y="212.121">
    <point/>
   </object>
-  <object id="6" name="Lore_level_5" x="2242.42" y="69.697">
+  <object id="6" name="Lore_level_5" x="2003.03" y="236.364">
+   <point/>
+  </object>
+  <object id="8" name="enemySpawn_level_5_Bug" x="2360.61" y="1733.33">
+   <point/>
+  </object>
+  <object id="9" name="enemySpawn_level_Shroom" x="1081.82" y="575.758">
+   <point/>
+  </object>
+  <object id="10" name="spike" x="2339.39" y="103.03">
    <point/>
   </object>
  </objectgroup>

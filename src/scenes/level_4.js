@@ -391,11 +391,10 @@ create(){
         }
     }, this);
 
-    //create hp bar
-      //score display
-      let hpConfig = {
+       //score display
+       this. hpConfig = {
         fontFamily: 'Courier',
-        fontSize: '28px',
+        fontSize: '100px',
        
         color:'#ffffff',
         align:'right',
@@ -403,8 +402,9 @@ create(){
             top: 5,
             bottom:5,
         },
-        fixedWidth:100
+        fixedWidth:200
     }
+    
     this.hpIcon = this.add.text(this.cameras.main.width-200,this.cameras.main.height-100,this.player.health,this.hpConfig);
     console.log('player hp'+this.player.health);
     this.hpIcon.setScrollFactor(0);
