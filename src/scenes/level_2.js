@@ -81,6 +81,7 @@ preload(){
     this.load.audio('ammoUp', 'ammoUp.wav');
     this.load.audio('changeWorld', 'changeWorld.wav');
     this.load.audio('bgMusic', 'bgmusic.wav');
+    this.load.audio('mushShot', 'mushShoot.wav');
         // load JSON (dialog)
     this.load.json('dialog', 'dialog.json');
         
@@ -120,6 +121,7 @@ create(){
     this.ammoUp = this.sound.add('ammoUp', {volume: 0.4});
     this.healthUp = this.sound.add('healthUp', {volume: 0.4});
     this.changeWorld = this.sound.add('changeWorld', {volume: 0.4});
+    this.mushShot = this.sound.add('mushShot', {volume: 0.4});
 
     //switch
     this.switchWorld = false;

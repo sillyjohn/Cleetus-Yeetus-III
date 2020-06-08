@@ -4,7 +4,6 @@ class Spore extends Phaser.Physics.Arcade.Sprite{
         Phaser.GameObjects.Image.call(this, scene, 0, 0, 'Spore');
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        this.setSize(.3,.3);
         this.speed = 1;
         this.born = 0;
         this.direction = 0;
@@ -28,7 +27,7 @@ class Spore extends Phaser.Physics.Arcade.Sprite{
 
     fire(rotate, mush) {
         this.setPosition(mush.x, mush.y); // Initial position
-        this.setScale(.06, .06);
+        this.setScale(.08, .08);
         
         this.rotation = rotate; // angle bullet with player rotation
 

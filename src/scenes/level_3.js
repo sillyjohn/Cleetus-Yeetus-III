@@ -82,6 +82,7 @@ preload(){
     this.load.audio('ammoUp', 'ammoUp.wav');
     this.load.audio('changeWorld', 'changeWorld.wav');
     this.load.audio('bgMusic', 'bgmusic.wav');
+    this.load.audio('mushShot', 'mushShoot.wav');
 
     //enemy assets
     this.load.image('dirt','dirtparticle.png');
@@ -123,6 +124,7 @@ create(){
     this.ammoUp = this.sound.add('ammoUp', {volume: 0.4});
     this.healthUp = this.sound.add('healthUp', {volume: 0.4});
     this.changeWorld = this.sound.add('changeWorld', {volume: 0.4});
+    this.mushShot = this.sound.add('mushShot', {volume: 0.4});
     //switch
     this.switchWorld = false;
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -465,8 +467,9 @@ enemyHitCallback(enemyHit, bulletHit) {
         }
         console.log("rand: ", randSpawn);
         
-        enemyHit.disableBody(true,true);
         enemyHit.setActive(false).setVisible(false);
+        enemyHit.disableBody(true,true);
+        enemyHit.destroy();
 
         
         // Destroy bullet
@@ -515,10 +518,8 @@ sporeHitCallback(playerHit, sporeHit) {
 
 shakeEffect(){
     this.cameras.main.shake(300,0.05);
-
-
-
 }
+
 typeText(num) {
     this.dialogTyping = true;
     // lock input while typing

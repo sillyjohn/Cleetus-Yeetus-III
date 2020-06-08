@@ -41,6 +41,7 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
             var sporeShot = this.scene.spores.get().setActive(true).setVisible(true);
             sporeShot.body.allowGravity = false;
             if (sporeShot) {
+                this.scene.mushShot.play();
                 sporeShot.fire(Phaser.Math.Angle.Between(this.x, this.y, this.scene.player.x, this.scene.player.y), this);
                 this.scene.physics.add.collider(this.scene.player, sporeShot, this.scene.sporeHitCallback);
             }

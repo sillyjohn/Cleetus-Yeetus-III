@@ -81,6 +81,7 @@ preload(){
     this.load.audio('ammoUp', 'ammoUp.wav');
     this.load.audio('changeWorld', 'changeWorld.wav');
     this.load.audio('bgMusic', 'bgmusic.wav');
+    this.load.audio('mushShot', 'mushShoot.wav');
 
     this.load.image('dirt','dirtparticle.png');
     this.load.spritesheet('bugSprite','bugSheet.png',{frameWidth: 835, frameHeight: 310});
@@ -117,6 +118,7 @@ create(){
     this.ammoUp = this.sound.add('ammoUp', {volume: 0.4});
     this.healthUp = this.sound.add('healthUp', {volume: 0.4});
     this.changeWorld = this.sound.add('changeWorld', {volume: 0.4});
+    this.mushShot = this.sound.add('mushShot', {volume: 0.4});
     //switch
     this.switchWorld = false;
     this.switchKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
