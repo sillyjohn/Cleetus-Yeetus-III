@@ -12,7 +12,6 @@ class Spore extends Phaser.Physics.Arcade.Sprite{
     
     create(){
         this.body.setMaxVelocity(this.MAX_X_VEL  , this.MAX_Y_VEL);
-        
     }
     
     update(){
