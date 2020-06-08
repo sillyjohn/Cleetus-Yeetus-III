@@ -43,6 +43,7 @@ class level_2 extends Phaser.Scene {
          this.nextText = null;			// player prompt text to continue typing
          this.OFFSCREEN_X = -500;        // x,y values to place characters offscreen
          this.OFFSCREEN_Y = 1000;
+         this.lore_lv1 = null;
     }
 
 preload(){
@@ -411,11 +412,11 @@ create(){
     //this.yeetus = this.add.sprite(this.OFFSCREEN_X+400, this.DBOX_Y+8, 'player_Idle').setOrigin(0, 1).setScale(4);
 
     //spawn lore item
-    this.lore_lv1 = this.map.createFromObjects('Object Layer_level_2','Lore_level_2',{key: 'lore'},this);
+     this.lore_lv1 = this.map.createFromObjects('Object Layer_level_2','Lore_level_2',{key: 'lore'},this);
     this.physics.world.enable(this.lore_lv1, Phaser.Physics.Arcade.STATIC_BODY);
     this.physics.add.collider(this.lore_lv1,this.player, (lore, player) => {
         this.typeText(2);
-        this.lore.destroy();       
+        lore.destroy();       
     });
  
 }
