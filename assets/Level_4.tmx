@@ -162,7 +162,7 @@
  <tileset firstgid="33" name="misctileset" tilewidth="128" tileheight="128" tilecount="12" columns="4">
   <image source="misctileset.png" trans="ff00ff" width="512" height="384"/>
  </tileset>
- <objectgroup id="3" name="Object Layer_level_4" visible="0">
+ <objectgroup id="3" name="Object Layer_level_4">
   <object id="1" name="Death Zone" x="6.06061" y="2512.12" width="1817.52" height="42.4242"/>
   <object id="3" name="Level_4_SecretSpawn2" x="2354.55" y="290.909">
    <point/>
@@ -195,7 +195,7 @@
    <point/>
   </object>
  </objectgroup>
- <layer id="1" name="Tiles_level_4" width="20" height="20" visible="0">
+ <layer id="1" name="Tiles_level_4" width="20" height="20">
   <data encoding="csv">
 24,0,0,0,0,20,0,0,0,0,0,0,0,20,18,0,0,0,0,18,
 24,0,0,0,0,30,0,0,0,0,0,0,0,20,18,18,18,18,18,18,

@@ -6,8 +6,10 @@ class win extends Phaser.Scene {
       
         this.load.path = "./assets/";
     //tileset assets   
-    this.load.image('winBG','win.png');
+    this.load.image('winBG','gamefinish.png');
     this.load.image('menuButton','menuButton.png')
+    this.load.image('restartButton','restartButton.png')
+
 
     }
 
@@ -38,7 +40,7 @@ class win extends Phaser.Scene {
             }
     
             //creating a menu button to move to the play scene
-            this.mButton = this.add.image(centerX+420,centerY-110,'menuButton').setOrigin(0.5,0.5).setScale(0.5);
+            this.mButton = this.add.image(centerX+120,centerY-50,'menuButton').setOrigin(0.5,0.5).setScale(0.3);
             this.mButton.setInteractive({
                 useHandCursor: true,
             });
@@ -46,20 +48,22 @@ class win extends Phaser.Scene {
             // this.htpButton.setInteractive({
             //     useHandCursor: true,
             // });
-            // this.cButton = this.add.image(centerX+215,centerY+150,'creditButton').setOrigin(0.5,0.5);
-            // this.cButton.setInteractive({
-            //     useHandCursor: true,
-            // });
+            this.rButton = this.add.image(centerX-150,centerY-50,'restartButton').setOrigin(0.5,0.5).setScale(0.3);
+            this.rButton.setInteractive({
+                useHandCursor: true,
+            });
             
             // start play scene when menu button is being pressed/clicked
              this.mButton.on('pointerdown', (pointer, gameObject, event) => {
                 // this.menuM.destroy();           
-                this.scene.start("introScene");
+                this.scene.start("menuScene");
                //this.scene.start("endScene");
             });
-            // this.cButton.on('pointerdown', (pointer, gameObject, event) => {
-            //     this.menuM.destroy();
-            //     this.scene.start("creditScene");
+            this.rButton.on('pointerdown', (pointer, gameObject, event) => {
+                
+                this.scene.start("introScene");
+            
+            })
                 
             //   // this.scene.start("playScene");
             // });
@@ -69,12 +73,10 @@ class win extends Phaser.Scene {
             //   // this.scene.start("playScene");
             // });
            
-       
-      }
+        
+        }
       
-    update() {
-       
-      }
+    
       
    
 }

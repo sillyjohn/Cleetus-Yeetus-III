@@ -13,6 +13,7 @@ class level_5 extends Phaser.Scene {
         this.tileset_Normal;
         this.tileset_Inverted;
         this.groundLayer;
+        this.haveKey = false;
         // dialog constants
         this.DBOX_X = 0;			    // dialog box x-position
         this.DBOX_Y = 300;			    // dialog box y-position
@@ -47,7 +48,10 @@ class level_5 extends Phaser.Scene {
 preload(){
     this.load.path = "./assets/";
     //tileset assets   
+    this.load.image('dave','dave.png');
     this.load.image('lore','scroll.png');
+    this.load.image('key','shroomkey.png');
+    this.load.image('gate','shroomgate.png');
     this.load.image('background_WrapedWood','warpedwoodsdarkbg.png');
     this.load.image('background_NormalWood','warpedwoodsregbg.png');
     this.load.image("tileset_Decoration","misctileset.png");
@@ -99,6 +103,8 @@ preload(){
 
 
 create(){
+    this.haveKey = false;
+    this.gameOver = false;
     //player attributes
     this.playerHealth = 5;
     this.playerAmmo = 25;
@@ -377,10 +383,10 @@ create(){
         fixedWidth:200
     }
     this.healthCount = 0;
-    this.hpIcon = this.add.text(this.cameras.main.width-200,this.cameras.main.height-100,this.player.health,this.hpConfig);
+    this.hpIcon = this.add.text(this.cameras.main.width-200,this.cameras.main.height-100,'HP '+this.player.health,this.hpConfig);
     console.log('bullet counter'+this.playerAmmo);
     this.hpIcon.setScrollFactor(0);
-    this.bulletCount = this.add.text(200,this.cameras.main.height-100,this.playerAmmo,this.hpConfig);
+    this.bulletCount = this.add.text(200,this.cameras.main.height-100,'AMMO '+this.playerAmmo,this.hpConfig);
     this.bulletCount.setScrollFactor(0);
     //Animation 
 
@@ -414,10 +420,35 @@ create(){
     this.lore_lv1 = this.map.createFromObjects('Object Layer_Level_5','Lore_level_5',{key: 'lore'},this);
     this.physics.world.enable(this.lore_lv1, Phaser.Physics.Arcade.STATIC_BODY);
     this.physics.add.collider(this.lore_lv1,this.player, (lore, player) => {
-        this.typeText(1);
+        this.typeText(6);
         lore.destroy();       
     });
- 
+
+    //key
+    this.key = this.map.createFromObjects('Object Layer_Level_5','key',{key: 'key'},this);
+    this.physics.world.enable(this.key, Phaser.Physics.Arcade.STATIC_BODY);
+    this.physics.add.collider(this.key,this.player, (key, player) => {
+        this.haveKey = true;
+        key.destroy();
+    });
+    this.shroomGate = this.map.createFromObjects('Object Layer_Level_5','gate',{key: 'gate'},this);
+    
+    this.physics.world.enable(this.shroomGate, Phaser.Physics.Arcade.STATIC_BODY);
+    this.physics.add.collider(this.shroomGate,this.player, (gate, player) => {
+        if(this.haveKey == true){
+            gate.destroy();
+        }
+    });
+    //dave 
+    this.dave = this.map.createFromObjects('Object Layer_Level_5','brother',{key: 'dave'},this);
+    
+    this.physics.world.enable(this.dave, Phaser.Physics.Arcade.STATIC_BODY);
+    this.physics.add.collider(this.dave,this.player, (dave, player) => {
+        if(this.haveKey == true){
+            this.scene.start('winScene');
+            dave.destroy();
+        }
+    });
     
 }
 
