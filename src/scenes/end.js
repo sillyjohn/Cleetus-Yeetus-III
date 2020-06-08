@@ -8,7 +8,7 @@ class end extends Phaser.Scene {
     //tileset assets   
     this.load.image('endBG','game over.png');
     this.load.image('menuButton','menuButton.png')
-
+    this.load.image('restartButton','restartButton.png')
     }
 
     create() {
