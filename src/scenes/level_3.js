@@ -661,9 +661,7 @@ update(){
         this.collideWithNormalWorld_lookPlayer.active = false;
         this.collideWithInvertedWorld_player.active = true;
         this.collideWithInvertedWorld_lookPlayer.active = true;   
-        this.bug1.setVisible(true)
-        this.spike1.setVisible(true);
-        this.spike1.active = true;
+ 
 
     }
     else if(this.switchWorld == false) {
@@ -679,8 +677,7 @@ update(){
         this.collideWithNormalWorld_lookPlayer.active = true;        
         this.collideWithInvertedWorld_player.active = false;
         this.collideWithInvertedWorld_lookPlayer.active = false;     
-        this.bug1.setVisible(false);
-        this.spike1.setVisible(false);
+       
         
 
     }
