@@ -9,6 +9,7 @@ class win extends Phaser.Scene {
     this.load.image('winBG','gamefinish.png');
     this.load.image('menuButton','menuButton.png')
     this.load.image('restartButton','restartButton.png')
+    this.load.audio('winM','successtheme.wav')
 
 
     }
@@ -17,9 +18,9 @@ class win extends Phaser.Scene {
             let centerX = 1080/2;
             let centerY = 1980/2;
             
-            // this.menuM = this.sound.add('bgm_1', {volume: 0.1});
+            this.menuM = this.sound.add('winM', {volume: 0.5}).setLoop(true);
            
-            // this.menuM.play();
+            this.menuM.play();
           
             //background
             this.winBack = this.add.tileSprite(0,0,1920,1080,'winBG').setOrigin(0,0);

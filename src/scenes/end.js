@@ -9,15 +9,17 @@ class end extends Phaser.Scene {
     this.load.image('endBG','game over.png');
     this.load.image('menuButton','menuButton.png')
     this.load.image('restartButton','restartButton.png')
+    this.load.audio('winM','gameovertheme.wav')
+
     }
 
     create() {
             let centerX = 1080/2;
             let centerY = 1980/2;
             
-            // this.menuM = this.sound.add('bgm_1', {volume: 0.1});
+            this.menuM = this.sound.add('winM', {volume: 0.1}).setLoop(true);
            
-            // this.menuM.play();
+            this.menuM.play();
           
             //background
             this.endBack = this.add.tileSprite(0,0,1920,1080,'endBG').setOrigin(0,0);

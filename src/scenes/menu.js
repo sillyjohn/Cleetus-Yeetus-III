@@ -9,6 +9,7 @@ class Menu extends Phaser.Scene {
     this.load.image('menu','menu.png');
     this.load.image('playButton','play button.png')
 
+    this.load.audio('winM','menutheme.wav')
 
     }
 
@@ -16,6 +17,10 @@ class Menu extends Phaser.Scene {
             let centerX = 1080/2;
             let centerY = 1920/2;
             
+             
+            this.menuM = this.sound.add('winM', {volume: 0.1}).setLoop(true);
+           
+            this.menuM.play();
             
             //background
             this.menuBack = this.add.tileSprite(0,0,1920,1080,'menu').setOrigin(0,0);

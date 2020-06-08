@@ -80,7 +80,7 @@ preload(){
     this.load.audio('healthUp', 'healthUp.wav');
     this.load.audio('ammoUp', 'ammoUp.wav');
     this.load.audio('changeWorld', 'changeWorld.wav');
-    this.load.audio('bgMusic', 'bgmusic.wav');
+    this.load.audio('bgMusic', 'playmusic.wav');
     this.load.audio('mushShot', 'mushShoot.wav');
         // load JSON (dialog)
     this.load.json('dialog', 'dialog.json');
