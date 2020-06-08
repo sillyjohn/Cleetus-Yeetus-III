@@ -1,7 +1,7 @@
 class DirectBullet extends Phaser.Physics.Arcade.Sprite{
     constructor(scene,x,y,texture,frame){
         super(scene,x,y,texture,frame);
-        Phaser.GameObjects.Image.call(this, scene, 0, 0, 'bullet');
+        Phaser.GameObjects.Image.call(this, scene, -1000, -1000, 'bullet');
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setSize(.1,.1);
