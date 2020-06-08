@@ -477,6 +477,16 @@ playerHitCallback(playerHit, enemyHit) {
     }
 }
 
+sporeHitCallback(playerHit, sporeHit) {
+    playerHit.scene.hitPlayer.play();
+    if (sporeHit.active === true && playerHit.active === true)
+    {
+        sporeHit.disableBody(true,true);
+        playerHit.health = playerHit.health - 10;
+        console.log("Player hp: ", playerHit.health);
+    }
+}
+
 constrainReticle(reticle)
 {
     var distX = this.reticle.x - this.player.x;

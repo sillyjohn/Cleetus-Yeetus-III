@@ -233,7 +233,7 @@ create(){
 
     this.normalBugCollide = this.physics.add.collider(this.bugs, this.groundLayer);
     this.warpBugCollide = this.physics.add.collider(this.bugs, this.groundLayer_Inverted);
-    this.playerBugCollide = this.physics.add.collider(this.bugs, this.player, this.playerHitCallback);
+    this.playerBugCollide = this.physics.add.overlap(this.bugs, this.player, this.playerHitCallback);
 
     this.mushrooms = this.physics.add.group({classType: Mushroom, runChildUpdate: true});
     var mush1 = this.mushrooms.get().setActive(true).setVisible(true);
@@ -241,7 +241,7 @@ create(){
 
     this.normalMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer);
     this.warpMushCollide = this.physics.add.collider(this.mushrooms, this.groundLayer_Inverted);
-    this.playerMushCollide = this.physics.add.collider(this.mushrooms, this.player, this.playerHitCallback);
+    this.playerMushCollide = this.physics.add.overlap(this.mushrooms, this.player, this.playerHitCallback);
 
     this.spikes = this.physics.add.group({classType: Spike, runChildUpdate: true});
     var spike1 = this.spikes.get().setActive(true).setVisible(true);
@@ -249,7 +249,7 @@ create(){
 
     this.normalSpikeCollide = this.physics.add.collider(this.spikes, this.groundLayer);
     this.warpSpikeCollide = this.physics.add.collider(this.spikes, this.groundLayer_Inverted);
-    this.playerSpikeCollide = this.physics.add.collider(this.spikes, this.player, this.playerHitCallback);
+    this.playerSpikeCollide = this.physics.add.overlap(this.spikes, this.player, this.playerHitCallback);
 
     //pickups
     this.heals = this.physics.add.group({classType: HealthPickup, runChildUpdate: true});
@@ -524,7 +524,7 @@ enemyHitCallback(enemyHit, bulletHit) {
         }
         console.log("rand: ", randSpawn);
         
-        //enemyHit.disableBody(true,true);
+        enemyHit.disableBody(true,true);
         enemyHit.setActive(false).setVisible(false);
 
         // Destroy bullet
@@ -554,9 +554,21 @@ playerHitCallback(playerHit, enemyHit) {
             playerHit.scene.playerMushCollide.active = false;
             playerHit.scene.playerSpikeCollide.active = false;
         }
-
+        if(enemyHit instanceof Spore) {
+            enemyHit.destroy;
+        }
         playerHit.health = playerHit.health - 10;
         playerHit.scene.invincible = true;
+        console.log("Player hp: ", playerHit.health);
+    }
+}
+
+sporeHitCallback(playerHit, sporeHit) {
+    playerHit.scene.hitPlayer.play();
+    if (sporeHit.active === true && playerHit.active === true)
+    {
+        sporeHit.disableBody(true,true);
+        playerHit.health = playerHit.health - 10;
         console.log("Player hp: ", playerHit.health);
     }
 }

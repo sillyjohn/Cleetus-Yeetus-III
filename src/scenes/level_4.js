@@ -503,6 +503,18 @@ playerHitCallback(playerHit, enemyHit) {
         console.log("Player hp: ", playerHit.health);
     }
 }
+
+sporeHitCallback(playerHit, sporeHit) {
+    playerHit.scene.hitPlayer.play();
+    if (sporeHit.active === true && playerHit.active === true)
+    {
+        sporeHit.disableBody(true,true);
+        playerHit.health = playerHit.health - 10;
+        console.log("Player hp: ", playerHit.health);
+    }
+}
+
+
 shakeEffect(){
     this.cameras.main.shake(300,0.05);
 

@@ -40,10 +40,9 @@ class Mushroom extends Phaser.Physics.Arcade.Sprite{
         if (this.cooldown == 0 && ((distX > -500 && distX < 500) && (distY > -500 && distY < 500))) {
             var sporeShot = this.scene.spores.get().setActive(true).setVisible(true);
             sporeShot.body.allowGravity = false;
-
             if (sporeShot) {
                 sporeShot.fire(Phaser.Math.Angle.Between(this.x, this.y, this.scene.player.x, this.scene.player.y), this);
-                this.scene.physics.add.collider(this.scene.player, sporeShot, this.scene.playerHitCallback);
+                this.scene.physics.add.collider(this.scene.player, sporeShot, this.scene.sporeHitCallback);
             }
             this.cooldown = 150;
         }
