@@ -54,7 +54,7 @@ preload(){
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
     this.load.image('tileSet_NormalWood','tileset_v1.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
-    this.load.tilemapTiledJSON('level_1','Level_1.json');
+    this.load.tilemapTiledJSON('level_5','Level_5.json');
     
     //assets
     this.load.image('playerHead','playerHead.png');
@@ -102,7 +102,7 @@ create(){
     this.invincible = false;
     this.invincibleTimer = 120;
 
-    // this is level_1
+    // this is level_5
     this.music = this.sound.add('bgMusic', {volume: 0.4});
     this.music.setLoop(true);
     this.music.play();
@@ -130,17 +130,17 @@ create(){
     this.background_NormalWorld = this.add.image(0,0,'background_NormalWood').setOrigin(0,0);
 
    // tile map
-    this.map = this.add.tilemap("level_1");
+    this.map = this.add.tilemap("level_5");
     //add tileset
     this.tileset_Normal = this.map.addTilesetImage('tileset_v1','tileSet_NormalWood');
     this.tileset_Inverted = this.map.addTilesetImage('tileset_v2','tileSet_WrapedWood');
     this.tileset_Decoration = this.map.addTilesetImage('misctileset','tileset_Decoration');
    
     // create tilemap layers
-     this.groundLayer = this.map.createDynamicLayer("Tile_level_1", this.tileset_Normal, 0, 0);
-     this.groundLayer_dec = this.map.createDynamicLayer("Tile_level_1_3", this.tileset_Decoration, 0, 0);
-     this.groundLayer_Inverted = this.map.createDynamicLayer("Tile_level_1_2",this.tileset_Inverted,0,0);
-     this.groundLayer_Inverted_dec = this.map.createDynamicLayer("Tile_level_1_4",this.tileset_Decoration,0,0);
+     this.groundLayer = this.map.createDynamicLayer("Tile_Level_5", this.tileset_Normal, 0, 0);
+     this.groundLayer_dec = this.map.createDynamicLayer("Tile_Level_5_3", this.tileset_Decoration, 0, 0);
+     this.groundLayer_Inverted = this.map.createDynamicLayer("Tile_Level_5_2",this.tileset_Inverted,0,0);
+     this.groundLayer_Inverted_dec = this.map.createDynamicLayer("Tile_Level_5_4",this.tileset_Decoration,0,0);
     
     //set map collision
     this.groundLayer.setCollisionByProperty({ collides: true });
@@ -198,7 +198,7 @@ create(){
             end: 3
         }),
     })
-    this.playerSpawn = this.map.findObject("Object Layer_level_1", obj => obj.name === "level_1_Spawn");
+    this.playerSpawn = this.map.findObject("Object Layer_Level_5", obj => obj.name === "Level_5_Spawn");
     this.player = new ControlPlayer(this,this.playerSpawn.x,this.playerSpawn.y,'playerRun',0).setOrigin(0.5,0.5);
 
     this.player.body.setCollideWorldBounds(false);
@@ -212,9 +212,9 @@ create(){
     //enemies
     //enemy spawn
     
-    this.enemySpawnPoint = this.map.findObject("Object Layer_level_1", obj => obj.name  === "enemySpawn_level_1_Bug");
-    this.enemySpawnPoint_shroom = this.map.findObject("Object Layer_level_1", obj => obj.name  === "enemySpawn_level_Shroom");
-    this.enemySpawnPoint_spike = this.map.findObject("Object Layer_level_1", obj => obj.name  === "spike");
+    this.enemySpawnPoint = this.map.findObject("Object Layer_Level_5", obj => obj.name  === "enemySpawn_level_5_Bug");
+    this.enemySpawnPoint_shroom = this.map.findObject("Object Layer_Level_5", obj => obj.name  === "enemySpawn_level_Shroom");
+    this.enemySpawnPoint_spike = this.map.findObject("Object Layer_Level_5", obj => obj.name  === "spike");
 
     this.bugs = this.physics.add.group({classType: Bug, runChildUpdate: true});
     var bug1 = this.bugs.get().setActive(true).setVisible(true);
@@ -250,22 +250,22 @@ create(){
     this.ammo = this.physics.add.group({classType: AmmoPickup, runChildUpdate: true});
 
     
-    //create exit
-    this.levelExit = this.map.findObject("Object Layer_level_1", exit => exit.name === "level_1_Exit");
-    this.exitArea = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
+    // //create exit
+    // this.levelExit = this.map.findObject("Object Layer_Level_5", exit => exit.name === "level_5_Exit");
+    // this.exitArea = this.add.rectangle(this.levelExit.x,this.levelExit.y,this.levelExit.width,this.levelExit.height).setOrigin(0,1);
 
-    this.physics.world.enable(this.exitArea, Phaser.Physics.Arcade.STATIC_BODY);
+    // this.physics.world.enable(this.exitArea, Phaser.Physics.Arcade.STATIC_BODY);
  
  
      
-     console.log("exit x"+this.levelExit.x);
-     console.log("exit y"+this.levelExit.y);
-     this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
-        this.cameras.main.fadeIn(3000)
-        this.music.stop();
-        this.scene.start('level_2');
+    //  console.log("exit x"+this.levelExit.x);
+    //  console.log("exit y"+this.levelExit.y);
+    //  this.physics.add.overlap(this.player, this.exitArea, (obj1, obj2) => {
+    //     this.cameras.main.fadeIn(3000)
+    //     this.music.stop();
+    //     this.scene.start('level_2');
           
-     });
+    //  });
 
     this.emitSplash
 
@@ -378,7 +378,7 @@ create(){
     this.hpIcon.setScrollFactor(0);
     this.bulletCount = this.add.text(200,this.cameras.main.height-100,this.playerAmmo,this.hpConfig);
     this.bulletCount.setScrollFactor(0);
-      //Animation 
+    //Animation 
 
     //bullets collisions
     //this.physics.add.collider(this.playerBullets, this.groundLayer);
@@ -407,7 +407,7 @@ create(){
     //this.yeetus = this.add.sprite(this.OFFSCREEN_X+400, this.DBOX_Y+8, 'player_Idle').setOrigin(0, 1).setScale(4);
 
     //spawn lore item
-    this.lore_lv1 = this.map.createFromObjects('Object Layer_level_1','Lore_level_1',{key: 'lore'},this);
+    this.lore_lv1 = this.map.createFromObjects('Object Layer_Level_5','Lore_level_5',{key: 'lore'},this);
     this.physics.world.enable(this.lore_lv1, Phaser.Physics.Arcade.STATIC_BODY);
     this.physics.add.collider(this.lore_lv1,this.player, (lore, player) => {
         this.typeText(1);

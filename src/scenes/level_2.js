@@ -360,21 +360,19 @@ create(){
             this.reticle.y += this.input.mousePointer.movementY;
         }
     }, this);
-
-    //create hp bar
-      //score display
-      let hpConfig = {
-        fontFamily: 'Courier',
-        fontSize: '28px',
-       
-        color:'#ffffff',
-        align:'right',
-        padding:{
-            top: 5,
-            bottom:5,
-        },
-        fixedWidth:100
-    }
+   //score display
+   this. hpConfig = {
+    fontFamily: 'Courier',
+    fontSize: '100px',
+   
+    color:'#ffffff',
+    align:'right',
+    padding:{
+        top: 5,
+        bottom:5,
+    },
+    fixedWidth:200
+}
 
 
     //health 
@@ -646,6 +644,8 @@ update(){
     }
 
     if(this.switchWorld == true) {
+        this.background_InvertedWorld.setVisible(true);
+        this.background_NormalWorld.setVisible(false);
         //alternate world stuff
         this.groundLayer.setVisible(false); 
         this.groundLayer_Inverted.setVisible(true);
@@ -658,6 +658,8 @@ update(){
         this.collideWithInvertedWorld_lookPlayer.active = true;    
     }
     else if(this.switchWorld == false) {
+        this.background_InvertedWorld.setVisible(false);
+        this.background_NormalWorld.setVisible(true);
         //default world stuff
         this.background_InvertedWorld.setVisible(false);
         this.background_NormalWorld.setVisible(true);
