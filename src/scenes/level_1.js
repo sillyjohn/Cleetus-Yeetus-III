@@ -54,7 +54,7 @@ preload(){
     this.load.image('tileSet_WrapedWood','tileset_v2.png');
     this.load.image('tileSet_NormalWood','tileset_v1.png');
     this.load.spritesheet('player_Idle','cleetus-ta(first).png',{frameWidth: 807, frameHeight: 906});
-    this.load.tilemapTiledJSON('level_1','Level_1.json');
+    this.load.tilemapTiledJSON('level_1','level_1.json');
     
     //assets
     this.load.image('playerHead','playerHead.png');
